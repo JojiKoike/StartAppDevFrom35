@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Link, graphql, PageProps } from "gatsby";
 
-import Bio from "../components/bio";
 import Layout from "../components/layout";
 import Seo from "../components/seo";
 
@@ -35,7 +34,7 @@ const BlogIndex: React.FC<PageProps<GatsbyTypes.BlogIndexQuery>> = ({
           return (
             <li key={post.fields!.slug}>
               <article
-                className="post-list-item"
+                className="p-6 max-w-6xl mx-auto bg-white rounded-xl shadow-md flex-row items-center space-x-4 my-2"
                 itemScope
                 itemType="http://schema.org/Article"
               >
