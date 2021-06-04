@@ -34,18 +34,18 @@ const BlogIndex: React.FC<PageProps<GatsbyTypes.BlogIndexQuery>> = ({
   return (
     <Layout location={location} title={siteTitle}>
       <Seo title="All posts" />
-      <div className="flex flex-col">
-        {posts.map(post => {
-          const title = post.frontmatter!.title || post.fields!.slug;
+      {posts.map(post => {
+        const title = post.frontmatter!.title || post.fields!.slug;
 
-          return (
-            <Link to={post.fields!.slug!} itemProp="url">
-              <article itemScope itemType="http://schema.org/Article">
-                <div
-                  key={post.fields!.slug}
-                  className="p-6 max-w-6xl mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 my-2"
-                >
-                  <div className="p-1">
+        return (
+          <Link to={post.fields!.slug!} itemProp="url">
+            <article itemScope itemType="http://schema.org/Article">
+              <div
+                key={post.fields!.slug}
+                className="p-6 max-w-6xl mx-auto bg-white rounded-xl shadow-md space-x-4 my-2"
+              >
+                <div className="flex flex-col sm:flex-row place-items-center sm:place-items-start">
+                  <div className="mx-0 my-2 sm:mx-2 sm:my-0">
                     <GatsbyImage
                       image={
                         post.frontmatter?.avatar?.childImageSharp
@@ -55,7 +55,7 @@ const BlogIndex: React.FC<PageProps<GatsbyTypes.BlogIndexQuery>> = ({
                     />
                   </div>
 
-                  <div className="flex-col ">
+                  <div className="flex flex-col mx-0 sm:mx-2">
                     <header>
                       <h1 className="text-3xl">
                         <span itemProp="headline">{title}</span>
@@ -84,11 +84,11 @@ const BlogIndex: React.FC<PageProps<GatsbyTypes.BlogIndexQuery>> = ({
                     </section>
                   </div>
                 </div>
-              </article>
-            </Link>
-          );
-        })}
-      </div>
+              </div>
+            </article>
+          </Link>
+        );
+      })}
     </Layout>
   );
 };
