@@ -10,10 +10,11 @@ const BlogPostTemplate: React.FC<
 > = ({ data, location }) => {
   const post = data.markdownRemark;
   const siteTitle = data.site!.siteMetadata?.title || `Title`;
+  const siteDescription = data.site!.siteMetadata?.description!;
   const { previous, next } = data;
 
   return (
-    <Layout location={location} title={siteTitle}>
+    <Layout location={location} title={siteTitle} description={siteDescription}>
       <Seo
         title={post!.frontmatter!.title!}
         description={post!.frontmatter!.description || post!.excerpt}
@@ -32,9 +33,7 @@ const BlogPostTemplate: React.FC<
           itemProp="articleBody"
         />
         <hr />
-        <footer>
-          <Bio />
-        </footer>
+        <footer></footer>
       </article>
       <nav className="blog-post-nav">
         <ul
@@ -77,6 +76,7 @@ export const pageQuery = graphql`
     site {
       siteMetadata {
         title
+        description
       }
     }
     markdownRemark(id: { eq: $id }) {

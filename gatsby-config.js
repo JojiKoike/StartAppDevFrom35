@@ -5,7 +5,7 @@ module.exports = {
       name: `Joji Koike`,
       summary: `35歳から始めるアプリ開発`,
     },
-    description: `A starter blog demonstrating what Gatsby can do.`,
+    description: `〜35歳から始めるアプリ開発〜`,
     siteUrl: `https://gatsbystarterblogsource.gatsbyjs.io/`,
     social: {
       twitter: `kylemathews`,

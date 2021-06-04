@@ -2,16 +2,27 @@ import * as React from "react";
 import { Link } from "gatsby";
 import { WindowLocation } from "@reach/router";
 
-type LayoutProps = { location: WindowLocation<unknown> } & { title: string };
+//type LayoutProps = { location: WindowLocation<unknown> } & { title: string };
 
-const Layout: React.FC<LayoutProps> = ({ location, title, children }) => {
+interface LayoutProps {
+  title: string;
+  description: string;
+  location: WindowLocation<unknown>;
+}
+
+const Layout: React.FC<LayoutProps> = ({ title, description, children }) => {
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="container mx-auto max-w-full bg-white p-5">
         <header>
-          <h1 className="text-3xl sm:text-4xl text-center">
-            <Link to="/">{title}</Link>
-          </h1>
+          <Link to="/">
+            <h1 className="font-SiteTitle text-2xl sm:text-4xl text-center">
+              {title}
+            </h1>
+            <h2 className="text-xs antialiased sm:text-sm text-center">
+              {description}
+            </h2>
+          </Link>
         </header>
       </div>
 
