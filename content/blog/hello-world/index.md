@@ -3,7 +3,7 @@ title: Hello World
 date: "2015-05-01T22:12:03.284Z"
 category: "Test"
 tags: ["test", "tag"]
-description: "Hello World"
+description: This is a custom description for SEO and Open Graph purposes, rather than the default generated excerpt. Simply add a description field to the frontmatter.
 avatar: "./salty_egg.jpg"
 ---
 
