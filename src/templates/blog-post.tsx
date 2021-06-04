@@ -9,12 +9,10 @@ const BlogPostTemplate: React.FC<
   PageProps<GatsbyTypes.BlogPostBySlugQuery>
 > = ({ data, location }) => {
   const post = data.markdownRemark;
-  const siteTitle = data.site!.siteMetadata?.title || `Title`;
-  const siteDescription = data.site!.siteMetadata?.description!;
   const { previous, next } = data;
 
   return (
-    <Layout location={location} title={siteTitle} description={siteDescription}>
+    <Layout location={location}>
       <Seo
         title={post!.frontmatter!.title!}
         description={post!.frontmatter!.description || post!.excerpt}
@@ -73,12 +71,6 @@ export const pageQuery = graphql`
     $previousPostId: String
     $nextPostId: String
   ) {
-    site {
-      siteMetadata {
-        title
-        description
-      }
-    }
     markdownRemark(id: { eq: $id }) {
       id
       excerpt(pruneLength: 160)
