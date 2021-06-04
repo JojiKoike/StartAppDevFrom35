@@ -6,7 +6,7 @@ import "typeface-merriweather"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 
 // Global CSS (Google Font, TailWindCSS)
-import './src/styles/global.css'
+import './src/styles/global.scss'
 
 // Highlighting for code blocks
 import "prismjs/themes/prism.css"
