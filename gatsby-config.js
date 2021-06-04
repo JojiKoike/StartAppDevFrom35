@@ -3,12 +3,12 @@ module.exports = {
     title: `StartAppDevFrom35`,
     author: {
       name: `Joji Koike`,
-      summary: `35歳から始めるアプリ開発`,
+      summary: `Software Designer`,
     },
-    description: `〜35歳から始めるアプリ開発〜`,
-    siteUrl: `https://gatsbystarterblogsource.gatsbyjs.io/`,
+    description: `〜35から始めるアプリ開発〜`,
+    siteUrl: `https://startappdevfrom35.com/`,
     social: {
-      twitter: `kylemathews`,
+      twitter: `georgie390`,
     },
   },
   plugins: [
