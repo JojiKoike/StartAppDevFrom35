@@ -1,14 +1,14 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Starter Blog`,
+    title: `StartAppDevFrom35`,
     author: {
-      name: `Kyle Mathews`,
-      summary: `who lives and works in San Francisco building useful things.`,
+      name: `Joji Koike`,
+      summary: `Software Designer`,
     },
-    description: `A starter blog demonstrating what Gatsby can do.`,
-    siteUrl: `https://gatsbystarterblogsource.gatsbyjs.io/`,
+    description: `〜35から始めるアプリ開発〜`,
+    siteUrl: `https://startappdevfrom35.com/`,
     social: {
-      twitter: `kylemathews`,
+      twitter: `georgie390`,
     },
   },
   plugins: [
@@ -51,6 +51,7 @@ module.exports = {
     },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
+    `gatsby-plugin-sass`,
     // {
     //   resolve: `gatsby-plugin-google-analytics`,
     //   options: {

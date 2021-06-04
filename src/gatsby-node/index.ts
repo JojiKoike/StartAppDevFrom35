@@ -64,6 +64,34 @@ export const createPages: GatsbyNode["createPages"] = async ({
       });
     });
   }
+
+  // For Landing Page Articles List
+
+  const articlesPerPageOnLP = 1;
+  const articlesCount = result.data?.allMarkdownRemark.nodes.length!;
+  const articlePages = Math.ceil(articlesCount / articlesPerPageOnLP);
+  const landingPage = path.resolve("./src/templates/blog-posts.tsx");
+  Array.from({ length: articlePages }).forEach((_, i) => {
+    createPage({
+      path: i === 0 ? `/articles/` : `/articles/${i + 1}/`,
+      component: landingPage,
+      context: {
+        skip: articlesPerPageOnLP * i,
+        limit: articlesPerPageOnLP,
+        currentPage: i + 1,
+        isFirst: i + 1 === 1,
+        isLast: i + 1 === articlePages,
+      },
+    });
+  });
+};
+
+export type ArticleListContext = {
+  skip: number;
+  limit: number;
+  currentPage: number;
+  isFirst: boolean;
+  isLast: boolean;
 };
 
 export const onCreateNode: GatsbyNode["onCreateNode"] = ({

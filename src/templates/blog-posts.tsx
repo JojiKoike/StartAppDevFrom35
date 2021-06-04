@@ -6,16 +6,21 @@ import {
   faCalendarDay,
   faFolderOpen,
   faTags,
+  faChevronLeft,
+  faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 
 import Layout from "../components/layout";
 import Seo from "../components/seo";
+import { ArticleListContext } from "../gatsby-node/index";
 
-const BlogIndex: React.FC<PageProps<GatsbyTypes.BlogIndexQuery>> = ({
-  data,
-  location,
-  ...props
-}) => {
+type ContextProps = {
+  pageContext: ArticleListContext;
+};
+
+const BlogPosts: React.FC<
+  PageProps<GatsbyTypes.BlogIndexQuery> & ContextProps
+> = ({ data, location, ...props }) => {
   const posts = data.allMarkdownRemark.nodes;
 
   if (posts.length === 0) {
@@ -34,7 +39,6 @@ const BlogIndex: React.FC<PageProps<GatsbyTypes.BlogIndexQuery>> = ({
   return (
     <Layout location={location}>
       <Seo title="Latest posts" />
-      <h1 className="text-center text-lg sm:text-3xl">〜最新記事〜</h1>
       {posts.map(post => {
         const title = post.frontmatter!.title || post.fields!.slug;
 
@@ -88,18 +92,34 @@ const BlogIndex: React.FC<PageProps<GatsbyTypes.BlogIndexQuery>> = ({
           </Link>
         );
       })}
+      <div className="px-11">
+        <nav className="flex justify-between">
+          <div className="bg-white hover:bg-gray-200 p-3 rounded-md shadow-md">
+            <Link to={""} rel="prev">
+              <FontAwesomeIcon icon={faChevronLeft} />
+              <span className="ml-2">前のページ</span>
+            </Link>
+          </div>
+          <div className="bg-white hover:bg-gray-200 p-3 rounded-md shadow-md">
+            <Link to={""} rel="next">
+              <span className="mr-2">次のページ</span>
+              <FontAwesomeIcon icon={faChevronRight} />
+            </Link>
+          </div>
+        </nav>
+      </div>
     </Layout>
   );
 };
 
-export default BlogIndex;
+export default BlogPosts;
 
 export const pageQuery = graphql`
-  query BlogIndex {
+  query BlogPosts($skip: Int!, $limit: Int!) {
     allMarkdownRemark(
       sort: { fields: [frontmatter___date], order: DESC }
-      skip: 0
-      limit: 5
+      skip: $skip
+      limit: $limit
     ) {
       nodes {
         id

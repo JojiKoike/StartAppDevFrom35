@@ -1,37 +1,58 @@
 import * as React from "react";
-import { Link } from "gatsby";
+import { graphql, useStaticQuery, Link } from "gatsby";
 import { WindowLocation } from "@reach/router";
 
-type LayoutProps = { location: WindowLocation<unknown> } & { title: string };
+interface LayoutProps {
+  location: WindowLocation<unknown>;
+}
 
-const Layout: React.FC<LayoutProps> = ({ location, title, children }) => {
-  const rootPath = `${__PATH_PREFIX__}/`;
-  const isRootPath = location.pathname === rootPath;
-  let header;
-
-  if (isRootPath) {
-    header = (
-      <h1 className="main-heading">
-        <Link to="/">{title}</Link>
-      </h1>
-    );
-  } else {
-    header = (
-      <Link className="header-link-home" to="/">
-        {title}
-      </Link>
-    );
-  }
+const Layout: React.FC<LayoutProps> = ({ ...props }) => {
+  const siteMetaData = useStaticQuery<GatsbyTypes.SiteMetaDataQuery>(graphql`
+    query SiteMetaData {
+      site {
+        siteMetadata {
+          title
+          description
+        }
+      }
+    }
+  `);
 
   return (
-    <div className="global-wrapper" data-is-root-path={isRootPath}>
-      <header className="global-header">{header}</header>
-      <main>{children}</main>
-      <footer>
-        © {new Date().getFullYear()}, Built with
-        {` `}
-        <a href="https://www.gatsbyjs.com">Gatsby</a>
-      </footer>
+    <div className="min-h-screen bg-gray-100">
+      <div className="container mx-auto max-w-full bg-white p-5">
+        <header>
+          <Link to="/">
+            <h1 className="font-SiteTitle sm:text-xl md:text-3xl lg:text-4xl text-center">
+              {siteMetaData.site?.siteMetadata?.title}
+            </h1>
+            <h2 className="text-xs antialiased sm:text-sm text-center">
+              {siteMetaData.site?.siteMetadata?.description}
+            </h2>
+          </Link>
+        </header>
+      </div>
+
+      <div className="text-center hidden sm:contents">
+        <nav>ナビゲーション</nav>
+      </div>
+
+      <div className="text-center">Adv</div>
+
+      <div className="container mx-auto px-5 my-2">
+        <main>{props.children}</main>
+      </div>
+
+      <div className="text-center">Adv</div>
+
+      <div className="container mx-auto my-3">
+        <footer className="text-center">
+          <span>
+            © {new Date().getFullYear()},{` `}
+          </span>
+          <a href="https://startappdevfrom35.com/">Start App Dev From 35.</a>
+        </footer>
+      </div>
     </div>
   );
 };
