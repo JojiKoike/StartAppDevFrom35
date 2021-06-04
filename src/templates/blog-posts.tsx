@@ -12,12 +12,15 @@ import {
 
 import Layout from "../components/layout";
 import Seo from "../components/seo";
+import { ArticleListContext } from "../gatsby-node/index";
 
-const BlogPosts: React.FC<PageProps<GatsbyTypes.BlogIndexQuery>> = ({
-  data,
-  location,
-  ...props
-}) => {
+type ContextProps = {
+  pageContext: ArticleListContext;
+};
+
+const BlogPosts: React.FC<
+  PageProps<GatsbyTypes.BlogIndexQuery> & ContextProps
+> = ({ data, location, ...props }) => {
   const posts = data.allMarkdownRemark.nodes;
 
   if (posts.length === 0) {
@@ -112,11 +115,11 @@ const BlogPosts: React.FC<PageProps<GatsbyTypes.BlogIndexQuery>> = ({
 export default BlogPosts;
 
 export const pageQuery = graphql`
-  query BlogPosts {
+  query BlogPosts($skip: Int!, $limit: Int!) {
     allMarkdownRemark(
       sort: { fields: [frontmatter___date], order: DESC }
-      skip: 0
-      limit: 5
+      skip: $skip
+      limit: $limit
     ) {
       nodes {
         id

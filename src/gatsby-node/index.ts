@@ -66,10 +66,11 @@ export const createPages: GatsbyNode["createPages"] = async ({
   }
 
   // For Landing Page Articles List
-  const articlesPerPageOnLP = 5;
+
+  const articlesPerPageOnLP = 1;
   const articlesCount = result.data?.allMarkdownRemark.nodes.length!;
   const articlePages = Math.ceil(articlesCount / articlesPerPageOnLP);
-  const landingPage = path.resolve("./src/pages/index.tsx");
+  const landingPage = path.resolve("./src/templates/blog-posts.tsx");
   Array.from({ length: articlePages }).forEach((_, i) => {
     createPage({
       path: i === 0 ? `/articles/` : `/articles/${i + 1}/`,
@@ -83,6 +84,14 @@ export const createPages: GatsbyNode["createPages"] = async ({
       },
     });
   });
+};
+
+export type ArticleListContext = {
+  skip: number;
+  limit: number;
+  currentPage: number;
+  isFirst: boolean;
+  isLast: boolean;
 };
 
 export const onCreateNode: GatsbyNode["onCreateNode"] = ({
