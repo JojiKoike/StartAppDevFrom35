@@ -50,7 +50,7 @@ const BlogIndex: React.FC<PageProps<GatsbyTypes.BlogIndexQuery>> = ({
                 className="p-6 max-w-6xl mx-auto bg-white rounded-xl shadow-md space-x-4 my-2"
               >
                 <div className="flex flex-col sm:flex-row place-items-center sm:place-items-start">
-                  <div className="mx-0 my-2 sm:mx-2 sm:my-0">
+                  <div className="mx-0 my-2 sm:mx-2 sm:my-0 self-center">
                     <GatsbyImage
                       image={
                         post.frontmatter?.avatar?.childImageSharp
@@ -62,24 +62,25 @@ const BlogIndex: React.FC<PageProps<GatsbyTypes.BlogIndexQuery>> = ({
 
                   <div className="flex flex-col mx-0 sm:mx-2">
                     <header>
-                      <h1 className="text-3xl">
+                      <h1 className="text-xl lg:text-3xl">
                         <span itemProp="headline">{title}</span>
                       </h1>
-                      <h2>
+                      <h2 className="text-xs lg:text-sm">
                         <FontAwesomeIcon icon={faCalendarDay} />：
                         {post.frontmatter!.date}
                       </h2>
-                      <h3>
+                      <h2 className="text-xs lg:text-sm">
                         <FontAwesomeIcon icon={faFolderOpen} />：
                         {post.frontmatter?.category}
-                      </h3>
-                      <h3>
-                        <FontAwesomeIcon icon={faTags} /> :{" "}
+                      </h2>
+                      <h2 className="text-xs lg:text-sm">
+                        <FontAwesomeIcon icon={faTags} /> :
                         {post.frontmatter?.tags?.join(",")}
-                      </h3>
+                      </h2>
                     </header>
                     <section>
                       <p
+                        className="text-xs lg:text-base"
                         dangerouslySetInnerHTML={{
                           __html:
                             post.frontmatter!.description || post.excerpt!,
