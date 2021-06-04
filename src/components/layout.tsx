@@ -16,7 +16,7 @@ const Layout: React.FC<LayoutProps> = ({ title, description, children }) => {
       <div className="container mx-auto max-w-full bg-white p-5">
         <header>
           <Link to="/">
-            <h1 className="font-SiteTitle text-2xl sm:text-4xl text-center">
+            <h1 className="font-SiteTitle sm:text-xl md:text-3xl lg:text-4xl text-center">
               {title}
             </h1>
             <h2 className="text-xs antialiased sm:text-sm text-center">
