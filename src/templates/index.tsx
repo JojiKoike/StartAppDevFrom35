@@ -8,16 +8,17 @@ import {
   faTags,
 } from "@fortawesome/free-solid-svg-icons";
 
-import Layout from "../components/layout";
-import Seo from "../components/seo";
+import { Layout, Pagination, Seo } from "../components";
+import { ArticleListContext } from "../gatsby-node";
 
-const BlogIndex: React.FC<PageProps<GatsbyTypes.BlogIndexQuery>> = ({
-  data,
-  location,
-  ...props
-}) => {
+type ContextProps = {
+  pageContext: ArticleListContext;
+};
+
+const BlogIndex: React.FC<
+  PageProps<GatsbyTypes.BlogIndexQuery> & ContextProps
+> = ({ data, location, ...props }) => {
   const posts = data.allMarkdownRemark.nodes;
-
   if (posts.length === 0) {
     return (
       <Layout location={location}>
@@ -34,12 +35,16 @@ const BlogIndex: React.FC<PageProps<GatsbyTypes.BlogIndexQuery>> = ({
   return (
     <Layout location={location}>
       <Seo title="Latest posts" />
-      <h1 className="text-center text-lg sm:text-3xl">〜最新記事〜</h1>
+      <h1 className="text-center text-lg sm:text-3xl">〜記事〜</h1>
       {posts.map(post => {
         const title = post.frontmatter!.title || post.fields!.slug;
 
         return (
-          <Link to={`/posts${post.fields!.slug!}`} itemProp="url" key={post.id}>
+          <Link
+            to={`/articles${post.fields!.slug!}`}
+            itemProp="url"
+            key={post.id}
+          >
             <article itemScope itemType="http://schema.org/Article">
               <div className="p-6 max-w-6xl mx-auto bg-white hover:bg-gray-200 rounded-xl shadow-md space-x-4 my-2">
                 <div className="flex flex-col sm:flex-row place-items-center sm:place-items-start">
@@ -88,6 +93,7 @@ const BlogIndex: React.FC<PageProps<GatsbyTypes.BlogIndexQuery>> = ({
           </Link>
         );
       })}
+      <Pagination pageContext={props.pageContext} />
     </Layout>
   );
 };
@@ -95,11 +101,11 @@ const BlogIndex: React.FC<PageProps<GatsbyTypes.BlogIndexQuery>> = ({
 export default BlogIndex;
 
 export const pageQuery = graphql`
-  query BlogIndex {
+  query BlogIndex($skip: Int!, $limit: Int!) {
     allMarkdownRemark(
       sort: { fields: [frontmatter___date], order: DESC }
-      skip: 0
-      limit: 5
+      skip: $skip
+      limit: $limit
     ) {
       nodes {
         id
