@@ -50,7 +50,7 @@ const BlogPosts: React.FC<
                   <div className="mx-0 my-2 sm:mx-2 sm:my-0 self-center">
                     <GatsbyImage
                       image={
-                        post.frontmatter?.avatar?.childImageSharp
+                        post.frontmatter?.thumbnail?.childImageSharp
                           ?.gatsbyImageData!
                       }
                       alt={post.frontmatter!.title!}
@@ -132,7 +132,7 @@ export const pageQuery = graphql`
           title
           category
           tags
-          avatar {
+          thumbnail {
             childImageSharp {
               gatsbyImageData(width: 270, height: 180, quality: 100)
             }
