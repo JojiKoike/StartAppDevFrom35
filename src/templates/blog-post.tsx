@@ -1,7 +1,14 @@
 import * as React from "react";
 import { Link, graphql, PageProps } from "gatsby";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCalendarDay,
+  faFolderOpen,
+  faTags,
+  faChevronCircleLeft,
+  faChevronCircleRight,
+} from "@fortawesome/free-solid-svg-icons";
 
-import Bio from "../components/bio";
 import Layout from "../components/layout";
 import Seo from "../components/seo";
 
@@ -17,48 +24,57 @@ const BlogPostTemplate: React.FC<
         title={post!.frontmatter!.title!}
         description={post!.frontmatter!.description || post!.excerpt}
       />
-      <article
-        className="blog-post"
-        itemScope
-        itemType="http://schema.org/Article"
-      >
-        <header>
-          <h1 itemProp="headline">{post!.frontmatter!.title}</h1>
-          <p>{post!.frontmatter!.date}</p>
-        </header>
-        <section
-          dangerouslySetInnerHTML={{ __html: post!.html! }}
-          itemProp="articleBody"
-        />
-        <hr />
-        <footer></footer>
-      </article>
-      <nav className="blog-post-nav">
-        <ul
-          style={{
-            display: `flex`,
-            flexWrap: `wrap`,
-            justifyContent: `space-between`,
-            listStyle: `none`,
-            padding: 0,
-          }}
-        >
-          <li>
-            {previous && (
-              <Link to={previous.fields!.slug!} rel="prev">
-                ← {previous.frontmatter!.title}
+      <div className="container bg-white p-6 mb-2 max-w-6xl mx-auto rounded-md shadow-md">
+        <article itemScope itemType="http://schema.org/Article">
+          <div className="text-left mb-2">
+            <header>
+              <h1 className="text-2xl sm:text-4xl mb-1" itemProp="headline">
+                {post!.frontmatter!.title}
+              </h1>
+              <p className="text-xs sm:text-sm mb-1">
+                <FontAwesomeIcon icon={faCalendarDay} /> :
+                {post!.frontmatter!.date}
+              </p>
+              <p className="text-xs sm:text-sm mb-1">
+                <FontAwesomeIcon icon={faFolderOpen} /> :
+                {post!.frontmatter!.category}
+              </p>
+              <p className="text-xs sm:text-sm">
+                <FontAwesomeIcon icon={faTags} /> :
+                {post!.frontmatter!.tags?.join(",")}
+              </p>
+            </header>
+          </div>
+
+          <div className="text-sm sm:text-base">
+            <section
+              dangerouslySetInnerHTML={{ __html: post!.html! }}
+              itemProp="articleBody"
+            />
+          </div>
+        </article>
+      </div>
+
+      <div className="container max-w-6xl mx-auto">
+        <nav className="flex justify-between">
+          {previous && (
+            <div className="bg-white hover:bg-gray-200 p-3 rounded-md shadow-md">
+              <Link to={`/posts${previous.fields!.slug!}`} rel="prev">
+                <FontAwesomeIcon icon={faChevronCircleLeft} className="mr-2" />
+                {previous.frontmatter!.title}
               </Link>
-            )}
-          </li>
-          <li>
-            {next && (
-              <Link to={next.fields!.slug!} rel="next">
-                {next.frontmatter!.title} →
+            </div>
+          )}
+          {next && (
+            <div className="bg-white hover:bg-gray-200 p-3 rounded-md shadow-md">
+              <Link to={`/posts${next.fields!.slug!}`} rel="next">
+                {next.frontmatter!.title}{" "}
+                <FontAwesomeIcon icon={faChevronCircleRight} className="ml-2" />
               </Link>
-            )}
-          </li>
-        </ul>
-      </nav>
+            </div>
+          )}
+        </nav>
+      </div>
     </Layout>
   );
 };
