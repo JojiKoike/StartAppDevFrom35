@@ -261,6 +261,8 @@ type Directory_ctimeArgs = {
 type Site = Node & {
   readonly buildTime: Maybe<Scalars['Date']>;
   readonly siteMetadata: Maybe<SiteSiteMetadata>;
+  readonly port: Maybe<Scalars['Int']>;
+  readonly host: Maybe<Scalars['String']>;
   readonly polyfill: Maybe<Scalars['Boolean']>;
   readonly pathPrefix: Maybe<Scalars['String']>;
   readonly id: Scalars['ID'];
@@ -319,11 +321,6 @@ type SitePageContext = {
   readonly id: Maybe<Scalars['String']>;
   readonly previousPostId: Maybe<Scalars['String']>;
   readonly nextPostId: Maybe<Scalars['String']>;
-  readonly skip: Maybe<Scalars['Int']>;
-  readonly limit: Maybe<Scalars['Int']>;
-  readonly currentPage: Maybe<Scalars['Int']>;
-  readonly isFirst: Maybe<Scalars['Boolean']>;
-  readonly isLast: Maybe<Scalars['Boolean']>;
 };
 
 type MarkdownHeading = {
@@ -659,7 +656,8 @@ type Frontmatter = {
   readonly title: Maybe<Scalars['String']>;
   readonly description: Maybe<Scalars['String']>;
   readonly date: Maybe<Scalars['Date']>;
-  readonly avatar: Maybe<File>;
+  readonly thumbnail: Maybe<File>;
+  readonly hero: Maybe<File>;
   readonly category: Maybe<Scalars['String']>;
   readonly tags: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
 };
@@ -936,6 +934,8 @@ type Query_allDirectoryArgs = {
 type Query_siteArgs = {
   buildTime: Maybe<DateQueryOperatorInput>;
   siteMetadata: Maybe<SiteSiteMetadataFilterInput>;
+  port: Maybe<IntQueryOperatorInput>;
+  host: Maybe<StringQueryOperatorInput>;
   polyfill: Maybe<BooleanQueryOperatorInput>;
   pathPrefix: Maybe<StringQueryOperatorInput>;
   id: Maybe<StringQueryOperatorInput>;
@@ -1160,7 +1160,8 @@ type FrontmatterFilterInput = {
   readonly title: Maybe<StringQueryOperatorInput>;
   readonly description: Maybe<StringQueryOperatorInput>;
   readonly date: Maybe<DateQueryOperatorInput>;
-  readonly avatar: Maybe<FileFilterInput>;
+  readonly thumbnail: Maybe<FileFilterInput>;
+  readonly hero: Maybe<FileFilterInput>;
   readonly category: Maybe<StringQueryOperatorInput>;
   readonly tags: Maybe<StringQueryOperatorInput>;
 };
@@ -1422,44 +1423,82 @@ type FileFieldsEnum =
   | 'childrenMarkdownRemark.frontmatter.title'
   | 'childrenMarkdownRemark.frontmatter.description'
   | 'childrenMarkdownRemark.frontmatter.date'
-  | 'childrenMarkdownRemark.frontmatter.avatar.sourceInstanceName'
-  | 'childrenMarkdownRemark.frontmatter.avatar.absolutePath'
-  | 'childrenMarkdownRemark.frontmatter.avatar.relativePath'
-  | 'childrenMarkdownRemark.frontmatter.avatar.extension'
-  | 'childrenMarkdownRemark.frontmatter.avatar.size'
-  | 'childrenMarkdownRemark.frontmatter.avatar.prettySize'
-  | 'childrenMarkdownRemark.frontmatter.avatar.modifiedTime'
-  | 'childrenMarkdownRemark.frontmatter.avatar.accessTime'
-  | 'childrenMarkdownRemark.frontmatter.avatar.changeTime'
-  | 'childrenMarkdownRemark.frontmatter.avatar.birthTime'
-  | 'childrenMarkdownRemark.frontmatter.avatar.root'
-  | 'childrenMarkdownRemark.frontmatter.avatar.dir'
-  | 'childrenMarkdownRemark.frontmatter.avatar.base'
-  | 'childrenMarkdownRemark.frontmatter.avatar.ext'
-  | 'childrenMarkdownRemark.frontmatter.avatar.name'
-  | 'childrenMarkdownRemark.frontmatter.avatar.relativeDirectory'
-  | 'childrenMarkdownRemark.frontmatter.avatar.dev'
-  | 'childrenMarkdownRemark.frontmatter.avatar.mode'
-  | 'childrenMarkdownRemark.frontmatter.avatar.nlink'
-  | 'childrenMarkdownRemark.frontmatter.avatar.uid'
-  | 'childrenMarkdownRemark.frontmatter.avatar.gid'
-  | 'childrenMarkdownRemark.frontmatter.avatar.rdev'
-  | 'childrenMarkdownRemark.frontmatter.avatar.ino'
-  | 'childrenMarkdownRemark.frontmatter.avatar.atimeMs'
-  | 'childrenMarkdownRemark.frontmatter.avatar.mtimeMs'
-  | 'childrenMarkdownRemark.frontmatter.avatar.ctimeMs'
-  | 'childrenMarkdownRemark.frontmatter.avatar.atime'
-  | 'childrenMarkdownRemark.frontmatter.avatar.mtime'
-  | 'childrenMarkdownRemark.frontmatter.avatar.ctime'
-  | 'childrenMarkdownRemark.frontmatter.avatar.birthtime'
-  | 'childrenMarkdownRemark.frontmatter.avatar.birthtimeMs'
-  | 'childrenMarkdownRemark.frontmatter.avatar.blksize'
-  | 'childrenMarkdownRemark.frontmatter.avatar.blocks'
-  | 'childrenMarkdownRemark.frontmatter.avatar.publicURL'
-  | 'childrenMarkdownRemark.frontmatter.avatar.childrenMarkdownRemark'
-  | 'childrenMarkdownRemark.frontmatter.avatar.childrenImageSharp'
-  | 'childrenMarkdownRemark.frontmatter.avatar.id'
-  | 'childrenMarkdownRemark.frontmatter.avatar.children'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.sourceInstanceName'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.absolutePath'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.relativePath'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.extension'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.size'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.prettySize'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.modifiedTime'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.accessTime'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.changeTime'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.birthTime'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.root'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.dir'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.base'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.ext'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.name'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.relativeDirectory'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.dev'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.mode'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.nlink'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.uid'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.gid'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.rdev'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.ino'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.atimeMs'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.mtimeMs'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.ctimeMs'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.atime'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.mtime'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.ctime'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.birthtime'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.birthtimeMs'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.blksize'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.blocks'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.publicURL'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.childrenMarkdownRemark'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.childrenImageSharp'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.id'
+  | 'childrenMarkdownRemark.frontmatter.thumbnail.children'
+  | 'childrenMarkdownRemark.frontmatter.hero.sourceInstanceName'
+  | 'childrenMarkdownRemark.frontmatter.hero.absolutePath'
+  | 'childrenMarkdownRemark.frontmatter.hero.relativePath'
+  | 'childrenMarkdownRemark.frontmatter.hero.extension'
+  | 'childrenMarkdownRemark.frontmatter.hero.size'
+  | 'childrenMarkdownRemark.frontmatter.hero.prettySize'
+  | 'childrenMarkdownRemark.frontmatter.hero.modifiedTime'
+  | 'childrenMarkdownRemark.frontmatter.hero.accessTime'
+  | 'childrenMarkdownRemark.frontmatter.hero.changeTime'
+  | 'childrenMarkdownRemark.frontmatter.hero.birthTime'
+  | 'childrenMarkdownRemark.frontmatter.hero.root'
+  | 'childrenMarkdownRemark.frontmatter.hero.dir'
+  | 'childrenMarkdownRemark.frontmatter.hero.base'
+  | 'childrenMarkdownRemark.frontmatter.hero.ext'
+  | 'childrenMarkdownRemark.frontmatter.hero.name'
+  | 'childrenMarkdownRemark.frontmatter.hero.relativeDirectory'
+  | 'childrenMarkdownRemark.frontmatter.hero.dev'
+  | 'childrenMarkdownRemark.frontmatter.hero.mode'
+  | 'childrenMarkdownRemark.frontmatter.hero.nlink'
+  | 'childrenMarkdownRemark.frontmatter.hero.uid'
+  | 'childrenMarkdownRemark.frontmatter.hero.gid'
+  | 'childrenMarkdownRemark.frontmatter.hero.rdev'
+  | 'childrenMarkdownRemark.frontmatter.hero.ino'
+  | 'childrenMarkdownRemark.frontmatter.hero.atimeMs'
+  | 'childrenMarkdownRemark.frontmatter.hero.mtimeMs'
+  | 'childrenMarkdownRemark.frontmatter.hero.ctimeMs'
+  | 'childrenMarkdownRemark.frontmatter.hero.atime'
+  | 'childrenMarkdownRemark.frontmatter.hero.mtime'
+  | 'childrenMarkdownRemark.frontmatter.hero.ctime'
+  | 'childrenMarkdownRemark.frontmatter.hero.birthtime'
+  | 'childrenMarkdownRemark.frontmatter.hero.birthtimeMs'
+  | 'childrenMarkdownRemark.frontmatter.hero.blksize'
+  | 'childrenMarkdownRemark.frontmatter.hero.blocks'
+  | 'childrenMarkdownRemark.frontmatter.hero.publicURL'
+  | 'childrenMarkdownRemark.frontmatter.hero.childrenMarkdownRemark'
+  | 'childrenMarkdownRemark.frontmatter.hero.childrenImageSharp'
+  | 'childrenMarkdownRemark.frontmatter.hero.id'
+  | 'childrenMarkdownRemark.frontmatter.hero.children'
   | 'childrenMarkdownRemark.frontmatter.category'
   | 'childrenMarkdownRemark.frontmatter.tags'
   | 'childrenMarkdownRemark.fields.slug'
@@ -1519,44 +1558,82 @@ type FileFieldsEnum =
   | 'childMarkdownRemark.frontmatter.title'
   | 'childMarkdownRemark.frontmatter.description'
   | 'childMarkdownRemark.frontmatter.date'
-  | 'childMarkdownRemark.frontmatter.avatar.sourceInstanceName'
-  | 'childMarkdownRemark.frontmatter.avatar.absolutePath'
-  | 'childMarkdownRemark.frontmatter.avatar.relativePath'
-  | 'childMarkdownRemark.frontmatter.avatar.extension'
-  | 'childMarkdownRemark.frontmatter.avatar.size'
-  | 'childMarkdownRemark.frontmatter.avatar.prettySize'
-  | 'childMarkdownRemark.frontmatter.avatar.modifiedTime'
-  | 'childMarkdownRemark.frontmatter.avatar.accessTime'
-  | 'childMarkdownRemark.frontmatter.avatar.changeTime'
-  | 'childMarkdownRemark.frontmatter.avatar.birthTime'
-  | 'childMarkdownRemark.frontmatter.avatar.root'
-  | 'childMarkdownRemark.frontmatter.avatar.dir'
-  | 'childMarkdownRemark.frontmatter.avatar.base'
-  | 'childMarkdownRemark.frontmatter.avatar.ext'
-  | 'childMarkdownRemark.frontmatter.avatar.name'
-  | 'childMarkdownRemark.frontmatter.avatar.relativeDirectory'
-  | 'childMarkdownRemark.frontmatter.avatar.dev'
-  | 'childMarkdownRemark.frontmatter.avatar.mode'
-  | 'childMarkdownRemark.frontmatter.avatar.nlink'
-  | 'childMarkdownRemark.frontmatter.avatar.uid'
-  | 'childMarkdownRemark.frontmatter.avatar.gid'
-  | 'childMarkdownRemark.frontmatter.avatar.rdev'
-  | 'childMarkdownRemark.frontmatter.avatar.ino'
-  | 'childMarkdownRemark.frontmatter.avatar.atimeMs'
-  | 'childMarkdownRemark.frontmatter.avatar.mtimeMs'
-  | 'childMarkdownRemark.frontmatter.avatar.ctimeMs'
-  | 'childMarkdownRemark.frontmatter.avatar.atime'
-  | 'childMarkdownRemark.frontmatter.avatar.mtime'
-  | 'childMarkdownRemark.frontmatter.avatar.ctime'
-  | 'childMarkdownRemark.frontmatter.avatar.birthtime'
-  | 'childMarkdownRemark.frontmatter.avatar.birthtimeMs'
-  | 'childMarkdownRemark.frontmatter.avatar.blksize'
-  | 'childMarkdownRemark.frontmatter.avatar.blocks'
-  | 'childMarkdownRemark.frontmatter.avatar.publicURL'
-  | 'childMarkdownRemark.frontmatter.avatar.childrenMarkdownRemark'
-  | 'childMarkdownRemark.frontmatter.avatar.childrenImageSharp'
-  | 'childMarkdownRemark.frontmatter.avatar.id'
-  | 'childMarkdownRemark.frontmatter.avatar.children'
+  | 'childMarkdownRemark.frontmatter.thumbnail.sourceInstanceName'
+  | 'childMarkdownRemark.frontmatter.thumbnail.absolutePath'
+  | 'childMarkdownRemark.frontmatter.thumbnail.relativePath'
+  | 'childMarkdownRemark.frontmatter.thumbnail.extension'
+  | 'childMarkdownRemark.frontmatter.thumbnail.size'
+  | 'childMarkdownRemark.frontmatter.thumbnail.prettySize'
+  | 'childMarkdownRemark.frontmatter.thumbnail.modifiedTime'
+  | 'childMarkdownRemark.frontmatter.thumbnail.accessTime'
+  | 'childMarkdownRemark.frontmatter.thumbnail.changeTime'
+  | 'childMarkdownRemark.frontmatter.thumbnail.birthTime'
+  | 'childMarkdownRemark.frontmatter.thumbnail.root'
+  | 'childMarkdownRemark.frontmatter.thumbnail.dir'
+  | 'childMarkdownRemark.frontmatter.thumbnail.base'
+  | 'childMarkdownRemark.frontmatter.thumbnail.ext'
+  | 'childMarkdownRemark.frontmatter.thumbnail.name'
+  | 'childMarkdownRemark.frontmatter.thumbnail.relativeDirectory'
+  | 'childMarkdownRemark.frontmatter.thumbnail.dev'
+  | 'childMarkdownRemark.frontmatter.thumbnail.mode'
+  | 'childMarkdownRemark.frontmatter.thumbnail.nlink'
+  | 'childMarkdownRemark.frontmatter.thumbnail.uid'
+  | 'childMarkdownRemark.frontmatter.thumbnail.gid'
+  | 'childMarkdownRemark.frontmatter.thumbnail.rdev'
+  | 'childMarkdownRemark.frontmatter.thumbnail.ino'
+  | 'childMarkdownRemark.frontmatter.thumbnail.atimeMs'
+  | 'childMarkdownRemark.frontmatter.thumbnail.mtimeMs'
+  | 'childMarkdownRemark.frontmatter.thumbnail.ctimeMs'
+  | 'childMarkdownRemark.frontmatter.thumbnail.atime'
+  | 'childMarkdownRemark.frontmatter.thumbnail.mtime'
+  | 'childMarkdownRemark.frontmatter.thumbnail.ctime'
+  | 'childMarkdownRemark.frontmatter.thumbnail.birthtime'
+  | 'childMarkdownRemark.frontmatter.thumbnail.birthtimeMs'
+  | 'childMarkdownRemark.frontmatter.thumbnail.blksize'
+  | 'childMarkdownRemark.frontmatter.thumbnail.blocks'
+  | 'childMarkdownRemark.frontmatter.thumbnail.publicURL'
+  | 'childMarkdownRemark.frontmatter.thumbnail.childrenMarkdownRemark'
+  | 'childMarkdownRemark.frontmatter.thumbnail.childrenImageSharp'
+  | 'childMarkdownRemark.frontmatter.thumbnail.id'
+  | 'childMarkdownRemark.frontmatter.thumbnail.children'
+  | 'childMarkdownRemark.frontmatter.hero.sourceInstanceName'
+  | 'childMarkdownRemark.frontmatter.hero.absolutePath'
+  | 'childMarkdownRemark.frontmatter.hero.relativePath'
+  | 'childMarkdownRemark.frontmatter.hero.extension'
+  | 'childMarkdownRemark.frontmatter.hero.size'
+  | 'childMarkdownRemark.frontmatter.hero.prettySize'
+  | 'childMarkdownRemark.frontmatter.hero.modifiedTime'
+  | 'childMarkdownRemark.frontmatter.hero.accessTime'
+  | 'childMarkdownRemark.frontmatter.hero.changeTime'
+  | 'childMarkdownRemark.frontmatter.hero.birthTime'
+  | 'childMarkdownRemark.frontmatter.hero.root'
+  | 'childMarkdownRemark.frontmatter.hero.dir'
+  | 'childMarkdownRemark.frontmatter.hero.base'
+  | 'childMarkdownRemark.frontmatter.hero.ext'
+  | 'childMarkdownRemark.frontmatter.hero.name'
+  | 'childMarkdownRemark.frontmatter.hero.relativeDirectory'
+  | 'childMarkdownRemark.frontmatter.hero.dev'
+  | 'childMarkdownRemark.frontmatter.hero.mode'
+  | 'childMarkdownRemark.frontmatter.hero.nlink'
+  | 'childMarkdownRemark.frontmatter.hero.uid'
+  | 'childMarkdownRemark.frontmatter.hero.gid'
+  | 'childMarkdownRemark.frontmatter.hero.rdev'
+  | 'childMarkdownRemark.frontmatter.hero.ino'
+  | 'childMarkdownRemark.frontmatter.hero.atimeMs'
+  | 'childMarkdownRemark.frontmatter.hero.mtimeMs'
+  | 'childMarkdownRemark.frontmatter.hero.ctimeMs'
+  | 'childMarkdownRemark.frontmatter.hero.atime'
+  | 'childMarkdownRemark.frontmatter.hero.mtime'
+  | 'childMarkdownRemark.frontmatter.hero.ctime'
+  | 'childMarkdownRemark.frontmatter.hero.birthtime'
+  | 'childMarkdownRemark.frontmatter.hero.birthtimeMs'
+  | 'childMarkdownRemark.frontmatter.hero.blksize'
+  | 'childMarkdownRemark.frontmatter.hero.blocks'
+  | 'childMarkdownRemark.frontmatter.hero.publicURL'
+  | 'childMarkdownRemark.frontmatter.hero.childrenMarkdownRemark'
+  | 'childMarkdownRemark.frontmatter.hero.childrenImageSharp'
+  | 'childMarkdownRemark.frontmatter.hero.id'
+  | 'childMarkdownRemark.frontmatter.hero.children'
   | 'childMarkdownRemark.frontmatter.category'
   | 'childMarkdownRemark.frontmatter.tags'
   | 'childMarkdownRemark.fields.slug'
@@ -2148,6 +2225,8 @@ type SiteFieldsEnum =
   | 'siteMetadata.author.summary'
   | 'siteMetadata.siteUrl'
   | 'siteMetadata.social.twitter'
+  | 'port'
+  | 'host'
   | 'polyfill'
   | 'pathPrefix'
   | 'id'
@@ -2249,6 +2328,8 @@ type SiteGroupConnection = {
 type SiteFilterInput = {
   readonly buildTime: Maybe<DateQueryOperatorInput>;
   readonly siteMetadata: Maybe<SiteSiteMetadataFilterInput>;
+  readonly port: Maybe<IntQueryOperatorInput>;
+  readonly host: Maybe<StringQueryOperatorInput>;
   readonly polyfill: Maybe<BooleanQueryOperatorInput>;
   readonly pathPrefix: Maybe<StringQueryOperatorInput>;
   readonly id: Maybe<StringQueryOperatorInput>;
@@ -2434,11 +2515,6 @@ type SitePageContextFilterInput = {
   readonly id: Maybe<StringQueryOperatorInput>;
   readonly previousPostId: Maybe<StringQueryOperatorInput>;
   readonly nextPostId: Maybe<StringQueryOperatorInput>;
-  readonly skip: Maybe<IntQueryOperatorInput>;
-  readonly limit: Maybe<IntQueryOperatorInput>;
-  readonly currentPage: Maybe<IntQueryOperatorInput>;
-  readonly isFirst: Maybe<BooleanQueryOperatorInput>;
-  readonly isLast: Maybe<BooleanQueryOperatorInput>;
 };
 
 type SitePluginFilterInput = {
@@ -2718,11 +2794,6 @@ type SitePageFieldsEnum =
   | 'context.id'
   | 'context.previousPostId'
   | 'context.nextPostId'
-  | 'context.skip'
-  | 'context.limit'
-  | 'context.currentPage'
-  | 'context.isFirst'
-  | 'context.isLast'
   | 'pluginCreator.id'
   | 'pluginCreator.parent.id'
   | 'pluginCreator.parent.parent.id'
@@ -2912,84 +2983,162 @@ type MarkdownRemarkFieldsEnum =
   | 'frontmatter.title'
   | 'frontmatter.description'
   | 'frontmatter.date'
-  | 'frontmatter.avatar.sourceInstanceName'
-  | 'frontmatter.avatar.absolutePath'
-  | 'frontmatter.avatar.relativePath'
-  | 'frontmatter.avatar.extension'
-  | 'frontmatter.avatar.size'
-  | 'frontmatter.avatar.prettySize'
-  | 'frontmatter.avatar.modifiedTime'
-  | 'frontmatter.avatar.accessTime'
-  | 'frontmatter.avatar.changeTime'
-  | 'frontmatter.avatar.birthTime'
-  | 'frontmatter.avatar.root'
-  | 'frontmatter.avatar.dir'
-  | 'frontmatter.avatar.base'
-  | 'frontmatter.avatar.ext'
-  | 'frontmatter.avatar.name'
-  | 'frontmatter.avatar.relativeDirectory'
-  | 'frontmatter.avatar.dev'
-  | 'frontmatter.avatar.mode'
-  | 'frontmatter.avatar.nlink'
-  | 'frontmatter.avatar.uid'
-  | 'frontmatter.avatar.gid'
-  | 'frontmatter.avatar.rdev'
-  | 'frontmatter.avatar.ino'
-  | 'frontmatter.avatar.atimeMs'
-  | 'frontmatter.avatar.mtimeMs'
-  | 'frontmatter.avatar.ctimeMs'
-  | 'frontmatter.avatar.atime'
-  | 'frontmatter.avatar.mtime'
-  | 'frontmatter.avatar.ctime'
-  | 'frontmatter.avatar.birthtime'
-  | 'frontmatter.avatar.birthtimeMs'
-  | 'frontmatter.avatar.blksize'
-  | 'frontmatter.avatar.blocks'
-  | 'frontmatter.avatar.publicURL'
-  | 'frontmatter.avatar.childrenMarkdownRemark'
-  | 'frontmatter.avatar.childrenMarkdownRemark.id'
-  | 'frontmatter.avatar.childrenMarkdownRemark.excerpt'
-  | 'frontmatter.avatar.childrenMarkdownRemark.rawMarkdownBody'
-  | 'frontmatter.avatar.childrenMarkdownRemark.fileAbsolutePath'
-  | 'frontmatter.avatar.childrenMarkdownRemark.html'
-  | 'frontmatter.avatar.childrenMarkdownRemark.htmlAst'
-  | 'frontmatter.avatar.childrenMarkdownRemark.excerptAst'
-  | 'frontmatter.avatar.childrenMarkdownRemark.headings'
-  | 'frontmatter.avatar.childrenMarkdownRemark.timeToRead'
-  | 'frontmatter.avatar.childrenMarkdownRemark.tableOfContents'
-  | 'frontmatter.avatar.childrenMarkdownRemark.children'
-  | 'frontmatter.avatar.childMarkdownRemark.id'
-  | 'frontmatter.avatar.childMarkdownRemark.excerpt'
-  | 'frontmatter.avatar.childMarkdownRemark.rawMarkdownBody'
-  | 'frontmatter.avatar.childMarkdownRemark.fileAbsolutePath'
-  | 'frontmatter.avatar.childMarkdownRemark.html'
-  | 'frontmatter.avatar.childMarkdownRemark.htmlAst'
-  | 'frontmatter.avatar.childMarkdownRemark.excerptAst'
-  | 'frontmatter.avatar.childMarkdownRemark.headings'
-  | 'frontmatter.avatar.childMarkdownRemark.timeToRead'
-  | 'frontmatter.avatar.childMarkdownRemark.tableOfContents'
-  | 'frontmatter.avatar.childMarkdownRemark.children'
-  | 'frontmatter.avatar.childrenImageSharp'
-  | 'frontmatter.avatar.childrenImageSharp.gatsbyImageData'
-  | 'frontmatter.avatar.childrenImageSharp.id'
-  | 'frontmatter.avatar.childrenImageSharp.children'
-  | 'frontmatter.avatar.childImageSharp.gatsbyImageData'
-  | 'frontmatter.avatar.childImageSharp.id'
-  | 'frontmatter.avatar.childImageSharp.children'
-  | 'frontmatter.avatar.id'
-  | 'frontmatter.avatar.parent.id'
-  | 'frontmatter.avatar.parent.children'
-  | 'frontmatter.avatar.children'
-  | 'frontmatter.avatar.children.id'
-  | 'frontmatter.avatar.children.children'
-  | 'frontmatter.avatar.internal.content'
-  | 'frontmatter.avatar.internal.contentDigest'
-  | 'frontmatter.avatar.internal.description'
-  | 'frontmatter.avatar.internal.fieldOwners'
-  | 'frontmatter.avatar.internal.ignoreType'
-  | 'frontmatter.avatar.internal.mediaType'
-  | 'frontmatter.avatar.internal.owner'
-  | 'frontmatter.avatar.internal.type'
+  | 'frontmatter.thumbnail.sourceInstanceName'
+  | 'frontmatter.thumbnail.absolutePath'
+  | 'frontmatter.thumbnail.relativePath'
+  | 'frontmatter.thumbnail.extension'
+  | 'frontmatter.thumbnail.size'
+  | 'frontmatter.thumbnail.prettySize'
+  | 'frontmatter.thumbnail.modifiedTime'
+  | 'frontmatter.thumbnail.accessTime'
+  | 'frontmatter.thumbnail.changeTime'
+  | 'frontmatter.thumbnail.birthTime'
+  | 'frontmatter.thumbnail.root'
+  | 'frontmatter.thumbnail.dir'
+  | 'frontmatter.thumbnail.base'
+  | 'frontmatter.thumbnail.ext'
+  | 'frontmatter.thumbnail.name'
+  | 'frontmatter.thumbnail.relativeDirectory'
+  | 'frontmatter.thumbnail.dev'
+  | 'frontmatter.thumbnail.mode'
+  | 'frontmatter.thumbnail.nlink'
+  | 'frontmatter.thumbnail.uid'
+  | 'frontmatter.thumbnail.gid'
+  | 'frontmatter.thumbnail.rdev'
+  | 'frontmatter.thumbnail.ino'
+  | 'frontmatter.thumbnail.atimeMs'
+  | 'frontmatter.thumbnail.mtimeMs'
+  | 'frontmatter.thumbnail.ctimeMs'
+  | 'frontmatter.thumbnail.atime'
+  | 'frontmatter.thumbnail.mtime'
+  | 'frontmatter.thumbnail.ctime'
+  | 'frontmatter.thumbnail.birthtime'
+  | 'frontmatter.thumbnail.birthtimeMs'
+  | 'frontmatter.thumbnail.blksize'
+  | 'frontmatter.thumbnail.blocks'
+  | 'frontmatter.thumbnail.publicURL'
+  | 'frontmatter.thumbnail.childrenMarkdownRemark'
+  | 'frontmatter.thumbnail.childrenMarkdownRemark.id'
+  | 'frontmatter.thumbnail.childrenMarkdownRemark.excerpt'
+  | 'frontmatter.thumbnail.childrenMarkdownRemark.rawMarkdownBody'
+  | 'frontmatter.thumbnail.childrenMarkdownRemark.fileAbsolutePath'
+  | 'frontmatter.thumbnail.childrenMarkdownRemark.html'
+  | 'frontmatter.thumbnail.childrenMarkdownRemark.htmlAst'
+  | 'frontmatter.thumbnail.childrenMarkdownRemark.excerptAst'
+  | 'frontmatter.thumbnail.childrenMarkdownRemark.headings'
+  | 'frontmatter.thumbnail.childrenMarkdownRemark.timeToRead'
+  | 'frontmatter.thumbnail.childrenMarkdownRemark.tableOfContents'
+  | 'frontmatter.thumbnail.childrenMarkdownRemark.children'
+  | 'frontmatter.thumbnail.childMarkdownRemark.id'
+  | 'frontmatter.thumbnail.childMarkdownRemark.excerpt'
+  | 'frontmatter.thumbnail.childMarkdownRemark.rawMarkdownBody'
+  | 'frontmatter.thumbnail.childMarkdownRemark.fileAbsolutePath'
+  | 'frontmatter.thumbnail.childMarkdownRemark.html'
+  | 'frontmatter.thumbnail.childMarkdownRemark.htmlAst'
+  | 'frontmatter.thumbnail.childMarkdownRemark.excerptAst'
+  | 'frontmatter.thumbnail.childMarkdownRemark.headings'
+  | 'frontmatter.thumbnail.childMarkdownRemark.timeToRead'
+  | 'frontmatter.thumbnail.childMarkdownRemark.tableOfContents'
+  | 'frontmatter.thumbnail.childMarkdownRemark.children'
+  | 'frontmatter.thumbnail.childrenImageSharp'
+  | 'frontmatter.thumbnail.childrenImageSharp.gatsbyImageData'
+  | 'frontmatter.thumbnail.childrenImageSharp.id'
+  | 'frontmatter.thumbnail.childrenImageSharp.children'
+  | 'frontmatter.thumbnail.childImageSharp.gatsbyImageData'
+  | 'frontmatter.thumbnail.childImageSharp.id'
+  | 'frontmatter.thumbnail.childImageSharp.children'
+  | 'frontmatter.thumbnail.id'
+  | 'frontmatter.thumbnail.parent.id'
+  | 'frontmatter.thumbnail.parent.children'
+  | 'frontmatter.thumbnail.children'
+  | 'frontmatter.thumbnail.children.id'
+  | 'frontmatter.thumbnail.children.children'
+  | 'frontmatter.thumbnail.internal.content'
+  | 'frontmatter.thumbnail.internal.contentDigest'
+  | 'frontmatter.thumbnail.internal.description'
+  | 'frontmatter.thumbnail.internal.fieldOwners'
+  | 'frontmatter.thumbnail.internal.ignoreType'
+  | 'frontmatter.thumbnail.internal.mediaType'
+  | 'frontmatter.thumbnail.internal.owner'
+  | 'frontmatter.thumbnail.internal.type'
+  | 'frontmatter.hero.sourceInstanceName'
+  | 'frontmatter.hero.absolutePath'
+  | 'frontmatter.hero.relativePath'
+  | 'frontmatter.hero.extension'
+  | 'frontmatter.hero.size'
+  | 'frontmatter.hero.prettySize'
+  | 'frontmatter.hero.modifiedTime'
+  | 'frontmatter.hero.accessTime'
+  | 'frontmatter.hero.changeTime'
+  | 'frontmatter.hero.birthTime'
+  | 'frontmatter.hero.root'
+  | 'frontmatter.hero.dir'
+  | 'frontmatter.hero.base'
+  | 'frontmatter.hero.ext'
+  | 'frontmatter.hero.name'
+  | 'frontmatter.hero.relativeDirectory'
+  | 'frontmatter.hero.dev'
+  | 'frontmatter.hero.mode'
+  | 'frontmatter.hero.nlink'
+  | 'frontmatter.hero.uid'
+  | 'frontmatter.hero.gid'
+  | 'frontmatter.hero.rdev'
+  | 'frontmatter.hero.ino'
+  | 'frontmatter.hero.atimeMs'
+  | 'frontmatter.hero.mtimeMs'
+  | 'frontmatter.hero.ctimeMs'
+  | 'frontmatter.hero.atime'
+  | 'frontmatter.hero.mtime'
+  | 'frontmatter.hero.ctime'
+  | 'frontmatter.hero.birthtime'
+  | 'frontmatter.hero.birthtimeMs'
+  | 'frontmatter.hero.blksize'
+  | 'frontmatter.hero.blocks'
+  | 'frontmatter.hero.publicURL'
+  | 'frontmatter.hero.childrenMarkdownRemark'
+  | 'frontmatter.hero.childrenMarkdownRemark.id'
+  | 'frontmatter.hero.childrenMarkdownRemark.excerpt'
+  | 'frontmatter.hero.childrenMarkdownRemark.rawMarkdownBody'
+  | 'frontmatter.hero.childrenMarkdownRemark.fileAbsolutePath'
+  | 'frontmatter.hero.childrenMarkdownRemark.html'
+  | 'frontmatter.hero.childrenMarkdownRemark.htmlAst'
+  | 'frontmatter.hero.childrenMarkdownRemark.excerptAst'
+  | 'frontmatter.hero.childrenMarkdownRemark.headings'
+  | 'frontmatter.hero.childrenMarkdownRemark.timeToRead'
+  | 'frontmatter.hero.childrenMarkdownRemark.tableOfContents'
+  | 'frontmatter.hero.childrenMarkdownRemark.children'
+  | 'frontmatter.hero.childMarkdownRemark.id'
+  | 'frontmatter.hero.childMarkdownRemark.excerpt'
+  | 'frontmatter.hero.childMarkdownRemark.rawMarkdownBody'
+  | 'frontmatter.hero.childMarkdownRemark.fileAbsolutePath'
+  | 'frontmatter.hero.childMarkdownRemark.html'
+  | 'frontmatter.hero.childMarkdownRemark.htmlAst'
+  | 'frontmatter.hero.childMarkdownRemark.excerptAst'
+  | 'frontmatter.hero.childMarkdownRemark.headings'
+  | 'frontmatter.hero.childMarkdownRemark.timeToRead'
+  | 'frontmatter.hero.childMarkdownRemark.tableOfContents'
+  | 'frontmatter.hero.childMarkdownRemark.children'
+  | 'frontmatter.hero.childrenImageSharp'
+  | 'frontmatter.hero.childrenImageSharp.gatsbyImageData'
+  | 'frontmatter.hero.childrenImageSharp.id'
+  | 'frontmatter.hero.childrenImageSharp.children'
+  | 'frontmatter.hero.childImageSharp.gatsbyImageData'
+  | 'frontmatter.hero.childImageSharp.id'
+  | 'frontmatter.hero.childImageSharp.children'
+  | 'frontmatter.hero.id'
+  | 'frontmatter.hero.parent.id'
+  | 'frontmatter.hero.parent.children'
+  | 'frontmatter.hero.children'
+  | 'frontmatter.hero.children.id'
+  | 'frontmatter.hero.children.children'
+  | 'frontmatter.hero.internal.content'
+  | 'frontmatter.hero.internal.contentDigest'
+  | 'frontmatter.hero.internal.description'
+  | 'frontmatter.hero.internal.fieldOwners'
+  | 'frontmatter.hero.internal.ignoreType'
+  | 'frontmatter.hero.internal.mediaType'
+  | 'frontmatter.hero.internal.owner'
+  | 'frontmatter.hero.internal.type'
   | 'frontmatter.category'
   | 'frontmatter.tags'
   | 'fields.slug'
@@ -3672,13 +3821,28 @@ type SitePluginSortInput = {
   readonly order: Maybe<ReadonlyArray<Maybe<SortOrderEnum>>>;
 };
 
-type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
+type usersjojikoikeWorkSpaceproductsStartAppDevFrom35SrccomponentsseoTsx2841359383QueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type Unnamed_1_Query = { readonly site: Maybe<{ readonly siteMetadata: Maybe<(
+type usersjojikoikeWorkSpaceproductsStartAppDevFrom35SrccomponentsseoTsx2841359383Query = { readonly site: Maybe<{ readonly siteMetadata: Maybe<(
       Pick<SiteSiteMetadata, 'title' | 'description'>
       & { readonly social: Maybe<Pick<Social, 'twitter'>> }
     )> }> };
+
+type usersjojikoikeWorkSpaceproductsStartAppDevFrom35SrcpagesusingTypescriptTsx2907560070QueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type usersjojikoikeWorkSpaceproductsStartAppDevFrom35SrcpagesusingTypescriptTsx2907560070Query = { readonly site: Maybe<Pick<Site, 'buildTime'>> };
+
+type NotFoundQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type NotFoundQuery = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title'>> }> };
+
+type SiteMetaDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type SiteMetaDataQuery = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title' | 'description'>> }> };
 
 type BlogIndexQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3687,36 +3851,7 @@ type BlogIndexQuery = { readonly allMarkdownRemark: { readonly nodes: ReadonlyAr
       Pick<MarkdownRemark, 'id' | 'excerpt'>
       & { readonly fields: Maybe<Pick<Fields, 'slug'>>, readonly frontmatter: Maybe<(
         Pick<Frontmatter, 'date' | 'title' | 'category' | 'tags' | 'description'>
-        & { readonly avatar: Maybe<{ readonly childImageSharp: Maybe<Pick<ImageSharp, 'gatsbyImageData'>> }> }
-      )> }
-    )> } };
-
-type Unnamed_2_QueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type Unnamed_2_Query = { readonly site: Maybe<Pick<Site, 'buildTime'>> };
-
-type SiteMetaDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type SiteMetaDataQuery = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title' | 'description'>> }> };
-
-type NotFoundQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type NotFoundQuery = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title'>> }> };
-
-type BlogPostsQueryVariables = Exact<{
-  skip: Scalars['Int'];
-  limit: Scalars['Int'];
-}>;
-
-
-type BlogPostsQuery = { readonly allMarkdownRemark: { readonly nodes: ReadonlyArray<(
-      Pick<MarkdownRemark, 'id' | 'excerpt'>
-      & { readonly fields: Maybe<Pick<Fields, 'slug'>>, readonly frontmatter: Maybe<(
-        Pick<Frontmatter, 'date' | 'title' | 'category' | 'tags' | 'description'>
-        & { readonly avatar: Maybe<{ readonly childImageSharp: Maybe<Pick<ImageSharp, 'gatsbyImageData'>> }> }
+        & { readonly thumbnail: Maybe<{ readonly childImageSharp: Maybe<Pick<ImageSharp, 'gatsbyImageData'>> }> }
       )> }
     )> } };
 
@@ -3729,8 +3864,22 @@ type BlogPostBySlugQueryVariables = Exact<{
 
 type BlogPostBySlugQuery = { readonly markdownRemark: Maybe<(
     Pick<MarkdownRemark, 'id' | 'excerpt' | 'html'>
-    & { readonly frontmatter: Maybe<Pick<Frontmatter, 'title' | 'date' | 'description'>> }
+    & { readonly frontmatter: Maybe<Pick<Frontmatter, 'date' | 'title' | 'category' | 'tags' | 'description'>> }
   )>, readonly previous: Maybe<{ readonly fields: Maybe<Pick<Fields, 'slug'>>, readonly frontmatter: Maybe<Pick<Frontmatter, 'title'>> }>, readonly next: Maybe<{ readonly fields: Maybe<Pick<Fields, 'slug'>>, readonly frontmatter: Maybe<Pick<Frontmatter, 'title'>> }> };
+
+type BlogPostsQueryVariables = Exact<{
+  skip: Scalars['Int'];
+  limit: Scalars['Int'];
+}>;
+
+
+type BlogPostsQuery = { readonly allMarkdownRemark: { readonly nodes: ReadonlyArray<(
+      Pick<MarkdownRemark, 'id' | 'excerpt'>
+      & { readonly fields: Maybe<Pick<Fields, 'slug'>>, readonly frontmatter: Maybe<(
+        Pick<Frontmatter, 'date' | 'title' | 'category' | 'tags' | 'description'>
+        & { readonly thumbnail: Maybe<{ readonly childImageSharp: Maybe<Pick<ImageSharp, 'gatsbyImageData'>> }> }
+      )> }
+    )> } };
 
 type GatsbyImageSharpFixedFragment = Pick<ImageSharpFixed, 'base64' | 'width' | 'height' | 'src' | 'srcSet'>;
 
@@ -3757,6 +3906,11 @@ type GatsbyImageSharpFluid_withWebp_tracedSVGFragment = Pick<ImageSharpFluid, 't
 type GatsbyImageSharpFluid_noBase64Fragment = Pick<ImageSharpFluid, 'aspectRatio' | 'src' | 'srcSet' | 'sizes'>;
 
 type GatsbyImageSharpFluid_withWebp_noBase64Fragment = Pick<ImageSharpFluid, 'aspectRatio' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp' | 'sizes'>;
+
+type PagesQueryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type PagesQueryQuery = { readonly allSiteFunction: { readonly nodes: ReadonlyArray<Pick<SiteFunction, 'functionRoute'>> }, readonly allSitePage: { readonly nodes: ReadonlyArray<Pick<SitePage, 'path'>> } };
 
 type BioQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
