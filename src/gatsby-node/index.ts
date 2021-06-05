@@ -54,7 +54,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
         index === posts.length - 1 ? null : posts[index + 1].id;
 
       createPage({
-        path: `/posts${post.fields!.slug!}`,
+        path: `/articles${post.fields!.slug!}`,
         component: blogPost,
         context: {
           id: post.id,
@@ -65,35 +65,30 @@ export const createPages: GatsbyNode["createPages"] = async ({
     });
   }
 
-  // For Landing Page Articles List
-
-  /*
-  const articlesPerPageOnLP = 1;
+  // Landing Page Articles List
+  const articlesPerPageOnLP = 5;
   const articlesCount = result.data?.allMarkdownRemark.nodes.length!;
   const articlePages = Math.ceil(articlesCount / articlesPerPageOnLP);
-  const landingPage = path.resolve("./src/templates/blog-posts.tsx");
   Array.from({ length: articlePages }).forEach((_, i) => {
     createPage({
-      path: i === 0 ? `/articles/` : `/articles/${i + 1}/`,
-      component: landingPage,
+      path: i == 0 ? `/` : `/articles/${i + 1}`,
+      component: path.resolve("./src/templates/index.tsx"),
       context: {
         skip: articlesPerPageOnLP * i,
         limit: articlesPerPageOnLP,
+        numPages: articlePages,
         currentPage: i + 1,
-        isFirst: i + 1 === 1,
-        isLast: i + 1 === articlePages,
       },
     });
   });
-  */
 };
 
+// Context Type for Article List Pagination
 export type ArticleListContext = {
   skip: number;
   limit: number;
+  numPages: number;
   currentPage: number;
-  isFirst: boolean;
-  isLast: boolean;
 };
 
 export const onCreateNode: GatsbyNode["onCreateNode"] = ({
