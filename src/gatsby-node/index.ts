@@ -67,7 +67,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
 
   // Landing Page Articles List
   const articlesPerPageOnLP = 5;
-  const articlesCount = result.data?.allMarkdownRemark.nodes.length!;
+  const articlesCount = posts.length;
   const articlePages = Math.ceil(articlesCount / articlesPerPageOnLP);
   Array.from({ length: articlePages }).forEach((_, i) => {
     createPage({
