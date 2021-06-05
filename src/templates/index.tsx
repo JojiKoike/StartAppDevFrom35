@@ -40,7 +40,11 @@ const BlogIndex: React.FC<
         const title = post.frontmatter!.title || post.fields!.slug;
 
         return (
-          <Link to={`/posts${post.fields!.slug!}`} itemProp="url" key={post.id}>
+          <Link
+            to={`/articles${post.fields!.slug!}`}
+            itemProp="url"
+            key={post.id}
+          >
             <article itemScope itemType="http://schema.org/Article">
               <div className="p-6 max-w-6xl mx-auto bg-white hover:bg-gray-200 rounded-xl shadow-md space-x-4 my-2">
                 <div className="flex flex-col sm:flex-row place-items-center sm:place-items-start">
