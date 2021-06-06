@@ -27,6 +27,10 @@ export const createPages: GatsbyNode["createPages"] = async ({
             fields {
               slug
             }
+            frontmatter {
+              category
+              tags
+            }
           }
         }
       }
@@ -81,6 +85,29 @@ export const createPages: GatsbyNode["createPages"] = async ({
       },
     });
   });
+
+  // Category Page
+  const categories = Array.from(
+    new Set(
+      posts.map(node => {
+        return node.frontmatter!.category;
+      })
+    )
+  ).filter(category => category !== null);
+
+  categories.forEach(category => {
+    createPage({
+      path: `/category/${category}`,
+      component: path.resolve("./src/templates/blog-category.tsx"),
+      context: {
+        skip: 0,
+        limit: 100,
+        numPages: 1,
+        currentPage: 1,
+        category,
+      },
+    });
+  });
 };
 
 // Context Type for Article List Pagination
@@ -89,6 +116,11 @@ export type ArticleListContext = {
   limit: number;
   numPages: number;
   currentPage: number;
+};
+
+// Context Type for Article Category List Pagination
+export type CategoryArticleListContext = ArticleListContext & {
+  category: string;
 };
 
 export const onCreateNode: GatsbyNode["onCreateNode"] = ({

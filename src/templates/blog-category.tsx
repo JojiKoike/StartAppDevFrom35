@@ -6,16 +6,14 @@ import {
   faCalendarDay,
   faFolderOpen,
   faTags,
-  faChevronLeft,
-  faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 
 import Layout from "../components/layout";
 import Seo from "../components/seo";
-import { ArticleListContext } from "../gatsby-node/index";
+import { CategoryArticleListContext } from "../gatsby-node/index";
 
 type ContextProps = {
-  pageContext: ArticleListContext;
+  pageContext: CategoryArticleListContext;
 };
 
 const BlogPosts: React.FC<
@@ -38,7 +36,7 @@ const BlogPosts: React.FC<
 
   return (
     <Layout location={location}>
-      <Seo title="Latest posts" />
+      <Seo title={props.pageContext.category} />
       {posts.map(post => {
         const title = post.frontmatter!.title || post.fields!.slug;
 
@@ -92,22 +90,6 @@ const BlogPosts: React.FC<
           </Link>
         );
       })}
-      <div className="px-11">
-        <nav className="flex justify-between">
-          <div className="bg-white hover:bg-gray-200 p-3 rounded-md shadow-md">
-            <Link to={""} rel="prev">
-              <FontAwesomeIcon icon={faChevronLeft} />
-              <span className="ml-2">前のページ</span>
-            </Link>
-          </div>
-          <div className="bg-white hover:bg-gray-200 p-3 rounded-md shadow-md">
-            <Link to={""} rel="next">
-              <span className="mr-2">次のページ</span>
-              <FontAwesomeIcon icon={faChevronRight} />
-            </Link>
-          </div>
-        </nav>
-      </div>
     </Layout>
   );
 };
@@ -115,11 +97,12 @@ const BlogPosts: React.FC<
 export default BlogPosts;
 
 export const pageQuery = graphql`
-  query BlogPosts($skip: Int!, $limit: Int!) {
+  query BlogPosts($skip: Int!, $limit: Int!, $category: String!) {
     allMarkdownRemark(
       sort: { fields: [frontmatter___date], order: DESC }
       skip: $skip
       limit: $limit
+      filter: { frontmatter: { category: { eq: $category } } }
     ) {
       nodes {
         id
