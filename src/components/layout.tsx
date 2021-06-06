@@ -19,7 +19,7 @@ const Layout: React.FC<LayoutProps> = ({ ...props }) => {
   `);
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-yellow-50">
       <div className="container mx-auto max-w-full bg-white p-5">
         <header>
           <Link to="/">
