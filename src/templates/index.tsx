@@ -35,7 +35,7 @@ const BlogIndex: React.FC<
   return (
     <Layout location={location}>
       <Seo title="Latest posts" />
-      <h1 className="text-center text-lg sm:text-3xl">〜記事〜</h1>
+      <h1 className="text-center text-lg sm:text-3xl">記事</h1>
       {posts.map(post => {
         const title = post.frontmatter!.title || post.fields!.slug;
 

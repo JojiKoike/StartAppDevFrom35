@@ -27,6 +27,10 @@ export const createPages: GatsbyNode["createPages"] = async ({
             fields {
               slug
             }
+            frontmatter {
+              category
+              tags
+            }
           }
         }
       }
@@ -81,6 +85,39 @@ export const createPages: GatsbyNode["createPages"] = async ({
       },
     });
   });
+
+  // Category Page
+  const categories = Array.from(
+    new Set(
+      posts.map(node => {
+        return node.frontmatter!.category;
+      })
+    )
+  ).filter(category => category !== null);
+
+  categories.forEach(category => {
+    const categoryArticlesPerPage = 2;
+    const categoryArticlesCount = posts.filter(
+      node => node.frontmatter!.category == category
+    ).length;
+    const categoryArticlePages = Math.ceil(
+      categoryArticlesCount / categoryArticlesPerPage
+    );
+    Array.from({ length: categoryArticlePages }).forEach((_, i) => {
+      createPage({
+        path:
+          i == 0 ? `/category/${category}` : `/category/${category}/${i + 1}`,
+        component: path.resolve("./src/templates/blog-category.tsx"),
+        context: {
+          skip: i * categoryArticlesPerPage,
+          limit: categoryArticlesPerPage,
+          numPages: categoryArticlePages,
+          currentPage: i + 1,
+          category,
+        },
+      });
+    });
+  });
 };
 
 // Context Type for Article List Pagination
@@ -89,6 +126,11 @@ export type ArticleListContext = {
   limit: number;
   numPages: number;
   currentPage: number;
+};
+
+// Context Type for Article Category List Pagination
+export type CategoryArticleListContext = ArticleListContext & {
+  category: string;
 };
 
 export const onCreateNode: GatsbyNode["onCreateNode"] = ({

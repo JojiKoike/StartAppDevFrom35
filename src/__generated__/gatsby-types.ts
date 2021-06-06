@@ -325,6 +325,7 @@ type SitePageContext = {
   readonly limit: Maybe<Scalars['Int']>;
   readonly numPages: Maybe<Scalars['Int']>;
   readonly currentPage: Maybe<Scalars['Int']>;
+  readonly category: Maybe<Scalars['String']>;
 };
 
 type MarkdownHeading = {
@@ -2523,6 +2524,7 @@ type SitePageContextFilterInput = {
   readonly limit: Maybe<IntQueryOperatorInput>;
   readonly numPages: Maybe<IntQueryOperatorInput>;
   readonly currentPage: Maybe<IntQueryOperatorInput>;
+  readonly category: Maybe<StringQueryOperatorInput>;
 };
 
 type SitePluginFilterInput = {
@@ -2806,6 +2808,7 @@ type SitePageFieldsEnum =
   | 'context.limit'
   | 'context.numPages'
   | 'context.currentPage'
+  | 'context.category'
   | 'pluginCreator.id'
   | 'pluginCreator.parent.id'
   | 'pluginCreator.parent.parent.id'
@@ -3833,11 +3836,6 @@ type SitePluginSortInput = {
   readonly order: Maybe<ReadonlyArray<Maybe<SortOrderEnum>>>;
 };
 
-type SiteMetaDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type SiteMetaDataQuery = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title' | 'description'>> }> };
-
 type usersjojikoikeWorkSpaceproductsStartAppDevFrom35SrccomponentsseoTsx2841359383QueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -3846,10 +3844,30 @@ type usersjojikoikeWorkSpaceproductsStartAppDevFrom35SrccomponentsseoTsx28413593
       & { readonly social: Maybe<Pick<Social, 'twitter'>> }
     )> }> };
 
+type SiteMetaDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type SiteMetaDataQuery = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title' | 'description'>> }> };
+
 type NotFoundQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 type NotFoundQuery = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title'>> }> };
+
+type BlogPostsQueryVariables = Exact<{
+  skip: Scalars['Int'];
+  limit: Scalars['Int'];
+  category: Scalars['String'];
+}>;
+
+
+type BlogPostsQuery = { readonly allMarkdownRemark: { readonly nodes: ReadonlyArray<(
+      Pick<MarkdownRemark, 'id' | 'excerpt'>
+      & { readonly fields: Maybe<Pick<Fields, 'slug'>>, readonly frontmatter: Maybe<(
+        Pick<Frontmatter, 'date' | 'title' | 'category' | 'tags' | 'description'>
+        & { readonly thumbnail: Maybe<{ readonly childImageSharp: Maybe<Pick<ImageSharp, 'gatsbyImageData'>> }> }
+      )> }
+    )> } };
 
 type usersjojikoikeWorkSpaceproductsStartAppDevFrom35SrcpagesusingTypescriptTsx2907560070QueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3875,20 +3893,6 @@ type BlogIndexQueryVariables = Exact<{
 
 
 type BlogIndexQuery = { readonly allMarkdownRemark: { readonly nodes: ReadonlyArray<(
-      Pick<MarkdownRemark, 'id' | 'excerpt'>
-      & { readonly fields: Maybe<Pick<Fields, 'slug'>>, readonly frontmatter: Maybe<(
-        Pick<Frontmatter, 'date' | 'title' | 'category' | 'tags' | 'description'>
-        & { readonly thumbnail: Maybe<{ readonly childImageSharp: Maybe<Pick<ImageSharp, 'gatsbyImageData'>> }> }
-      )> }
-    )> } };
-
-type BlogPostsQueryVariables = Exact<{
-  skip: Scalars['Int'];
-  limit: Scalars['Int'];
-}>;
-
-
-type BlogPostsQuery = { readonly allMarkdownRemark: { readonly nodes: ReadonlyArray<(
       Pick<MarkdownRemark, 'id' | 'excerpt'>
       & { readonly fields: Maybe<Pick<Fields, 'slug'>>, readonly frontmatter: Maybe<(
         Pick<Frontmatter, 'date' | 'title' | 'category' | 'tags' | 'description'>
