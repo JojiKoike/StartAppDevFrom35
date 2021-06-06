@@ -8,8 +8,7 @@ import {
   faTags,
 } from "@fortawesome/free-solid-svg-icons";
 
-import Layout from "../components/layout";
-import Seo from "../components/seo";
+import { Layout, Seo, Pagination } from "../components";
 import { CategoryArticleListContext } from "../gatsby-node/index";
 
 type ContextProps = {
@@ -20,11 +19,12 @@ const BlogPosts: React.FC<
   PageProps<GatsbyTypes.BlogIndexQuery> & ContextProps
 > = ({ data, location, ...props }) => {
   const posts = data.allMarkdownRemark.nodes;
+  const category = props.pageContext.category;
 
   if (posts.length === 0) {
     return (
       <Layout location={location}>
-        <Seo title="Latest posts" />
+        <Seo title={category} />
         <p>
           No blog posts found. Add markdown posts to "content/blog" (or the
           directory you specified for the "gatsby-source-filesystem" plugin in
@@ -36,7 +36,8 @@ const BlogPosts: React.FC<
 
   return (
     <Layout location={location}>
-      <Seo title={props.pageContext.category} />
+      <Seo title={category} />
+      <h1 className="text-center text-lg sm:text-3xl">Category : {category}</h1>
       {posts.map(post => {
         const title = post.frontmatter!.title || post.fields!.slug;
 
@@ -90,6 +91,7 @@ const BlogPosts: React.FC<
           </Link>
         );
       })}
+      <Pagination pageContext={props.pageContext} />
     </Layout>
   );
 };

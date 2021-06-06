@@ -96,16 +96,26 @@ export const createPages: GatsbyNode["createPages"] = async ({
   ).filter(category => category !== null);
 
   categories.forEach(category => {
-    createPage({
-      path: `/category/${category}`,
-      component: path.resolve("./src/templates/blog-category.tsx"),
-      context: {
-        skip: 0,
-        limit: 100,
-        numPages: 1,
-        currentPage: 1,
-        category,
-      },
+    const categoryArticlesPerPage = 2;
+    const categoryArticlesCount = posts.filter(
+      node => node.frontmatter!.category == category
+    ).length;
+    const categoryArticlePages = Math.ceil(
+      categoryArticlesCount / categoryArticlesPerPage
+    );
+    Array.from({ length: categoryArticlePages }).forEach((_, i) => {
+      createPage({
+        path:
+          i == 0 ? `/category/${category}` : `/category/${category}/${i + 1}`,
+        component: path.resolve("./src/templates/blog-category.tsx"),
+        context: {
+          skip: i * categoryArticlesPerPage,
+          limit: categoryArticlesPerPage,
+          numPages: categoryArticlePages,
+          currentPage: i,
+          category,
+        },
+      });
     });
   });
 };
