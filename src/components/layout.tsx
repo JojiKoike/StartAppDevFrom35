@@ -20,7 +20,7 @@ const Layout: React.FC<LayoutProps> = ({ ...props }) => {
 
   return (
     <div className="min-h-screen bg-yellow-50">
-      <div className="container mx-auto max-w-full bg-white p-5">
+      <div className="container mx-auto max-w-full bg-blue-50 p-5">
         <header>
           <Link to="/">
             <h1 className="font-SiteTitle sm:text-xl md:text-3xl lg:text-4xl text-center">
