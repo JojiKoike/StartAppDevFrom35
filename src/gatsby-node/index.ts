@@ -112,7 +112,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
           skip: i * categoryArticlesPerPage,
           limit: categoryArticlesPerPage,
           numPages: categoryArticlePages,
-          currentPage: i,
+          currentPage: i + 1,
           category,
         },
       });
