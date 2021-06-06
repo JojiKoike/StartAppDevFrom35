@@ -9,7 +9,7 @@ const ContactPage: React.FC<PageProps> = ({ location, ...props }) => (
     <div className="container bg-white p-6 mb-2 max-w-6xl mx-auto rounded-md shadow-md">
       <h1 className="text-center text-lg sm:text-3xl">Contact</h1>
       <form
-        action="thanks"
+        action="/thanks"
         name="contact"
         method="POST"
         autoComplete="off"
