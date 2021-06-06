@@ -9,9 +9,9 @@ const ContactPage: React.FC<PageProps> = ({ location, ...props }) => (
     <div className="container bg-white p-6 mb-2 max-w-6xl mx-auto rounded-md shadow-md">
       <h1 className="text-center text-lg sm:text-3xl">Contact</h1>
       <form
+        action="thanks"
         name="contact"
         method="POST"
-        className=""
         autoComplete="off"
         data-netify="true"
         data-netify-honeypot="bot-field"
@@ -19,7 +19,7 @@ const ContactPage: React.FC<PageProps> = ({ location, ...props }) => (
         <input type="hidden" name="form-name" value="contact" />
         <input type="hidden" name="bot-field" />
 
-        <div className="container my-6 max-w-4xl mx-auto flex flex-col">
+        <div className="container my-3 max-w-4xl mx-auto flex flex-col">
           <TextField
             className="mb-4"
             required
