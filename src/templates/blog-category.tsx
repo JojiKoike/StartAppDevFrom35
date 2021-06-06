@@ -9,17 +9,17 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { Layout, Seo, Pagination } from "../components";
-import { CategoryArticleListContext } from "../gatsby-node/index";
+import { ArticleListContext } from "../gatsby-node/index";
 
 type ContextProps = {
-  pageContext: CategoryArticleListContext;
+  pageContext: ArticleListContext;
 };
 
 const BlogPosts: React.FC<
   PageProps<GatsbyTypes.BlogIndexQuery> & ContextProps
 > = ({ data, location, ...props }) => {
   const posts = data.allMarkdownRemark.nodes;
-  const category = props.pageContext.category;
+  const category = props.pageContext.category!;
 
   if (posts.length === 0) {
     return (

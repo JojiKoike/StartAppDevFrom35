@@ -23,7 +23,13 @@ const Pagination: React.FC<PaginationProps> = ({ pageContext }) => {
   const { numPages, currentPage } = pageContext;
 
   const handleChange = (event: ChangeEvent<unknown>, value: number) => {
-    value == 1 ? navigate("/") : navigate(`/articles/${value}`);
+    if (pageContext.category != undefined) {
+      value == 1
+        ? navigate(`/category/${pageContext.category}`)
+        : navigate(`/category/${pageContext.category}/${value}`);
+    } else {
+      value == 1 ? navigate("/") : navigate(`/articles/${value}`);
+    }
   };
 
   return (
