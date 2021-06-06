@@ -13,8 +13,8 @@ const ContactPage: React.FC<PageProps> = ({ location, ...props }) => (
         name="contact"
         method="POST"
         autoComplete="off"
-        data-netify="true"
-        data-netify-honeypot="bot-field"
+        data-netlify="true"
+        data-netlify-honeypot="bot-field"
       >
         <input type="hidden" name="form-name" value="contact" />
         <input type="hidden" name="bot-field" />
