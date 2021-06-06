@@ -126,11 +126,7 @@ export type ArticleListContext = {
   limit: number;
   numPages: number;
   currentPage: number;
-};
-
-// Context Type for Article Category List Pagination
-export type CategoryArticleListContext = ArticleListContext & {
-  category: string;
+  category?: string;
 };
 
 export const onCreateNode: GatsbyNode["onCreateNode"] = ({
