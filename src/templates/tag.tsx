@@ -19,12 +19,12 @@ const BlogPosts: React.FC<
   PageProps<GatsbyTypes.BlogIndexQuery> & ContextProps
 > = ({ data, location, ...props }) => {
   const posts = data.allMarkdownRemark.nodes;
-  const category = props.pageContext.category!;
+  const tag = props.pageContext.tag!;
 
   if (posts.length === 0) {
     return (
       <Layout location={location}>
-        <Seo title={category} />
+        <Seo title={tag} />
         <p>
           No blog posts found. Add markdown posts to "content/blog" (or the
           directory you specified for the "gatsby-source-filesystem" plugin in
@@ -36,14 +36,14 @@ const BlogPosts: React.FC<
 
   return (
     <Layout location={location}>
-      <Seo title={category} />
-      <h1 className="text-center text-lg sm:text-3xl">Category : {category}</h1>
+      <Seo title={tag} />
+      <h1 className="text-center text-lg sm:text-3xl">タグ : {tag}</h1>
       {posts.map(post => {
         const title = post.frontmatter!.title || post.fields!.slug;
 
         return (
           <Link
-            to={`/articles${post.fields!.slug!}`}
+            to={`/article${post.fields!.slug!}`}
             itemProp="url"
             key={post.id}
           >
@@ -103,12 +103,12 @@ const BlogPosts: React.FC<
 export default BlogPosts;
 
 export const pageQuery = graphql`
-  query BlogPosts($skip: Int!, $limit: Int!, $category: String!) {
+  query BlogPostsByTag($skip: Int!, $limit: Int!, $tag: [String]) {
     allMarkdownRemark(
       sort: { fields: [frontmatter___date], order: DESC }
       skip: $skip
       limit: $limit
-      filter: { frontmatter: { category: { eq: $category } } }
+      filter: { frontmatter: { tags: { in: $tag } } }
     ) {
       nodes {
         id
