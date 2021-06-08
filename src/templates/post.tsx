@@ -1,5 +1,17 @@
 import * as React from "react";
 import { Link, graphql, PageProps } from "gatsby";
+import {
+  TwitterIcon,
+  TwitterShareButton,
+  FacebookIcon,
+  FacebookShareButton,
+  LinkedinIcon,
+  LinkedinShareButton,
+  PocketIcon,
+  PocketShareButton,
+  HatenaIcon,
+  HatenaShareButton,
+} from "react-share";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCalendarDay,
@@ -16,6 +28,10 @@ const BlogPostTemplate: React.FC<
   PageProps<GatsbyTypes.BlogPostBySlugQuery>
 > = ({ data, location }) => {
   const post = data.markdownRemark;
+  const title = post!.frontmatter!.title;
+  const siteURL = data.site!.siteMetadata!.siteUrl;
+  const articleURL = siteURL + "articles/" + title;
+  const shareIconSize = 38;
   const { previous, next } = data;
 
   return (
@@ -24,7 +40,7 @@ const BlogPostTemplate: React.FC<
         title={post!.frontmatter!.title!}
         description={post!.frontmatter!.description || post!.excerpt}
       />
-      <div className="container bg-white p-6 mb-2 max-w-6xl mx-auto rounded-md shadow-md">
+      <div className="container bg-white p-6 mb-2 max-w-6xl mx-auto rounded-md shadow-xl">
         <article itemScope itemType="http://schema.org/Article">
           <div className="text-left mb-2">
             <header>
@@ -61,6 +77,43 @@ const BlogPostTemplate: React.FC<
               dangerouslySetInnerHTML={{ __html: post!.html! }}
               itemProp="articleBody"
             />
+
+            <div className="flex flex-row justify-center mt-2">
+              <div className="m-2">
+                <TwitterShareButton url={articleURL} title={title}>
+                  <TwitterIcon round size={shareIconSize} />
+                </TwitterShareButton>
+              </div>
+              <div className="m-2">
+                <FacebookShareButton
+                  url={articleURL}
+                  title={title}
+                  quote={post?.excerpt}
+                >
+                  <FacebookIcon round size={shareIconSize} />
+                </FacebookShareButton>
+              </div>
+              <div className="m-2">
+                <LinkedinShareButton
+                  url={articleURL}
+                  title={title}
+                  summary={post?.excerpt}
+                  source={post?.frontmatter?.description}
+                >
+                  <LinkedinIcon round size={shareIconSize} />
+                </LinkedinShareButton>
+              </div>
+              <div className="m-2">
+                <HatenaShareButton url={articleURL} title={title}>
+                  <HatenaIcon round size={shareIconSize} />
+                </HatenaShareButton>
+              </div>
+              <div className="m-2">
+                <PocketShareButton url={articleURL} title={title}>
+                  <PocketIcon round size={shareIconSize} />
+                </PocketShareButton>
+              </div>
+            </div>
           </div>
         </article>
       </div>
@@ -106,8 +159,12 @@ export const pageQuery = graphql`
         title
         category
         tags
-
         description
+      }
+    }
+    site {
+      siteMetadata {
+        siteUrl
       }
     }
     previous: markdownRemark(id: { eq: $previousPostId }) {
