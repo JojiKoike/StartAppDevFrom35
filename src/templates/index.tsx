@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Link, graphql, PageProps } from "gatsby";
+import { Button } from "@material-ui/core";
 import { GatsbyImage } from "gatsby-plugin-image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -69,11 +70,23 @@ const BlogIndex: React.FC<
                       </h2>
                       <h2 className="text-xs lg:text-sm">
                         <FontAwesomeIcon icon={faFolderOpen} />：
-                        {post.frontmatter?.category}
+                        <Link to={`/category/${post.frontmatter!.category}`}>
+                          <span className="hover:text-gray-500">
+                            {post.frontmatter!.category}
+                          </span>
+                        </Link>
                       </h2>
                       <h2 className="text-xs lg:text-sm">
                         <FontAwesomeIcon icon={faTags} /> :
-                        {post.frontmatter?.tags?.join(",")}
+                        {post.frontmatter?.tags?.map(tag => {
+                          return (
+                            <Link to={`/tag/${tag}`}>
+                              <span className="ml-1 hover:text-gray-500">
+                                {tag}
+                              </span>
+                            </Link>
+                          );
+                        })}
                       </h2>
                     </header>
                     <section>

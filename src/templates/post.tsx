@@ -37,11 +37,21 @@ const BlogPostTemplate: React.FC<
               </p>
               <p className="text-xs sm:text-sm mb-1">
                 <FontAwesomeIcon icon={faFolderOpen} /> :
-                {post!.frontmatter!.category}
+                <Link to={`/category/${post!.frontmatter!.category}`}>
+                  <span className="hover:text-gray-500">
+                    {post!.frontmatter!.category}
+                  </span>
+                </Link>
               </p>
               <p className="text-xs sm:text-sm">
                 <FontAwesomeIcon icon={faTags} /> :
-                {post!.frontmatter!.tags?.join(",")}
+                {post!.frontmatter?.tags?.map(tag => {
+                  return (
+                    <Link to={`/tag/${tag}`}>
+                      <span className="ml-1 hover:text-gray-500">{tag}</span>
+                    </Link>
+                  );
+                })}
               </p>
             </header>
           </div>
