@@ -110,23 +110,23 @@ module.exports = {
         ],
       },
     },
+    `gatsby-plugin-react-helmet`,
+    `gatsby-plugin-typegen`,
+    `gatsby-plugin-postcss`,
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Gatsby Starter Blog`,
-        short_name: `GatsbyJS`,
+        name: `StartAppDevFrom35`,
+        short_name: `StartAppDevFrom35`,
         start_url: `/`,
         background_color: `#ffffff`,
-        theme_color: `#3388FF`,
+        theme_color: `#1188FF`,
         display: `minimal-ui`,
         icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
       },
     },
-    `gatsby-plugin-react-helmet`,
-    `gatsby-plugin-typegen`,
-    `gatsby-plugin-postcss`
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
-    // `gatsby-plugin-offline`,
+    `gatsby-plugin-offline`,
   ],
 }
