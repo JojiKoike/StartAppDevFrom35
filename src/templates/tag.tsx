@@ -43,7 +43,7 @@ const BlogPosts: React.FC<
 
         return (
           <Link
-            to={`/article${post.fields!.slug!}`}
+            to={`/articles${post.fields!.slug!}`}
             itemProp="url"
             key={post.id}
           >
