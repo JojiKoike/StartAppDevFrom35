@@ -46,7 +46,7 @@ const BlogIndex: React.FC<
             key={post.id}
           >
             <article itemScope itemType="http://schema.org/Article">
-              <div className="p-6 max-w-6xl mx-auto bg-white hover:bg-gray-200 rounded-xl shadow-md space-x-4 my-2">
+              <div className="p-6 max-w-6xl mx-auto bg-white hover:bg-gray-200 rounded-xl shadow-xl space-x-4 my-2">
                 <div className="flex flex-col sm:flex-row place-items-center sm:place-items-start">
                   <div className="mx-0 my-2 sm:mx-2 sm:my-0 self-center">
                     <GatsbyImage
@@ -93,7 +93,9 @@ const BlogIndex: React.FC<
           </Link>
         );
       })}
-      <Pagination pageContext={props.pageContext} />
+      <div className="mt-5">
+        <Pagination pageContext={props.pageContext} />
+      </div>
     </Layout>
   );
 };
