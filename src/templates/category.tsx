@@ -103,7 +103,7 @@ const BlogPosts: React.FC<
 export default BlogPosts;
 
 export const pageQuery = graphql`
-  query BlogPosts($skip: Int!, $limit: Int!, $category: String!) {
+  query BlogPostsByCategory($skip: Int!, $limit: Int!, $category: String!) {
     allMarkdownRemark(
       sort: { fields: [frontmatter___date], order: DESC }
       skip: $skip
