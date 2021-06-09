@@ -57,15 +57,10 @@ module.exports = {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
         trackingId: `UA-116651406-1`,
+        head: true
       },
     },
-    {
-      resolve: `@isamrish/gatsby-plugin-google-adsense`,
-      options: {
-        googleAdClientId: "ca-pub-3835939635569436",
-        head: false
-      }
-    },
+    `gatsby-plugin-sitemap`,
     {
       resolve: `gatsby-plugin-feed`,
       options: {
