@@ -36,16 +36,8 @@ const Layout: React.FC<LayoutProps> = ({ ...props }) => {
         </header>
       </div>
 
-      <div className="mx-auto">
-        <HorizontalBarAd />
-      </div>
-
       <div className="container mx-auto px-5 my-2">
         <main>{props.children}</main>
-      </div>
-
-      <div className="mx-auto">
-        <HorizontalBarAd />
       </div>
 
       <div className="mx-auto my-3 border-t">
