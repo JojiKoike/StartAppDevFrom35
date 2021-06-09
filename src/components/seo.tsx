@@ -15,18 +15,33 @@ type SeoProps = {
   lang?: string;
   meta?: HTMLMetaElement[];
   title: string;
+  type: "website" | "article";
+  path?: string;
 };
 
-const Seo: React.FC<SeoProps> = ({ description, lang, meta, title }) => {
+const Seo: React.FC<SeoProps> = ({
+  description,
+  lang = "ja",
+  meta,
+  title,
+  type,
+  path,
+}) => {
   const { site } = useStaticQuery(
     graphql`
       query {
         site {
           siteMetadata {
+            siteUrl
             title
             description
+            author {
+              name
+              summary
+            }
             social {
               twitter
+              facebook
             }
           }
         }
@@ -36,6 +51,13 @@ const Seo: React.FC<SeoProps> = ({ description, lang, meta, title }) => {
 
   const metaDescription = description || site.siteMetadata.description;
   const defaultTitle = site.siteMetadata?.title;
+  const author =
+    site.siteMetadata?.author?.name || site.siteMetadata?.social?.twitter;
+  const fbAppId = site.siteMetadata?.social.facebook;
+  const contentUrl =
+    path !== undefined
+      ? `${site.siteMetadata?.siteUrl}/${path}`
+      : site.siteMetadata.siteUrl;
 
   return (
     <Helmet
@@ -59,7 +81,15 @@ const Seo: React.FC<SeoProps> = ({ description, lang, meta, title }) => {
         },
         {
           property: `og:type`,
-          content: `website`,
+          content: type,
+        },
+        {
+          property: `og:site_name`,
+          content: defaultTitle,
+        },
+        {
+          property: `og:url`,
+          content: contentUrl,
         },
         {
           name: `twitter:card`,
@@ -67,7 +97,7 @@ const Seo: React.FC<SeoProps> = ({ description, lang, meta, title }) => {
         },
         {
           name: `twitter:creator`,
-          content: site.siteMetadata?.social?.twitter || ``,
+          content: author,
         },
         {
           name: `twitter:title`,
@@ -77,15 +107,18 @@ const Seo: React.FC<SeoProps> = ({ description, lang, meta, title }) => {
           name: `twitter:description`,
           content: metaDescription,
         },
+        {
+          name: `fb:app_id`,
+          content: fbAppId,
+        },
       ].concat(meta!)}
     />
   );
 };
 
 Seo.defaultProps = {
-  lang: `en`,
+  lang: `ja`,
   meta: [],
-  description: ``,
 };
 
 Seo.propTypes = {
@@ -93,7 +126,10 @@ Seo.propTypes = {
   lang: PropTypes.string,
   // @ts-ignore
   meta: PropTypes.arrayOf(PropTypes.object),
+  // @ts-ignore
+  type: PropTypes.oneOf(["website", "article"]).isRequired,
   title: PropTypes.string.isRequired,
+  path: PropTypes.string,
 };
 
 export default Seo;

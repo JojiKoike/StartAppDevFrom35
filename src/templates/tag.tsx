@@ -24,7 +24,7 @@ const BlogPosts: React.FC<
   if (posts.length === 0) {
     return (
       <Layout location={location}>
-        <Seo title={tag} />
+        <Seo title={tag} type="website" />
         <p>
           No blog posts found. Add markdown posts to "content/blog" (or the
           directory you specified for the "gatsby-source-filesystem" plugin in
@@ -36,7 +36,11 @@ const BlogPosts: React.FC<
 
   return (
     <Layout location={location}>
-      <Seo title={tag} />
+      <Seo
+        title={`StartAppDevFrom35:TagPage:${tag}`}
+        type="website"
+        path={`tag/${tag}`}
+      />
       <h1 className="text-center text-lg sm:text-3xl">タグ : {tag}</h1>
       {posts.map(post => {
         const title = post.frontmatter!.title || post.fields!.slug;

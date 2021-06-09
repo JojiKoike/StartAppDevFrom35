@@ -9,6 +9,7 @@ module.exports = {
     siteUrl: `https://startappdevfrom35.com/`,
     social: {
       twitter: `georgie390`,
+      facebook: `229274960964474`
     },
   },
   plugins: [

@@ -39,6 +39,7 @@ const BlogPostTemplate: React.FC<
       <Seo
         title={post!.frontmatter!.title!}
         description={post!.frontmatter!.description || post!.excerpt}
+        type="article"
       />
       <div className="container bg-white p-6 mb-2 max-w-6xl mx-auto rounded-md shadow-xl">
         <article itemScope itemType="http://schema.org/Article">
