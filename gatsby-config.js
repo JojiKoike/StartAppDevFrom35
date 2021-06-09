@@ -9,6 +9,7 @@ module.exports = {
     siteUrl: `https://startappdevfrom35.com/`,
     social: {
       twitter: `georgie390`,
+      facebook: `229274960964474`
     },
   },
   plugins: [
@@ -52,12 +53,19 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     `gatsby-plugin-sass`,
-    // {
-    //   resolve: `gatsby-plugin-google-analytics`,
-    //   options: {
-    //     trackingId: `ADD YOUR TRACKING ID HERE`,
-    //   },
-    // },
+    {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        trackingId: `UA-116651406-1`,
+      },
+    },
+    {
+      resolve: `@isamrish/gatsby-plugin-google-adsense`,
+      options: {
+        googleAdClientId: "ca-pub-3835939635569436",
+        head: false
+      }
+    },
     {
       resolve: `gatsby-plugin-feed`,
       options: {

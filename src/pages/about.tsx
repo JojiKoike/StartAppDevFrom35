@@ -1,14 +1,11 @@
 // If you don't want to use TypeScript you can delete this file!
 import * as React from "react";
-import { PageProps, Link, graphql } from "gatsby";
+import { PageProps, graphql } from "gatsby";
 
 import Layout from "../components/layout";
-import Seo from "../components/seo";
 
 const UsingTypescript: React.FC<PageProps> = ({ location, ...props }) => (
   <Layout location={location}>
-    <Seo title="PrivacyPolicy" />
-
     <div className="container bg-white p-6 mb-2 max-w-6xl mx-auto rounded-md shadow-md">
       <h1 className="text-center text-lg sm:text-3xl">About</h1>
       <div className="text-left my-4">
