@@ -92,6 +92,10 @@ const Seo: React.FC<SeoProps> = ({
           content: contentUrl,
         },
         {
+          property: `og:locale`,
+          content: `ja_JP`,
+        },
+        {
           name: `twitter:card`,
           content: `summary`,
         },
