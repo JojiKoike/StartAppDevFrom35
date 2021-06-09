@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, PageProps } from "gatsby";
+import { PageProps } from "gatsby";
 import { TextField, Button } from "@material-ui/core";
 
 import { Layout } from "../components";
