@@ -13,6 +13,7 @@ import { useStaticQuery, graphql } from "gatsby";
 type SeoProps = {
   description?: string;
   lang?: string;
+  locale?: string;
   meta?: HTMLMetaElement[];
   title: string;
   type: "website" | "article";
@@ -22,6 +23,7 @@ type SeoProps = {
 const Seo: React.FC<SeoProps> = ({
   description,
   lang = "ja",
+  locale = "ja_JP",
   meta,
   title,
   type,
@@ -93,7 +95,7 @@ const Seo: React.FC<SeoProps> = ({
         },
         {
           property: `og:locale`,
-          content: `ja_JP`,
+          content: locale,
         },
         {
           name: `twitter:card`,
