@@ -22,13 +22,11 @@ const BlogIndex: React.FC<
   if (posts.length === 0) {
     return (
       <Layout location={location}>
-        <Seo title="Latest posts" type="website" />
-
-        <p>
-          No blog posts found. Add markdown posts to "content/blog" (or the
-          directory you specified for the "gatsby-source-filesystem" plugin in
-          gatsby-config.js).
-        </p>
+        <div className="flex flex-row mx-auto">
+          <h1 className="text-red-500 text-2xl text-center">
+            記事がありません
+          </h1>
+        </div>
       </Layout>
     );
   }
@@ -36,7 +34,7 @@ const BlogIndex: React.FC<
   return (
     <Layout location={location}>
       <Seo title="StartAppDevFrom35:TopPage" type="website" />
-      <h1 className="text-center text-lg sm:text-3xl">記事</h1>
+      <h1 className="text-center text-lg sm:text-3xl">Articles</h1>
       {posts.map(post => {
         const title = post.frontmatter!.title || post.fields!.slug;
 
