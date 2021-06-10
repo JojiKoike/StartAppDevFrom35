@@ -36,7 +36,7 @@ const Layout: React.FC<LayoutProps> = ({ ...props }) => {
         </header>
       </div>
 
-      <div className="container text-center my-8">
+      <div className="container mx-auto text-center my-8">
         <GoogleAdsense type="display" slot="1367382719" />
       </div>
 
@@ -44,7 +44,7 @@ const Layout: React.FC<LayoutProps> = ({ ...props }) => {
         <main>{props.children}</main>
       </div>
 
-      <div className="container text-center my-8">
+      <div className="container mx-auto text-center my-8">
         <GoogleAdsense type="display" slot="1367382719" />
       </div>
 
