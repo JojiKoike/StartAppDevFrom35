@@ -1495,7 +1495,7 @@
   resolved "https://registry.yarnpkg.com/@iarna/toml/-/toml-2.2.5.tgz#b32366c89b43c6f8cefbdefac778b9c828e3ba8c"
   integrity sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==
 
-"@isamrish/gatsby-plugin-google-adsense@^1.2.0":
+"@isamrish/gatsby-plugin-google-adsense@1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@isamrish/gatsby-plugin-google-adsense/-/gatsby-plugin-google-adsense-1.2.0.tgz#56cdfa1994413d002f426946bb0cca22f5f0771c"
   integrity sha512-gEYiuK2UuL2A+gvIPCZGlx0VhhHyJ3CS19grTEmjbX66WQFU449P8kFBxD3eNXjU9H2HlvlA+jCMe6yHp64NPw==
@@ -11719,11 +11719,6 @@ rc@^1.2.7, rc@^1.2.8:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-adsense@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/react-adsense/-/react-adsense-0.1.0.tgz#f170007a9ab05ee2cd1c915cdc9788624658e3c1"
-  integrity sha512-VzGMH9qA7bBKAveK1joFWphhB7e2Y1ToSGzUa8b7eit3+VSkg/2MSvKxe5d/r4mcmkOHu6CHNJW0nn6RQC3IZA==
-
 react-dev-utils@^11.0.3:
   version "11.0.4"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-11.0.4.tgz#a7ccb60257a1ca2e0efe7a83e38e6700d17aa37a"
@@ -12078,7 +12073,7 @@ regjsparser@^0.6.4:
   dependencies:
     jsesc "~0.5.0"
 
-rehype-react@^6.2.0:
+rehype-react@6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/rehype-react/-/rehype-react-6.2.0.tgz#705a5b3055548848ff8a7778c978fd368b0d4425"
   integrity sha512-XpR3p8ejdJ5CSEKqAfASIrkD+KaHLy0JOqXu9zM32tvkr1cUeM7AeidF6Q8eQ/wtMvcJb+h/L4QRwg1eFwBggQ==
