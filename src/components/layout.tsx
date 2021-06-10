@@ -45,6 +45,11 @@ const Layout: React.FC<LayoutProps> = ({ ...props }) => {
         <main>{props.children}</main>
       </div>
 
+      <div className="flex flex-col text-center">
+        <h1>Adv</h1>
+        <HorizontalBarAd />
+      </div>
+
       <div className="mx-auto my-3 border-t">
         <footer>
           <div className="flex flex-col p-5">
