@@ -107,7 +107,7 @@ const BlogIndex: React.FC<
                 </div>
               </div>
             </article>
-            {idx == 3 ? (
+            {idx == 2 ? (
               <div className="max-w-6xl mx-auto">
                 <GoogleAdsense type="infeed" slot="2200052429" />
               </div>
