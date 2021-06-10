@@ -1,4 +1,6 @@
 import * as React from "react";
+import rehypeReact from "rehype-react";
+import unified from "unified";
 import { Link, graphql, PageProps } from "gatsby";
 import {
   TwitterIcon,
@@ -21,8 +23,7 @@ import {
   faChevronCircleRight,
 } from "@fortawesome/free-solid-svg-icons";
 
-import Layout from "../components/layout";
-import Seo from "../components/seo";
+import { Layout, Seo, GoogleAdsense_InArticle } from "../components";
 
 const BlogPostTemplate: React.FC<
   PageProps<GatsbyTypes.BlogPostBySlugQuery>
@@ -33,6 +34,13 @@ const BlogPostTemplate: React.FC<
   const articleURL = siteURL + "articles/" + title;
   const shareIconSize = 38;
   const { previous, next } = data;
+
+  const renderAst = unified().use(rehypeReact, {
+    createElement: React.createElement,
+    components: {
+      adsense: () => <GoogleAdsense_InArticle />,
+    },
+  });
 
   return (
     <Layout location={location}>
@@ -74,10 +82,7 @@ const BlogPostTemplate: React.FC<
           </div>
 
           <div className="text-sm sm:text-base">
-            <section
-              dangerouslySetInnerHTML={{ __html: post!.html! }}
-              itemProp="articleBody"
-            />
+            <div>{renderAst.stringify(post!.htmlAst!)}</div>
 
             <div className="flex flex-row justify-center mt-2">
               <div className="m-2">
@@ -154,7 +159,7 @@ export const pageQuery = graphql`
     markdownRemark(id: { eq: $id }) {
       id
       excerpt(pruneLength: 160)
-      html
+      htmlAst
       frontmatter {
         date(formatString: "YYYY年MM月DD日")
         title
