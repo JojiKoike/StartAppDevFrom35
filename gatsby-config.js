@@ -54,10 +54,12 @@ module.exports = {
     `gatsby-plugin-sharp`,
     `gatsby-plugin-sass`,
     {
-      resolve: `gatsby-plugin-google-analytics`,
+      resolve: `gatsby-plugin-google-gtag`,
       options: {
-        trackingId: process.env.GA_TRACKING_ID || `UA-116651406-1`,
-        head: true
+        trackingIds: [process.env.GA_TRACKING_ID || `UA-116651406-1`],
+        pluginConfig: {
+          head: true
+        }
       },
     },
     `gatsby-plugin-sitemap`,

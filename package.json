@@ -17,7 +17,7 @@
     "@material-ui/lab": "4.0.0-alpha.58",
     "gatsby": "3.6.2",
     "gatsby-plugin-feed": "3.6.0",
-    "gatsby-plugin-google-analytics": "3.6.0",
+    "gatsby-plugin-google-gtag": "3.7.0",
     "gatsby-plugin-image": "1.6.0",
     "gatsby-plugin-manifest": "3.6.0",
     "gatsby-plugin-offline": "4.6.0",
