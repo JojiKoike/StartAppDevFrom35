@@ -2,7 +2,7 @@ import * as React from "react";
 import { graphql, useStaticQuery, Link } from "gatsby";
 import { Button } from "@material-ui/core";
 import { WindowLocation } from "@reach/router";
-import HorizontalBarAd from "./googleAdsense";
+import GoogleAdsense from "./googleAdsense";
 interface LayoutProps {
   location: WindowLocation<unknown>;
 }
@@ -37,7 +37,7 @@ const Layout: React.FC<LayoutProps> = ({ ...props }) => {
       </div>
 
       <div className="container text-center my-8">
-        <HorizontalBarAd />
+        <GoogleAdsense type="display" slot="1367382719" />
       </div>
 
       <div className="container mx-auto px-5 my-2">
@@ -45,7 +45,7 @@ const Layout: React.FC<LayoutProps> = ({ ...props }) => {
       </div>
 
       <div className="container text-center my-8">
-        <HorizontalBarAd />
+        <GoogleAdsense type="display" slot="1367382719" />
       </div>
 
       <div className="mx-auto my-3 border-t">

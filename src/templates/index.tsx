@@ -8,7 +8,7 @@ import {
   faTags,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { Layout, Pagination, Seo } from "../components";
+import { Layout, Pagination, Seo, GoogleAdsense } from "../components";
 import { ArticleListContext } from "../gatsby-node";
 
 type ContextProps = {
@@ -35,69 +35,82 @@ const BlogIndex: React.FC<
     <Layout location={location}>
       <Seo title="StartAppDevFrom35:TopPage" type="website" />
       <h1 className="text-center text-lg sm:text-3xl">Articles</h1>
-      {posts.map(post => {
+      {posts.map((post, idx) => {
         const title = post.frontmatter!.title || post.fields!.slug;
 
         return (
-          <article itemScope itemType="http://schema.org/Article" key={post.id}>
-            <div className="p-6 max-w-6xl mx-auto bg-white hover:bg-gray-200 rounded-xl shadow-xl space-x-4 my-2">
-              <div className="flex flex-col sm:flex-row place-items-center sm:place-items-start">
-                <div className="mx-0 my-2 sm:mx-2 sm:my-0 self-center">
-                  <GatsbyImage
-                    image={
-                      post.frontmatter?.thumbnail?.childImageSharp
-                        ?.gatsbyImageData!
-                    }
-                    alt={post.frontmatter!.title!}
-                  />
-                </div>
-
-                <div className="flex flex-col mx-0 sm:mx-2">
-                  <header>
-                    <Link to={`/articles${post.fields!.slug!}`} itemProp="url">
-                      <h1 className="text-xl lg:text-3xl">
-                        <span itemProp="headline">{title}</span>
-                      </h1>
-                    </Link>
-
-                    <h2 className="text-xs lg:text-sm">
-                      <FontAwesomeIcon icon={faCalendarDay} />：
-                      {post.frontmatter!.date}
-                    </h2>
-                    <h2 className="text-xs lg:text-sm">
-                      <FontAwesomeIcon icon={faFolderOpen} />：
-                      <Link to={`/category/${post.frontmatter!.category}`}>
-                        <span className="hover:text-gray-500">
-                          {post.frontmatter!.category}
-                        </span>
-                      </Link>
-                    </h2>
-                    <h2 className="text-xs lg:text-sm">
-                      <FontAwesomeIcon icon={faTags} /> :
-                      {post.frontmatter?.tags?.map(tag => {
-                        return (
-                          <Link to={`/tag/${tag}`}>
-                            <span className="ml-1 hover:text-gray-500">
-                              {tag}
-                            </span>
-                          </Link>
-                        );
-                      })}
-                    </h2>
-                  </header>
-                  <section>
-                    <p
-                      className="text-xs lg:text-base"
-                      dangerouslySetInnerHTML={{
-                        __html: post.frontmatter!.description || post.excerpt!,
-                      }}
-                      itemProp="description"
+          <>
+            <article
+              itemScope
+              itemType="http://schema.org/Article"
+              key={post.id}
+            >
+              <div className="p-6 max-w-6xl mx-auto bg-white hover:bg-gray-200 rounded-xl shadow-xl space-x-4 my-2">
+                <div className="flex flex-col sm:flex-row place-items-center sm:place-items-start">
+                  <div className="mx-0 my-2 sm:mx-2 sm:my-0 self-center">
+                    <GatsbyImage
+                      image={
+                        post.frontmatter?.thumbnail?.childImageSharp
+                          ?.gatsbyImageData!
+                      }
+                      alt={post.frontmatter!.title!}
                     />
-                  </section>
+                  </div>
+
+                  <div className="flex flex-col mx-0 sm:mx-2">
+                    <header>
+                      <Link
+                        to={`/articles${post.fields!.slug!}`}
+                        itemProp="url"
+                      >
+                        <h1 className="text-xl lg:text-3xl">
+                          <span itemProp="headline">{title}</span>
+                        </h1>
+                      </Link>
+
+                      <h2 className="text-xs lg:text-sm">
+                        <FontAwesomeIcon icon={faCalendarDay} />：
+                        {post.frontmatter!.date}
+                      </h2>
+                      <h2 className="text-xs lg:text-sm">
+                        <FontAwesomeIcon icon={faFolderOpen} />：
+                        <Link to={`/category/${post.frontmatter!.category}`}>
+                          <span className="hover:text-gray-500">
+                            {post.frontmatter!.category}
+                          </span>
+                        </Link>
+                      </h2>
+                      <h2 className="text-xs lg:text-sm">
+                        <FontAwesomeIcon icon={faTags} /> :
+                        {post.frontmatter?.tags?.map(tag => {
+                          return (
+                            <Link to={`/tag/${tag}`}>
+                              <span className="ml-1 hover:text-gray-500">
+                                {tag}
+                              </span>
+                            </Link>
+                          );
+                        })}
+                      </h2>
+                    </header>
+                    <section>
+                      <p
+                        className="text-xs lg:text-base"
+                        dangerouslySetInnerHTML={{
+                          __html:
+                            post.frontmatter!.description || post.excerpt!,
+                        }}
+                        itemProp="description"
+                      />
+                    </section>
+                  </div>
                 </div>
               </div>
-            </div>
-          </article>
+            </article>
+            {idx % 3 == 0 ? (
+              <GoogleAdsense type="infeed" slot="2200052429" />
+            ) : null}
+          </>
         );
       })}
       <div className="mt-5">
