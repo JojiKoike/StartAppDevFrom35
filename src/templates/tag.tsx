@@ -8,7 +8,7 @@ import {
   faTags,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { Layout, Seo, Pagination } from "../components";
+import { Layout, Seo, Pagination, GoogleAdsense } from "../components";
 import { ArticleListContext } from "../gatsby-node/index";
 
 type ContextProps = {
@@ -24,12 +24,11 @@ const BlogPosts: React.FC<
   if (posts.length === 0) {
     return (
       <Layout location={location}>
-        <Seo title={tag} type="website" />
-        <p>
-          No blog posts found. Add markdown posts to "content/blog" (or the
-          directory you specified for the "gatsby-source-filesystem" plugin in
-          gatsby-config.js).
-        </p>
+        <div className="flex flex-row mx-auto">
+          <h1 className="text-red-500 text-2xl text-center">
+            記事がありません
+          </h1>
+        </div>
       </Layout>
     );
   }
@@ -41,16 +40,12 @@ const BlogPosts: React.FC<
         type="website"
         path={`tag/${tag}`}
       />
-      <h1 className="text-center text-lg sm:text-3xl">タグ : {tag}</h1>
-      {posts.map(post => {
+      <h1 className="text-center text-lg sm:text-3xl">Tag : {tag}</h1>
+      {posts.map((post, idx) => {
         const title = post.frontmatter!.title || post.fields!.slug;
 
         return (
-          <Link
-            to={`/articles${post.fields!.slug!}`}
-            itemProp="url"
-            key={post.id}
-          >
+          <>
             <article itemScope itemType="http://schema.org/Article">
               <div className="p-6 max-w-6xl mx-auto bg-white hover:bg-gray-200 rounded-xl shadow-md space-x-4 my-2">
                 <div className="flex flex-col sm:flex-row place-items-center sm:place-items-start">
@@ -66,9 +61,15 @@ const BlogPosts: React.FC<
 
                   <div className="flex flex-col mx-0 sm:mx-2">
                     <header>
-                      <h1 className="text-xl lg:text-3xl">
-                        <span itemProp="headline">{title}</span>
-                      </h1>
+                      <Link
+                        to={`/articles${post.fields!.slug!}`}
+                        itemProp="url"
+                        key={post.id}
+                      >
+                        <h1 className="text-xl lg:text-3xl">
+                          <span itemProp="headline">{title}</span>
+                        </h1>
+                      </Link>
                       <h2 className="text-xs lg:text-sm">
                         <FontAwesomeIcon icon={faCalendarDay} />：
                         {post.frontmatter!.date}
@@ -104,11 +105,16 @@ const BlogPosts: React.FC<
                         itemProp="description"
                       />
                     </section>
+                    {idx == 2 ? (
+                      <div className="max-w-6xl mx-auto">
+                        <GoogleAdsense type="infeed" slot="2200052429" />
+                      </div>
+                    ) : null}
                   </div>
                 </div>
               </div>
             </article>
-          </Link>
+          </>
         );
       })}
       <Pagination pageContext={props.pageContext} />
