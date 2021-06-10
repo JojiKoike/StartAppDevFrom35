@@ -64,6 +64,13 @@ module.exports = {
     },
     `gatsby-plugin-sitemap`,
     {
+      resolve: `@isamrish/gatsby-plugin-google-adsense`,
+      options: {
+        googleAdClientId: 'ca-pub-3835939635569436',
+        head: false
+      }
+    },
+    {
       resolve: `gatsby-plugin-feed`,
       options: {
         query: `
