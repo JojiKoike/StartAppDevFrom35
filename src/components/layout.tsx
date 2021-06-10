@@ -37,7 +37,6 @@ const Layout: React.FC<LayoutProps> = ({ ...props }) => {
       </div>
 
       <div className="flex flex-col text-center">
-        <h1>Adv</h1>
         <HorizontalBarAd />
       </div>
 
@@ -46,7 +45,6 @@ const Layout: React.FC<LayoutProps> = ({ ...props }) => {
       </div>
 
       <div className="flex flex-col text-center">
-        <h1>Adv</h1>
         <HorizontalBarAd />
       </div>
 
