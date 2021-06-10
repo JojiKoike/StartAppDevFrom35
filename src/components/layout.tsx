@@ -36,7 +36,7 @@ const Layout: React.FC<LayoutProps> = ({ ...props }) => {
         </header>
       </div>
 
-      <div className="flex flex-col my-5 max-h-32 md:max-h-40">
+      <div className="flex flex-col mx-3 my-5 text-center max-h-5 md:max-h-10">
         <HorizontalBarAd />
       </div>
 
