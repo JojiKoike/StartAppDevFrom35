@@ -1,16 +1,28 @@
 import React from "react";
-import Adsense from "react-adsense";
 
-const HorizontalBarAd: React.FC = () => (
-  <ins className="adsbygoogle">
-    <Adsense.Google
+const HorizontalBarAd: React.FC = () => {
+  React.useEffect(() => {
+    if (process.env.NODE_ENV !== "development") {
+      if (window) {
+        try {
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
+        } catch (error) {
+          console.log(error, "adsenese error");
+        }
+      }
+    }
+  }, []);
+
+  return (
+    <ins
+      className="adsbygoogle"
       style={{ display: "block" }}
-      client="ca-pub-3835939635569436"
-      slot="1367382719"
-      format="auto"
-      responsive="true"
-    />
-  </ins>
-);
+      data-ad-client="ca-pub-3835939635569436"
+      data-ad-slot="1367382719"
+      data-ad-format="auto"
+      data-full-width-responsive="true"
+    ></ins>
+  );
+};
 
 export default HorizontalBarAd;
