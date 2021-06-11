@@ -8,7 +8,7 @@ import {
   faTags,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { Layout, Seo, Pagination, GoogleAdsense } from "../components";
+import { Layout, Seo, Pagination, GoogleAdsense_Infeed } from "../components";
 import { ArticleListContext } from "../gatsby-node/index";
 
 type ContextProps = {
@@ -115,7 +115,7 @@ const BlogPosts: React.FC<
             </article>
             {idx == 2 ? (
               <div className="max-w-6xl mx-auto">
-                <GoogleAdsense type="infeed" slot="2200052429" />
+                <GoogleAdsense_Infeed />
               </div>
             ) : null}
           </>
