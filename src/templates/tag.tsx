@@ -105,15 +105,16 @@ const BlogPosts: React.FC<
                         itemProp="description"
                       />
                     </section>
-                    {idx == 2 ? (
-                      <div className="max-w-6xl mx-auto">
-                        <GoogleAdsense_Infeed />
-                      </div>
-                    ) : null}
                   </div>
                 </div>
               </div>
             </article>
+            {(posts.length == 5 && idx % 2 == 1) ||
+            (posts.length > 2 && posts.length < 5 && idx == 1) ? (
+              <div className="max-w-6xl mx-auto my-3">
+                <GoogleAdsense_Infeed />
+              </div>
+            ) : null}
           </>
         );
       })}
