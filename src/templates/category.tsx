@@ -113,8 +113,8 @@ const BlogPosts: React.FC<
                 </div>
               </div>
             </article>
-            {(posts.length == 5 && idx % 2 == 1) ||
-            (posts.length > 2 && posts.length < 5 && idx == 1) ? (
+            {(posts.length == 6 && (idx == 1 || idx == 3)) ||
+            (posts.length > 2 && posts.length < 6 && idx == 1) ? (
               <div className="max-w-6xl mx-auto my-3">
                 <GoogleAdsense_Infeed />
               </div>
