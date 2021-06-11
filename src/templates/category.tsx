@@ -13,7 +13,7 @@ type ContextProps = {
   pageContext: ArticleListContext;
 };
 
-const BlogPosts: React.FC<
+const BlogPostsByCategory: React.FC<
   PageProps<GatsbyTypes.BlogIndexQuery> & ContextProps
 > = ({ data, location, ...props }) => {
   const posts = data.allMarkdownRemark.nodes;
@@ -51,7 +51,7 @@ const BlogPosts: React.FC<
   );
 };
 
-export default BlogPosts;
+export default BlogPostsByCategory;
 
 export const pageQuery = graphql`
   query BlogPostsByCategory($skip: Int!, $limit: Int!, $category: String!) {
