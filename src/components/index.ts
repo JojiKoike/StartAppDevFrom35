@@ -7,3 +7,4 @@ export {
   GoogleAdsense_InArticle,
   GoogleAdsense_Infeed,
 } from "./googleAdsense";
+export { default as Highlight } from "./highlight";

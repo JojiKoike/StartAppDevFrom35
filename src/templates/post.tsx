@@ -24,7 +24,7 @@ import {
   faChevronCircleRight,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { Layout, Seo, GoogleAdsense_InArticle } from "../components";
+import { Layout, Seo, GoogleAdsense_InArticle, Highlight } from "../components";
 
 const BlogPostTemplate: React.FC<
   PageProps<GatsbyTypes.BlogPostBySlugQuery>
@@ -40,6 +40,7 @@ const BlogPostTemplate: React.FC<
     createElement,
     components: {
       adsense: GoogleAdsense_InArticle,
+      highlight: Highlight,
     },
   });
 
