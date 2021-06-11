@@ -1,4 +1,5 @@
 import * as React from "react";
+import { createElement } from "react";
 import rehypeReact from "rehype-react";
 import unified from "unified";
 import { Link, graphql, PageProps } from "gatsby";
@@ -36,9 +37,9 @@ const BlogPostTemplate: React.FC<
   const { previous, next } = data;
 
   const renderAst = unified().use(rehypeReact, {
-    createElement: React.createElement,
+    createElement,
     components: {
-      adsense: () => <GoogleAdsense_InArticle />,
+      adsense: GoogleAdsense_InArticle,
     },
   });
 
