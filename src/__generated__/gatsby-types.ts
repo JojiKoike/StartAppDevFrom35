@@ -263,6 +263,8 @@ type Site = Node & {
   readonly siteMetadata: Maybe<SiteSiteMetadata>;
   readonly port: Maybe<Scalars['Int']>;
   readonly host: Maybe<Scalars['String']>;
+  readonly polyfill: Maybe<Scalars['Boolean']>;
+  readonly pathPrefix: Maybe<Scalars['String']>;
   readonly id: Scalars['ID'];
   readonly parent: Maybe<Node>;
   readonly children: ReadonlyArray<Node>;
@@ -661,10 +663,10 @@ type Frontmatter = {
   readonly title: Maybe<Scalars['String']>;
   readonly description: Maybe<Scalars['String']>;
   readonly date: Maybe<Scalars['Date']>;
-  readonly thumbnail: Maybe<File>;
-  readonly hero: Maybe<File>;
   readonly category: Maybe<Scalars['String']>;
   readonly tags: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
+  readonly thumbnail: Maybe<File>;
+  readonly hero: Maybe<File>;
 };
 
 
@@ -800,6 +802,8 @@ type SitePluginPluginOptionsPluginConfig = {
 
 type SitePluginPluginOptionsEnv = {
   readonly production: Maybe<SitePluginPluginOptionsEnvProduction>;
+  readonly branch_deploy: Maybe<SitePluginPluginOptionsEnvBranch_deploy>;
+  readonly deploy_preview: Maybe<SitePluginPluginOptionsEnvDeploy_preview>;
 };
 
 type SitePluginPluginOptionsEnvProduction = {
@@ -807,6 +811,24 @@ type SitePluginPluginOptionsEnvProduction = {
 };
 
 type SitePluginPluginOptionsEnvProductionPolicy = {
+  readonly userAgent: Maybe<Scalars['String']>;
+  readonly disallow: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
+};
+
+type SitePluginPluginOptionsEnvBranch_deploy = {
+  readonly policy: Maybe<ReadonlyArray<Maybe<SitePluginPluginOptionsEnvBranch_deployPolicy>>>;
+};
+
+type SitePluginPluginOptionsEnvBranch_deployPolicy = {
+  readonly userAgent: Maybe<Scalars['String']>;
+  readonly disallow: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
+};
+
+type SitePluginPluginOptionsEnvDeploy_preview = {
+  readonly policy: Maybe<ReadonlyArray<Maybe<SitePluginPluginOptionsEnvDeploy_previewPolicy>>>;
+};
+
+type SitePluginPluginOptionsEnvDeploy_previewPolicy = {
   readonly userAgent: Maybe<Scalars['String']>;
   readonly disallow: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
 };
@@ -1078,6 +1100,8 @@ type Query_siteArgs = {
   siteMetadata: Maybe<SiteSiteMetadataFilterInput>;
   port: Maybe<IntQueryOperatorInput>;
   host: Maybe<StringQueryOperatorInput>;
+  polyfill: Maybe<BooleanQueryOperatorInput>;
+  pathPrefix: Maybe<StringQueryOperatorInput>;
   id: Maybe<StringQueryOperatorInput>;
   parent: Maybe<NodeFilterInput>;
   children: Maybe<NodeFilterListInput>;
@@ -1348,10 +1372,10 @@ type FrontmatterFilterInput = {
   readonly title: Maybe<StringQueryOperatorInput>;
   readonly description: Maybe<StringQueryOperatorInput>;
   readonly date: Maybe<DateQueryOperatorInput>;
-  readonly thumbnail: Maybe<FileFilterInput>;
-  readonly hero: Maybe<FileFilterInput>;
   readonly category: Maybe<StringQueryOperatorInput>;
   readonly tags: Maybe<StringQueryOperatorInput>;
+  readonly thumbnail: Maybe<FileFilterInput>;
+  readonly hero: Maybe<FileFilterInput>;
 };
 
 type FileFilterInput = {
@@ -1611,6 +1635,8 @@ type FileFieldsEnum =
   | 'childrenMarkdownRemark.frontmatter.title'
   | 'childrenMarkdownRemark.frontmatter.description'
   | 'childrenMarkdownRemark.frontmatter.date'
+  | 'childrenMarkdownRemark.frontmatter.category'
+  | 'childrenMarkdownRemark.frontmatter.tags'
   | 'childrenMarkdownRemark.frontmatter.thumbnail.sourceInstanceName'
   | 'childrenMarkdownRemark.frontmatter.thumbnail.absolutePath'
   | 'childrenMarkdownRemark.frontmatter.thumbnail.relativePath'
@@ -1687,8 +1713,6 @@ type FileFieldsEnum =
   | 'childrenMarkdownRemark.frontmatter.hero.childrenImageSharp'
   | 'childrenMarkdownRemark.frontmatter.hero.id'
   | 'childrenMarkdownRemark.frontmatter.hero.children'
-  | 'childrenMarkdownRemark.frontmatter.category'
-  | 'childrenMarkdownRemark.frontmatter.tags'
   | 'childrenMarkdownRemark.fields.slug'
   | 'childrenMarkdownRemark.excerpt'
   | 'childrenMarkdownRemark.rawMarkdownBody'
@@ -1746,6 +1770,8 @@ type FileFieldsEnum =
   | 'childMarkdownRemark.frontmatter.title'
   | 'childMarkdownRemark.frontmatter.description'
   | 'childMarkdownRemark.frontmatter.date'
+  | 'childMarkdownRemark.frontmatter.category'
+  | 'childMarkdownRemark.frontmatter.tags'
   | 'childMarkdownRemark.frontmatter.thumbnail.sourceInstanceName'
   | 'childMarkdownRemark.frontmatter.thumbnail.absolutePath'
   | 'childMarkdownRemark.frontmatter.thumbnail.relativePath'
@@ -1822,8 +1848,6 @@ type FileFieldsEnum =
   | 'childMarkdownRemark.frontmatter.hero.childrenImageSharp'
   | 'childMarkdownRemark.frontmatter.hero.id'
   | 'childMarkdownRemark.frontmatter.hero.children'
-  | 'childMarkdownRemark.frontmatter.category'
-  | 'childMarkdownRemark.frontmatter.tags'
   | 'childMarkdownRemark.fields.slug'
   | 'childMarkdownRemark.excerpt'
   | 'childMarkdownRemark.rawMarkdownBody'
@@ -2417,6 +2441,8 @@ type SiteFieldsEnum =
   | 'siteMetadata.social.facebook'
   | 'port'
   | 'host'
+  | 'polyfill'
+  | 'pathPrefix'
   | 'id'
   | 'parent.id'
   | 'parent.parent.id'
@@ -2518,6 +2544,8 @@ type SiteFilterInput = {
   readonly siteMetadata: Maybe<SiteSiteMetadataFilterInput>;
   readonly port: Maybe<IntQueryOperatorInput>;
   readonly host: Maybe<StringQueryOperatorInput>;
+  readonly polyfill: Maybe<BooleanQueryOperatorInput>;
+  readonly pathPrefix: Maybe<StringQueryOperatorInput>;
   readonly id: Maybe<StringQueryOperatorInput>;
   readonly parent: Maybe<NodeFilterInput>;
   readonly children: Maybe<NodeFilterListInput>;
@@ -2806,6 +2834,8 @@ type SitePluginPluginOptionsPluginConfigFilterInput = {
 
 type SitePluginPluginOptionsEnvFilterInput = {
   readonly production: Maybe<SitePluginPluginOptionsEnvProductionFilterInput>;
+  readonly branch_deploy: Maybe<SitePluginPluginOptionsEnvBranch_deployFilterInput>;
+  readonly deploy_preview: Maybe<SitePluginPluginOptionsEnvDeploy_previewFilterInput>;
 };
 
 type SitePluginPluginOptionsEnvProductionFilterInput = {
@@ -2817,6 +2847,32 @@ type SitePluginPluginOptionsEnvProductionPolicyFilterListInput = {
 };
 
 type SitePluginPluginOptionsEnvProductionPolicyFilterInput = {
+  readonly userAgent: Maybe<StringQueryOperatorInput>;
+  readonly disallow: Maybe<StringQueryOperatorInput>;
+};
+
+type SitePluginPluginOptionsEnvBranch_deployFilterInput = {
+  readonly policy: Maybe<SitePluginPluginOptionsEnvBranch_deployPolicyFilterListInput>;
+};
+
+type SitePluginPluginOptionsEnvBranch_deployPolicyFilterListInput = {
+  readonly elemMatch: Maybe<SitePluginPluginOptionsEnvBranch_deployPolicyFilterInput>;
+};
+
+type SitePluginPluginOptionsEnvBranch_deployPolicyFilterInput = {
+  readonly userAgent: Maybe<StringQueryOperatorInput>;
+  readonly disallow: Maybe<StringQueryOperatorInput>;
+};
+
+type SitePluginPluginOptionsEnvDeploy_previewFilterInput = {
+  readonly policy: Maybe<SitePluginPluginOptionsEnvDeploy_previewPolicyFilterListInput>;
+};
+
+type SitePluginPluginOptionsEnvDeploy_previewPolicyFilterListInput = {
+  readonly elemMatch: Maybe<SitePluginPluginOptionsEnvDeploy_previewPolicyFilterInput>;
+};
+
+type SitePluginPluginOptionsEnvDeploy_previewPolicyFilterInput = {
   readonly userAgent: Maybe<StringQueryOperatorInput>;
   readonly disallow: Maybe<StringQueryOperatorInput>;
 };
@@ -3228,6 +3284,8 @@ type MarkdownRemarkFieldsEnum =
   | 'frontmatter.title'
   | 'frontmatter.description'
   | 'frontmatter.date'
+  | 'frontmatter.category'
+  | 'frontmatter.tags'
   | 'frontmatter.thumbnail.sourceInstanceName'
   | 'frontmatter.thumbnail.absolutePath'
   | 'frontmatter.thumbnail.relativePath'
@@ -3384,8 +3442,6 @@ type MarkdownRemarkFieldsEnum =
   | 'frontmatter.hero.internal.mediaType'
   | 'frontmatter.hero.internal.owner'
   | 'frontmatter.hero.internal.type'
-  | 'frontmatter.category'
-  | 'frontmatter.tags'
   | 'fields.slug'
   | 'excerpt'
   | 'rawMarkdownBody'
@@ -4028,6 +4084,8 @@ type SitePluginFieldsEnum =
   | 'pluginOptions.head'
   | 'pluginOptions.siteUrl'
   | 'pluginOptions.env.production.policy'
+  | 'pluginOptions.env.branch_deploy.policy'
+  | 'pluginOptions.env.deploy_preview.policy'
   | 'pluginOptions.feeds'
   | 'pluginOptions.feeds.query'
   | 'pluginOptions.feeds.output'
@@ -4304,11 +4362,6 @@ type SiteMetaDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 type SiteMetaDataQuery = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title' | 'description'>> }> };
 
-type NotFoundQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type NotFoundQuery = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title'>> }> };
-
 type usersjojikoikeWorkSpaceproductsStartAppDevFrom35SrccomponentsseoTsx1814311401QueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -4322,10 +4375,10 @@ type usersjojikoikeWorkSpaceproductsStartAppDevFrom35SrcpagesaboutTsx2907560070Q
 
 type usersjojikoikeWorkSpaceproductsStartAppDevFrom35SrcpagesaboutTsx2907560070Query = { readonly site: Maybe<Pick<Site, 'buildTime'>> };
 
-type usersjojikoikeWorkSpaceproductsStartAppDevFrom35SrcpagesprivacypolicyTsx2907560070QueryVariables = Exact<{ [key: string]: never; }>;
+type NotFoundQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type usersjojikoikeWorkSpaceproductsStartAppDevFrom35SrcpagesprivacypolicyTsx2907560070Query = { readonly site: Maybe<Pick<Site, 'buildTime'>> };
+type NotFoundQuery = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title'>> }> };
 
 type BlogPostsByCategoryQueryVariables = Exact<{
   skip: Scalars['Int'];
@@ -4342,6 +4395,11 @@ type BlogPostsByCategoryQuery = { readonly allMarkdownRemark: { readonly nodes: 
       )> }
     )> } };
 
+type usersjojikoikeWorkSpaceproductsStartAppDevFrom35SrcpagesprivacypolicyTsx2907560070QueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type usersjojikoikeWorkSpaceproductsStartAppDevFrom35SrcpagesprivacypolicyTsx2907560070Query = { readonly site: Maybe<Pick<Site, 'buildTime'>> };
+
 type BlogIndexQueryVariables = Exact<{
   skip: Scalars['Int'];
   limit: Scalars['Int'];
@@ -4355,18 +4413,6 @@ type BlogIndexQuery = { readonly allMarkdownRemark: { readonly nodes: ReadonlyAr
         & { readonly thumbnail: Maybe<{ readonly childImageSharp: Maybe<Pick<ImageSharp, 'gatsbyImageData'>> }> }
       )> }
     )> } };
-
-type BlogPostBySlugQueryVariables = Exact<{
-  id: Scalars['String'];
-  previousPostId: Maybe<Scalars['String']>;
-  nextPostId: Maybe<Scalars['String']>;
-}>;
-
-
-type BlogPostBySlugQuery = { readonly markdownRemark: Maybe<(
-    Pick<MarkdownRemark, 'id' | 'excerpt' | 'htmlAst'>
-    & { readonly frontmatter: Maybe<Pick<Frontmatter, 'date' | 'title' | 'category' | 'tags' | 'description'>> }
-  )>, readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'siteUrl'>> }>, readonly previous: Maybe<{ readonly fields: Maybe<Pick<Fields, 'slug'>>, readonly frontmatter: Maybe<Pick<Frontmatter, 'title'>> }>, readonly next: Maybe<{ readonly fields: Maybe<Pick<Fields, 'slug'>>, readonly frontmatter: Maybe<Pick<Frontmatter, 'title'>> }> };
 
 type BlogPostsByTagQueryVariables = Exact<{
   skip: Scalars['Int'];
@@ -4408,6 +4454,18 @@ type GatsbyImageSharpFluid_withWebp_tracedSVGFragment = Pick<ImageSharpFluid, 't
 type GatsbyImageSharpFluid_noBase64Fragment = Pick<ImageSharpFluid, 'aspectRatio' | 'src' | 'srcSet' | 'sizes'>;
 
 type GatsbyImageSharpFluid_withWebp_noBase64Fragment = Pick<ImageSharpFluid, 'aspectRatio' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp' | 'sizes'>;
+
+type BlogPostBySlugQueryVariables = Exact<{
+  id: Scalars['String'];
+  previousPostId: Maybe<Scalars['String']>;
+  nextPostId: Maybe<Scalars['String']>;
+}>;
+
+
+type BlogPostBySlugQuery = { readonly markdownRemark: Maybe<(
+    Pick<MarkdownRemark, 'id' | 'excerpt' | 'htmlAst'>
+    & { readonly frontmatter: Maybe<Pick<Frontmatter, 'date' | 'title' | 'category' | 'tags' | 'description'>> }
+  )>, readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'siteUrl'>> }>, readonly previous: Maybe<{ readonly fields: Maybe<Pick<Fields, 'slug'>>, readonly frontmatter: Maybe<Pick<Frontmatter, 'title'>> }>, readonly next: Maybe<{ readonly fields: Maybe<Pick<Fields, 'slug'>>, readonly frontmatter: Maybe<Pick<Frontmatter, 'title'>> }> };
 
 type PagesQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
