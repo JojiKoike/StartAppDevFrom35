@@ -1,6 +1,7 @@
 import * as React from "react";
 import { createElement } from "react";
 import rehypeReact from "rehype-react";
+import { GatsbyImage } from "gatsby-plugin-image";
 import unified from "unified";
 import { Link, graphql, PageProps } from "gatsby";
 import {
@@ -110,6 +111,13 @@ const BlogPostTemplate: React.FC<
             </header>
           </div>
 
+          <div className="text-center my-3">
+            <GatsbyImage
+              image={post?.frontmatter?.hero?.childImageSharp?.gatsbyImageData!}
+              alt={post?.frontmatter!.title!}
+            />
+          </div>
+
           <div className="text-sm sm:text-base">
             <div>{renderAst.stringify(post!.htmlAst!)}</div>
 
@@ -194,6 +202,11 @@ export const pageQuery = graphql`
         title
         category
         tags
+        hero {
+          childImageSharp {
+            gatsbyImageData(width: 900, height: 300, quality: 100)
+          }
+        }
         description
       }
     }
