@@ -54,7 +54,7 @@ const ArticleListItem: React.FC<ArticleListItemProps> = ({ ...props }) => {
             <div className="flex flex-col mx-0 sm:mx-2">
               <header>
                 <Link to={`${post.fields!.slug!}`} itemProp="url" key={post.id}>
-                  <h1 className="text-xl lg:text-3xl">
+                  <h1 className="text-lg lg:text-2xl">
                     <span itemProp="headline">{title}</span>
                   </h1>
                 </Link>

@@ -15,7 +15,7 @@ import {
  */
 export const H1: React.FC = ({ ...props }) => {
   return (
-    <h1 className="text-2xl sm:text-3xl font-bold">
+    <h1 className="text-2xl sm:text-3xl font-bold mt-3">
       <FontAwesomeIcon className="mr-2 text-blue-700 " icon={faCheckSquare} />
       {props.children}
     </h1>
@@ -24,7 +24,7 @@ export const H1: React.FC = ({ ...props }) => {
 
 export const H2: React.FC = ({ ...props }) => {
   return (
-    <h2 className="text-xl sm:text-2xl font-semibold">
+    <h2 className="text-lg sm:text-xl font-semibold mt-2 mb-1">
       <FontAwesomeIcon className="mr-2 text-blue-700" icon={faSquare} />
       {props.children}
     </h2>
@@ -33,7 +33,7 @@ export const H2: React.FC = ({ ...props }) => {
 
 export const H3: React.FC = ({ ...props }) => {
   return (
-    <h3 className="text-lg sm:text-xl font-semibold">
+    <h3 className="text-base sm:text-lg font-semibold mt-1 mb-1">
       <FontAwesomeIcon className="mr-2 text-blue-700" icon={faCircle} />
       {props.children}
     </h3>
@@ -42,18 +42,24 @@ export const H3: React.FC = ({ ...props }) => {
 
 export const H4: React.FC = ({ ...props }) => {
   return (
-    <h4 className="text-base sm:text-lg font-semibold">{props.children}</h4>
+    <h4 className="text-base sm:text-lg font-semibold my-1">
+      {props.children}
+    </h4>
   );
 };
 
 export const H5: React.FC = ({ ...props }) => {
   return (
-    <h5 className="text-sm sm:text-base font-semibold">{props.children}</h5>
+    <h5 className="text-sm sm:text-base font-semibold my-1">
+      {props.children}
+    </h5>
   );
 };
 
 export const H6: React.FC = ({ ...props }) => {
-  return <h6 className="text-xs sm:text-sm font-bold">{props.children}</h6>;
+  return (
+    <h6 className="text-xs sm:text-sm font-bold my-1">{props.children}</h6>
+  );
 };
 
 /*

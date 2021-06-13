@@ -1,40 +1,29 @@
 ---
 title: anyenvによる複数言語環境構築の準備
 date: 2019-01-05T12:24:18.000Z
-category : 
+category: anyenv
 description: Python, Ruby等の複数言語の環境を簡単に構築するanyenv及びプラグインのインストール手順についてご紹介いたします。
-tags: ['anyenv', 'Mac']
+tags: ["anyenv", "Mac"]
 thumbnail:
 hero:
 ---
 
-
 # 本レッスンのゴール
 
+anyenv のインストールを完了する
 
-
-anyenvのインストールを完了する
-<div class="point">anyenvとは、Python, PHP等の様々な言語の開発環境を簡単にセットアップするツールです。  現在、Python, node.js, Golang, Ruby, PHP, Scala, R等、全18言語に対応しています。 一度使うと手放せないこと請け合いなので、ぜひ使ってみてください。</div>
-
-
+<div class="point">
+anyenvとは、Python, PHP等の様々な言語の開発環境を簡単にセットアップするツールです。  現在、Python, node.js, Golang, Ruby, PHP, Scala, R等、全18言語に対応しています。 一度使うと手放せないこと請け合いなので、ぜひ使ってみてください。</div>
 
 # 想定環境
 
-
-
 以下の環境を想定しています。
-
-
 
 <ul>
 OS : MacOSX Mojave （バージョン 10.14.6）
 </ul>
 
-
-
 # 前提条件
-
-
 
 <ul>
 gitがインストールされている事。
@@ -42,7 +31,9 @@ gitがインストールされている事。
 <div class="point">Homebrewによるインストールも可能ですが、大人の事情でHomebrewが使えないケースを考慮し、今回はgitコマンドを使ったインストール方法をご説明します。</div>
 
 # 全体の流れ
+
 以下の流れで進めます。
+
 <ol>
 anyenvのクローン
 環境変数の設定
