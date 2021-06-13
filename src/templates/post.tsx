@@ -157,7 +157,7 @@ const BlogPostTemplate: React.FC<
         <nav className="flex justify-between">
           {previous && (
             <div className="bg-white hover:bg-gray-200 p-3 rounded-md shadow-md">
-              <Link to={`/articles${previous.fields!.slug!}`} rel="prev">
+              <Link to={`${previous.fields!.slug!}`} rel="prev">
                 <FontAwesomeIcon icon={faChevronCircleLeft} className="mr-2" />
                 {previous.frontmatter!.title}
               </Link>
@@ -165,7 +165,7 @@ const BlogPostTemplate: React.FC<
           )}
           {next && (
             <div className="bg-white hover:bg-gray-200 p-3 rounded-md shadow-md">
-              <Link to={`/articles${next.fields!.slug!}`} rel="next">
+              <Link to={`${next.fields!.slug!}`} rel="next">
                 {next.frontmatter!.title}{" "}
                 <FontAwesomeIcon icon={faChevronCircleRight} className="ml-2" />
               </Link>
