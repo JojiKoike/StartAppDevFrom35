@@ -7,4 +7,17 @@ export {
   GoogleAdsense_InArticle,
   GoogleAdsense_Infeed,
 } from "./googleAdsense";
-export { default as Highlight } from "./highlight";
+export {
+  H1,
+  H2,
+  H3,
+  H4,
+  H5,
+  H6,
+  P,
+  UL,
+  OL,
+  Highlight,
+  Point,
+  Attention,
+} from "./postDecorations";
