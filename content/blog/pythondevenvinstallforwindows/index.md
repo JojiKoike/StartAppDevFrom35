@@ -4,8 +4,8 @@ date: 2018-01-07T00:00:13.000Z
 category: Python
 description: Chocolateyを用いてPython開発環境をWindowsに構築する手順をご紹介いたします。
 tags: ["choco", "Python", "Windows"]
-thumbnail:
-hero:
+thumbnail: "./python-logo-e1524649366544.png"
+hero: "./python-logo-e1524649366544.png"
 ---
 
 # 本レッスンのゴール
