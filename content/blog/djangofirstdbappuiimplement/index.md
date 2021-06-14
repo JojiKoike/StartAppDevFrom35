@@ -1,107 +1,115 @@
 ---
 title: DjangoWeb アプリ開発（はじめてのWebDBアプリ：UI実装）
 date: 2018-01-02T05:50:41.000Z
-category : 
+category:
 description: ブラウザーからの入力値をDBに保存する、DBに登録されたデータをブラウザーに表示する簡単なWebアプリケーションを作成する手順をご紹介いたします。
-tags: ['View', 'テンプレート']
-thumbnail:
-hero:
+tags: ["View", "テンプレート"]
+thumbnail: "./django-logo-positive-e1523125572702.png"
+hero: "./django-logo-positive-e1523125572702.png"
 ---
 
 # 本レッスンのゴール
-<ul>
- 	DBへの新規登録、参照のUIを実装し、Webアプリの形をざっくり作る。
-</ul>
+
+- DB への新規登録、参照の UI を実装し、Web アプリの形をざっくり作る。
+
 # 前提条件
-<ul>
- 	（必須）Modelを実装し、DBにマイグレーション済みである事。
- 	（推奨）Django AdminからDBの操作が出来るようになっている事。
-</ul>
-<div class="attention">
+
+- （必須）Model を実装し、DB にマイグレーション済みである事。
+- （推奨）Django Admin から DB の操作が出来るようになっている事。
+
+<attention>
 
 それぞれの手順は、以下のリンク先をご参照ください。
-<ul>
- 	<a href="https://startappdevfrom35.com/djangofirstdbappdbbuild/">Modelの実装ならびにマイグレーション手順</a>
- 	<a href="https://startappdevfrom35.com/firstdjangoadmin/">Django AdminからのDB操作を出来るようにする手順</a>
-</ul>
-</div>
-# 全体の流れ
-以下の流れで進めます。
-<ol>
- 	テンプレートの実装
- 	Viewの実装
- 	ルーティング設定
- 	動作確認
-</ol>
-# 作業
-## 1. テンプレートの実装
-DjangoにおけるUIの生成は、テンプレートに対して値を埋め込む形で生成されます。
-ここでは、費目と金額を入力して収入を記録し、一覧を表示する画面を想定します。
-まず、以下のように、<span class="highlight">myapp/templates/myappに、index.html</span>を作成します
 
-<img class="alignnone wp-image-433 size-large" src="https://startappdevfrom35.com/wp-content/uploads/2018/05/3e7ce8449711c5fbe6b12f2ff754ed35-1024x434.png" alt="" width="747" height="317" />
+- <a href="https://startappdevfrom35.com/djangofirstdbappdbbuild/">Model の実装ならびにマイグレーション手順</a>
+- <a href="https://startappdevfrom35.com/firstdjangoadmin/">Django Admin からの DB 操作を出来るようにする手順</a>
+
+</attention>
+
+# 全体の流れ
+
+以下の流れで進めます。
+
+1.  テンプレートの実装
+2.  View の実装
+3.  ルーティング設定
+4.  動作確認
+
+<adsence></adsence>
+
+# 作業
+
+## 1. テンプレートの実装
+
+Django における UI の生成は、テンプレートに対して値を埋め込む形で生成されます。
+ここでは、費目と金額を入力して収入を記録し、一覧を表示する画面を想定します。
+まず、以下のように、<highlight>myapp/templates/myapp に、index.html</highlight>を作成します。
+
+![index](3e7ce8449711c5fbe6b12f2ff754ed35.png)
 
 これがテンプレートファイルです。このファイルに、以下のようにテンプレートを実装します。
 
-[html]
-&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;jp&quot;&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;title&gt;Title&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-
-
-
-&lt;form action=&quot;{% url 'myapp:income' %}&quot; method=&quot;post&quot;&gt;
-{% csrf_token %}
-    収入費目：
-    &lt;select name=&quot;income_category&quot;&gt;
+```html
+<!DOCTYPE html>
+<html lang="jp">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+  </head>
+  <body>
+    <form action="{% url 'myapp:income' %}" method="post">
+      {% csrf_token %} 収入費目：
+      <select name="income_category">
         {% for income_category in income_category_list %}
-&lt;option value=&quot;{{income_category.id}}&quot;&gt;
-            {{income_category.name}}
-        &lt;/option&gt;
+        <option value="{{income_category.id}}">{{income_category.name}}</option>
         {% endfor %}
-    &lt;/select&gt;
-    金額：
-    &lt;input type=&quot;number&quot; name=&quot;income_amount&quot;&gt;
-    &lt;input type=&quot;submit&quot; value=&quot;登録&quot;&gt;
-&lt;/form&gt;
+      </select>
+      金額：
+      <input type="number" name="income_amount" />
+      <input type="submit" value="登録" />
+    </form>
 
-&lt;table&gt;
-　　　　　　　　&lt;tr&gt;&lt;th&gt;年月日&lt;/th&gt;&lt;th&gt;費目&lt;/th&gt;&lt;th&gt;金額&lt;/th&gt;&lt;/tr&gt;
-    {% if income_record_list %}
-        {% for income_record in income_record_list %}                  
-　　　　　　　　　　　　　　　　　　&lt;tr&gt;       
-　　　　　　　　　　　　　　　　　　　　　　&lt;td&gt;{{income_record.ymd}}&lt;/td&gt;      
-　　　　　　　　　　　　　　　　　　　　　　&lt;td&gt;{{income_record.category}}&lt;/td&gt;      
-　　　　　　　　　　　　　　　　　　　　　&lt;td&gt;{{income_record.amount}}&lt;/td&gt;
-   　　　　　　　　　　　&lt;/tr&gt;
-        {% endfor %}
-    {% endif %}
-&lt;/table&gt;
-
-&lt;/body&gt;
-&lt;/html&gt;
-[/html]
+    <table>
+      　　　　　　　　
+      <tr>
+        <th>年月日</th>
+        <th>費目</th>
+        <th>金額</th>
+      </tr>
+      {% if income_record_list %} {% for income_record in income_record_list %}
+      　　　　　　　　　　　　　　　　　　
+      <tr>
+        　　　　　　　　　　　　　　　　　　　　　　
+        <td>{{income_record.ymd}}</td>
+        　　　　　　　　　　　　　　　　　　　　　　
+        <td>{{income_record.category}}</td>
+        　　　　　　　　　　　　　　　　　　　　　
+        <td>{{income_record.amount}}</td>
+        　　　　　　　　　　　
+      </tr>
+      {% endfor %} {% endif %}
+    </table>
+  </body>
+</html>
+```
 
 これでテンプレートは実装完了です。
-## 2. Viewの実装
-次に、1.で実装したテンプレートを使って、
-<ul>
- 	ブラウザーの入力をDBに登録する
- 	DBに登録されたデータをブラウザーに表示する
-</ul>
-処理を実装します。
-views.pyに、以下のコードを実装してください。
 
-[python]
+## 2. View の実装
+
+次に、1.で実装したテンプレートを使って、
+
+- ブラウザーの入力を DB に登録する
+- DB に登録されたデータをブラウザーに表示する
+
+処理を実装します。
+<highlight>views.py</highlight>に、以下のコードを実装してください。
+
+```python
 from django.http import HttpResponse
 from django.template import loader
 
 from .models import IncomeCategory, Income
-
 
 def index(request):
 
@@ -118,10 +126,10 @@ def index(request):
 
     # 収入記録データを取得
     income_record_list = Income.objects.all()
-    
+
     # HTMLテンプレートオブジェクトを取得
     template = loader.get_template('myapp/index.html')
-    
+
     # テンプレートの表示に使うデータ
     context = {
         'income_category_list': income_category_list,
@@ -130,41 +138,43 @@ def index(request):
 
     return HttpResponse(template.render(context, request))
 
-[/python]
+```
 
-これで、Viewの実装は完了です。
+これで、View の実装は完了です。
+
 ## 3. ルーティングの設定
-URLとViewを紐付けるため、url.pyに、以下のコードを実装します。
 
-[python]
+URL と View を紐付けるため、url.py に、以下のコードを実装します。
+
+```python
 from django.urls import path
 
 from . import views
 
 app_name = 'myapp'
 urlpatterns = [
-    path('', views.index, name='index'),
+path('', views.index, name='index'),
 ]
-[/python]
+```
 
 以上でルーティングの設定は完了です。
 
 ## 4. 動作確認
-最後に、動作確認を行います。
-manage.pyのあるディレクトリで、以下のコマンドを実行します。
 
-```
+最後に、動作確認を行います。
+manage.py のあるディレクトリで、以下のコマンドを実行します。
+
+```bash
 $ python manage.py runserver
-```"
+```
 
 次に、ブラウザを起動し、http://127.0.0.1:8000/myappにアクセスします。
-以下のような画面が表示されればOKです。
+以下のような画面が表示されれば OK です。
 
-<img class="alignnone wp-image-464 size-large" src="https://startappdevfrom35.com/wp-content/uploads/2018/05/FireShot-Capture-27-Title-http___127.0.0.1_8000_myapp_-1024x562.png" alt="" width="747" height="410" />
+![myapp](FireShot-Capture-28-Title-http___127.0.0.1_8000_myapp_.png)
 
 次に、収入費目を選択し、金額を入力して「登録」ボタンを押下します。
 
 以下のような画面が表示されれば、動作確認完了です。
 
-<img class="alignnone wp-image-465 size-large" src="https://startappdevfrom35.com/wp-content/uploads/2018/05/FireShot-Capture-28-Title-http___127.0.0.1_8000_myapp_-1024x526.png" alt="" width="747" height="384" />
-
+![register](FireShot-Capture-28-Title-http___127.0.0.1_8000_myapp_.png)
