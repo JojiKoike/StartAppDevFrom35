@@ -95,7 +95,7 @@ print(`Hello, World`)
 
 7.左下より Terminal を起動
 
-<img class="alignnone wp-image-121 size-large" src="https://startappdevfrom35.com/wp-content/uploads/2018/04/10e2162b70ecda67a443036852787335-1024x640.png" alt="" width="747" height="467" />
+![Menu](10e2162b70ecda67a443036852787335.png)
 
 8.ターミナルに以下のコマンドを入力
 
