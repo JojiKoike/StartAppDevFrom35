@@ -1,9 +1,9 @@
 ---
 title: DjangoWeb アプリ開発（はじめてのWebDBアプリ：UI実装）
 date: 2018-01-02T05:50:41.000Z
-category:
+category: Django
 description: ブラウザーからの入力値をDBに保存する、DBに登録されたデータをブラウザーに表示する簡単なWebアプリケーションを作成する手順をご紹介いたします。
-tags: ["View", "テンプレート"]
+tags: ["Python", "Django", "View", "Template"]
 thumbnail: "./django-logo-positive-e1523125572702.png"
 hero: "./django-logo-positive-e1523125572702.png"
 ---
