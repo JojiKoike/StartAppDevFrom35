@@ -40,6 +40,8 @@ hero: "./atom-logo.png"
 - Atom の関連パッケージインストール
 - 動作確認
 
+<adsence></adsence>
+
 # インストール作業
 
 ## 1． 依存パッケージインストール
