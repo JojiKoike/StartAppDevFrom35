@@ -4,123 +4,157 @@ date: 2019-01-05T12:24:18.000Z
 category: anyenv
 description: Python, Ruby等の複数言語の環境を簡単に構築するanyenv及びプラグインのインストール手順についてご紹介いたします。
 tags: ["anyenv", "Mac"]
-thumbnail:
-hero:
+thumbnail: "./anyenvlogo.png"
+hero: "./anyenvlogo.png"
 ---
 
 # 本レッスンのゴール
 
-anyenv のインストールを完了する
+- anyenv のインストールを完了する
 
-<div class="point">
-anyenvとは、Python, PHP等の様々な言語の開発環境を簡単にセットアップするツールです。  現在、Python, node.js, Golang, Ruby, PHP, Scala, R等、全18言語に対応しています。 一度使うと手放せないこと請け合いなので、ぜひ使ってみてください。</div>
+<point>
+anyenvとは、Python, PHP等の様々な言語の開発環境を簡単にセットアップするツールです。  現在、Python, node.js, Golang, Ruby, PHP, Scala, R等、全18言語に対応しています。 一度使うと手放せないこと請け合いなので、ぜひ使ってみてください。
+</point>
 
 # 想定環境
 
 以下の環境を想定しています。
 
-<ul>
-OS : MacOSX Mojave （バージョン 10.14.6）
-</ul>
+- OS : MacOSX Mojave （バージョン 10.14.6）
 
 # 前提条件
 
-<ul>
-gitがインストールされている事。
-</ul>
-<div class="point">Homebrewによるインストールも可能ですが、大人の事情でHomebrewが使えないケースを考慮し、今回はgitコマンドを使ったインストール方法をご説明します。</div>
+- git がインストールされている事。
+
+<point>
+Homebrewによるインストールも可能ですが、大人の事情でHomebrewが使えないケースを考慮し、
+今回は git コマンドを使ったインストール方法をご説明します。
+</point>
 
 # 全体の流れ
 
 以下の流れで進めます。
 
-<ol>
-anyenvのクローン
-環境変数の設定
-プラグインのインストール
-動作確認
-</ol>
+1. anyenv のクローン
+2. 環境変数の設定
+3. プラグインのインストール
+4. 動作確認
+
 # インストール作業
-## 1． anyenvの取得
+
+## 1． anyenv の取得
+
 端末で以下のコマンドを実行します。
-```
+
+```bash
 $ git clone https://github.com/anyenv/anyenv ~/.anyenv
-```"
-<div class="point">上記コマンドでは、anyenvをgithubから取得し、ホームディレクトリ配下の.anyenvディレクトリにクローン（複製）するという処理を行っています。</div>
+```
+
+<point>
+上記コマンドでは、anyenvをgithubから取得し、ホームディレクトリ配下の.anyenvディレクトリにクローン（複製）するという処理を行っています。</point>
+
 ## 2． 環境変数の設定
-このままだとパスが通っていないので、コマンドを/home/hogehoge/.anyenv/bin/anyenvといった感じでフルパス指定するという苦行を強いられる為、次の手順で環境変数を設定しておきます。
-<div class="attention">使っているシェルによって、設定を記述するファイル名が変わりますので、もし今使っているシェルの種類がわからない場合は、以下のコマンドで確認してください。
-```
+
+このままだとパスが通っていないので、/home/hogehoge/.anyenv/bin/anyenv といった感じでフルパスでコマンドを打つという苦行を強いられる為、次の手順で環境変数を設定しておきます。
+
+<attention>
+使っているシェルによって、設定を記述するファイル名が変わりますので、
+もし今使っているシェルの種類がわからない場合は、以下のコマンドで確認してください。
+
+```bash
 $ echo $SHELL
-```"
-出力例とその意味、それぞれの設定を記述するファイル/bin/bash : bashを使っている ~/.bash_profile/bin/zsh : zshを使っている ~/.zshrc</div>
-<ul>
- bashな方
-</ul>
 ```
-$ echo 'export PATH=&quot;$HOME/.anyenv/bin:$PATH&quot;' &amp;amp;amp;gt;&amp;amp;amp;gt; ~/.bash_profile
+
+出力例とその意味、それぞれの設定を記述するファイル/bin/bash : bash を使っている ~/.bash_profile/bin/zsh : zsh を使っている ~/.zshrc
+
+- bash な方
+
+```bash
+
+$ echo 'export PATH=&quot;$HOME/.anyenv/bin:$PATH&quot;' >> ~/.bash_profile
 $ source ~/.bash_profile
-```"
-<ul>
- zshな方
-</ul>
 ```
-$ echo 'export PATH=&quot;$HOME/.anyenv/bin:$PATH&quot;' &amp;amp;amp;gt;&amp;amp;amp;gt; ~/.zshrc
+
+- zsh な方
+
+```bash
+$ echo 'export PATH=&quot;$HOME/.anyenv/bin:$PATH&quot;' >> ~/.zshrc
 $ source ~/.zshrc
-```"
-以下のコマンドで、バージョンコードが出力されれば、anyenvの取得と環境変数の設定は成功です。
 ```
+
+</attention>
+
+以下のコマンドで、バージョンコードが出力されれば、anyenv の取得と環境変数の設定は成功です。
+
+```bash
 $ anyenv --version
 anyenv 1.1.1
-```"
-&nbsp;
+```
+
 ## 3． セットアップ
-このままでは、anyenvを使ってpyenvなどのインストールが出来ないので、
-以下のコマンドで、anyenvのセットアップを行います。
-```
+
+このままでは、anyenv を使って pyenv などのインストールが出来ないので、
+以下のコマンドで、anyenv のセットアップを行います。
+
+```bash
 $ anyenv init
-```"
-シェルを一旦閉じ、再度立ち上げ、以下のコマンドを実行してmanifest directoryを作成します。
-&nbsp;
 ```
+
+シェルを一旦閉じ、再度立ち上げ、以下のコマンドを実行して manifest directory を作成します。
+
+```bash
 $ anyenv install --init
-```"
-これでanyenvのインストール作業は完了です。
-## 4． プラグインのインストール
-このままでも使えますが、バージョンアップ作業を楽にするためのプラグインを導入します。
 ```
+
+これで anyenv のインストール作業は完了です。
+
+## 4． プラグインのインストール
+
+このままでも使えますが、バージョンアップ作業を楽にするためのプラグインを導入します。
+
+```bash
 $ mkdir -p ~/.anyenv/plugins
 $ git clone https://github.com/znz/anyenv-update.git ~/.anyenv/plugins/anyenv-update
-```"
-以下のコマンドで、プラグインが正常にインストールされたことを確認します。
+
 ```
+
+以下のコマンドで、プラグインが正常にインストールされたことを確認します。
+
+```bash
 $ anyenv update
 Updating 'anyenv'...
 Updating 'anyenv/anyenv-update'...
 ...
-```"
-## 4． 動作確認
-最後に、動作確認のついでに、以下のコマンドで、インストール可能な言語の一覧を出力してみます。
 ```
+
+## 5． 動作確認
+
+最後に、動作確認のついでに、以下のコマンドで、インストール可能な言語の一覧を出力してみます。
+
+```bash
 $ anyenv install --list
-  Renv
-  crenv
-  denv
-  erlenv
-  exenv
-  goenv
-  hsenv
-  jenv
-  luaenv
-  nodenv
-  phpenv
-  plenv
-  pyenv
-  rbenv
-  sbtenv
-  scalaenv
-  swiftenv
-  tfenv
-```"
-<div class="point">pyenv等を使ったことがある方は気がついたと思いますが、anyenvって要は、pyenv等の統合管理ツールなんですね。</div>
-以上で、anyenvのインストールの説明を終わります。
+Renv
+crenv
+denv
+erlenv
+exenv
+goenv
+hsenv
+jenv
+luaenv
+nodenv
+phpenv
+plenv
+pyenv
+rbenv
+sbtenv
+scalaenv
+swiftenv
+tfenv
+```
+
+<point>
+pyenv 等を使ったことがある方は気がついたと思いますが、anyenv って要は、pyenv 等の統合管理ツールなんですね。
+</point>
+
+以上で、anyenv のインストールの説明を終わります。
