@@ -4,8 +4,8 @@ date: 2018-01-01T23:40:40.000Z
 category: PostgreSQL
 description: データベース、テーブルの作成、新規レコード追加、参照、修正、削除、ユーザーの作成までコマンドラインで行う手順をご紹介いたします。
 tags: ["PostgreSQL", "psql", "SQL"]
-thumbnail: ""
-hero: ""
+thumbnail: "./PostgreSQL_logo.3colors.540x557.png"
+hero: "./postgresql-logo.png"
 ---
 
 # 本レッスンのゴール

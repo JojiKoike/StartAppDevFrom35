@@ -1,117 +1,131 @@
 ---
 title: DjangoWebアプリ開発（はじめてのWebアプリ）
 date: 2018-01-03T23:00:02.000Z
-category : 
+category: Django
 description: Djangoを用いた初めてのWebアプリとして、ChromeなどのブラウザにURLを打ち込み、アクセスするとブラウザに文字が表示されるアプリケーションを作ります。
-tags: ['View', 'ルーティング']
-thumbnail:
-hero:
+tags: ["Django", "Python", "View", "Routing"]
+thumbnail: "./django-logo-positive-e1523125572702.png"
+hero: "./django-logo-positive-e1523125572702.png"
 ---
 
 # 本レッスンのゴール
-<ul>
- 	ChromeなどのブラウザにURLを打ち込み、アクセスするとブラウザに文字が表示される。
-</ul>
+
+- Chrome などのブラウザに URL を打ち込み、アクセスするとブラウザに文字が表示される。
+
 # 前提条件
-<ul>
- 	Djangoプロジェクトを作成済みである事
-</ul>
-<div class="attention">
 
-Djangoプロジェクトの作成方法については、以下をご参照ください。
-<ul>
- 	<a href="https://startappdevfrom35.com/djangowebappdevprepare/">Djangoプロジェクト作成</a>
-</ul>
-</div>
+- Django プロジェクトを作成済みである事
+
+<attention>
+
+Django プロジェクトの作成方法については、以下をご参照ください。
+
+- <a href="https://startappdevfrom35.com/djangowebappdevprepare/">Django プロジェクト作成</a>
+
+</attention>
+
 # 全体の流れ
+
 以下の流れで進めます。
-<ol>
- 	アプリ作成の足場作り
- 	Viewの実装
- 	ルーティングの実装
- 	動作確認
-</ol>
+
+1. アプリ作成の足場作り
+2. View の実装
+3. ルーティングの実装
+4. 動作確認
+
+<adsence></adsence>
+
 # 作業
+
 ## 1. アプリ作成の足場作り
-<div class="attention">以下、PyCharmを使うものとして説明を進めます。</div>
-<div>PyCharmでプロジェクトルートディレクトリ（manage.pyがあるディレクトリ）を開き</div>
-<div>PyCharmのTerminalで以下のコマンドを実行します。</div>
 
-```
+<attention>
+以下、PyCharmを使うものとして説明を進めます。
+</attention>
+
+PyCharm でプロジェクトルートディレクトリ（manage.py があるディレクトリ）を開き
+PyCharm の Terminal で以下のコマンドを実行します。
+
+```bash
 $ python manage.py startapp myapp
-```"
+```
 
-<div class="point">myappはアプリ名で、自由に設定出来ます。ここでは、myappとして解説を進めます。</div>
-<div>myappディレクトリ以下に、以下のようにディレクトリとファイルが生成されていれば、</div>
-<div>アプリ作成の足場作りは完了です。</div>
-<div></div>
-<div> <img class="alignnone wp-image-252 size-full" src="https://startappdevfrom35.com/wp-content/uploads/2018/04/734bd9b81e25fdbf39f4ffa7aae53aa6.png" alt="" width="315" height="404" /></div>
-## 2. Viewの実装
-次に、ブラウザから何らかのURLでアクセスした時に、画面に文字を表示する機能を実装します。
-<span class="highlight">myappディレクトリ直下のview.pyファイル</span>に、以下の内容を記述します。
+<attention>
+myapp はアプリ名で、自由に設定出来ます。ここでは、myapp として解説を進めます。
+</attention>
 
-[python]
+myapp ディレクトリ以下に、以下のようにディレクトリとファイルが生成されていれば、
+アプリ作成の足場作りは完了です。
+
+<img class="alignnone wp-image-252 size-full" src="https://startappdevfrom35.com/wp-content/uploads/2018/04/734bd9b81e25fdbf39f4ffa7aae53aa6.png" alt="" width="315" height="404" /></div>
+
+## 2. View の実装
+
+次に、ブラウザから何らかの URL でアクセスした時に、画面に文字を表示する機能を実装します。
+<highlight>myapp ディレクトリ直下の view.py ファイル</highlight>に、以下の内容を記述します。
+
+```python
 from django.http import HttpResponse
 
-
 def index(request):
-    return HttpResponse(&quot;test&quot;)
-
-[/python]
+return HttpResponse(&quot;test&quot;)
+```
 
 ## 3. ルーティングの実装
-このままでは、先ほど実装したViewに対してどういったURLでアクセスすれば良いのかわかりません。
+
+このままでは、先ほど実装した View に対してどういった URL でアクセスすれば良いのかわかりません。
 そこで次に、ルーティングの実装を行います。
-ルーティングとは、<span class="highlight">URLとViewの紐付けを定義</span>する事です。
-たとえば、http://localhost/というURLのアクセスに対して、
-先ほど実装したindex(request)メソッドで定義したViewを表示する、
+ルーティングとは、<highlight>URL と View の紐付けを定義</highlight>する事です。
+たとえば、http://localhost/という URL のアクセスに対して、
+先ほど実装した index(request)メソッドで定義した View を表示する、
 といった事を定義します。
 
 まず、アプリケーション用のルーティング定義ファイルを作成します。
-下図のように、<span class="highlight">myappディレクトリ直下</span>に、<span class="highlight">urls.py</span>という名前でPythonファイルを新規に作成します。
+下図のように、<highlight>myapp ディレクトリ直下</highlight>に、<highlight>urls.py</highlight>という名前で Python ファイルを新規に作成します。
 
-<img class="alignnone wp-image-261 size-full" src="https://startappdevfrom35.com/wp-content/uploads/2018/04/c290cd47ebe3bffab6b038914627a1b8.png" alt="" width="929" height="555" />
+![Routing](c290cd47ebe3bffab6b038914627a1b8.png)
 
-作成したurls.pyファイルに、以下のコードを記述します。
+作成した urls.py ファイルに、以下のコードを記述します。
 
-[python]
+```python
 from django.urls import path
 
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='index'),
+path('', views.index, name='index'),
 ]
-[/python]
+```
 
-最後に、先ほど実装したurl.pyがサーバー起動時に読み込まれるように、
-プロジェクト直下のurls.pyファイルに、先ほど定義したurls.pyへのPathを追加します。
+最後に、先ほど実装した url.py がサーバー起動時に読み込まれるように、
+プロジェクト直下の urls.py ファイルに、先ほど定義した urls.py への Path を追加します。
 
-[python]
+```python
 from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
-    path('myapp/', include('myapp.urls')),
-    path('admin/', admin.site.urls),
+path('myapp/', include('myapp.urls')),
+path('admin/', admin.site.urls),
 ]
-[/python]
+```
 
 以上で、ルーティングの実装は完了です。
-<div></div>
+
 ## 4. 動作確認
-続いてPyCharmのTerminalにて以下のコマンドを実行し、
 
-Django組み込みのテスト用サーバーを起動します。
+続いて PyCharm の Terminal にて以下のコマンドを実行し、
 
-```
+Django 組み込みのテスト用サーバーを起動します。
+
+```python
+
 $ cd mysite
 $ python manage.py runserver
-```"
 
-ブラウザを起動して<span class="highlight">http://127.0.0.1:8000/myapp</span>にアクセスし、
+```
+
+ブラウザを起動して<highlight>http://127.0.0.1:8000/myapp</highlight>にアクセスし、
 以下のような画面が表示されれば、動作確認完了です。
 
-<img class="alignnone wp-image-268 size-large" src="https://startappdevfrom35.com/wp-content/uploads/2018/04/8745672f3ff267501f52fbccae3b2219-1024x613.png" alt="" width="747" height="447" />
-
-&nbsp;
+![Check](8745672f3ff267501f52fbccae3b2219.png)
