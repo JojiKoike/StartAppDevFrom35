@@ -78,6 +78,9 @@ const BlogPostTemplate: React.FC<
         title={post!.frontmatter!.title!}
         description={post!.frontmatter!.description || post!.excerpt}
         type="article"
+        imgSrc={post!.frontmatter?.hero?.childImageSharp?.original?.src}
+        imgHeight={post!.frontmatter?.hero?.childImageSharp?.original?.height}
+        imgWidth={post?.frontmatter?.hero?.childImageSharp?.original?.width}
       />
       <div className="container bg-white p-6 mb-2 max-w-6xl mx-auto rounded-md shadow-xl">
         <article itemScope itemType="http://schema.org/Article">
@@ -204,6 +207,11 @@ export const pageQuery = graphql`
         tags
         hero {
           childImageSharp {
+            original {
+              src
+              height
+              width
+            }
             gatsbyImageData(width: 900, height: 300, quality: 100)
           }
         }
