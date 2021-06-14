@@ -1,5 +1,5 @@
 ---
-title: DjangoWebアプリ開発（足場作り）
+title: Django Webアプリ開発（足場作り）
 date: 2018-01-04T20:23:30.000Z
 category: Django
 description: DjangoによるWebアプリ開発開始の準備の手順を、PyCharmを使った例を使ってご紹介いたします。
