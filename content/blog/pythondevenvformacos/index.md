@@ -4,89 +4,87 @@ date: 2018-01-06T00:02:58.000Z
 category: Python
 description: MacOSにHomebrewを使って、開発するアプリごとに使用するバージョンを選択可能な、Python開発環境を構築する手順をご紹介いたします。
 tags: ["Mac", "pyenv", "Python"]
-thumbnail:
-hero:
+thumbnail: "./python-logo-e1524649366544.png"
+hero: "./python-logo-e1524649366544.png"
 ---
 
-# 改訂内容
-
-<ul>
- 	brewではなく、anyenvを使ってpyenvを導入する方式に変更。
- 	動作確認の方法を変更。
-</ul>
 # 本レッスンのゴール
-Python3系の開発環境を構築し、簡単なプログラムによる動作確認をとる。
+
+- Python3 系の開発環境を構築し、簡単なプログラムによる動作確認をとる。
+
 # 想定環境
+
 以下の環境を想定しています。
 
-OS : MacOSX Mojave （バージョン 10.14.6）
+- OS : MacOSX Mojave （バージョン 10.14.6）
 
 # 前提条件
 
-<ul>
- 	anyenvがインストールされている事。
-</ul>
-<div class="attention">
+- anyenv がインストールされている事。
+
+<attention>
 
 anyenv のインストール方法については、以下のリンク先を参照して下さい。
 
-<ul>
- 	<a href="https://startappdevfrom35.com/anyenv_install/" target="_blank" rel="noopener noreferrer">anyenvのインストール</a>
-</ul>
-</div>
+- <a href="https://startappdevfrom35.com/anyenv_install/" target="_blank" rel="noopener noreferrer">anyenv のインストール</a>
+
+</attention>
+
 # 全体の流れ
+
 以下の流れで進めます。
-<ol>
- 	pyenvのインストール
- 	環境変数の設定
- 	Pythonのインストール
- 	動作確認
-</ol>
+
+1.  pyenv のインストール
+2.  環境変数の設定
+3.  Python のインストール
+4.  動作確認
+
 # インストール作業
-## 1． pyenvのインストール
+
+## 1． pyenv のインストール
+
 端末で以下のコマンドを実行します。
 
-````
+```bash
 $ anyenv install pyenv
-```"
+```
 
-以下のコマンドでバージョンコードが出力されれば、pyenvのインストールは成功です。
+以下のコマンドでバージョンコードが出力されれば、pyenv のインストールは成功です。
 
-````
+```bash
 
 $ pyenv --version
 pyenv 1.2.13-12-g8a56fe64
 
-```"
+```
 
 ## 2． 環境変数の設定
-pyenvで設定したPythonをデフォルトで使うよう、環境変数を設定、反映します。
-<ul>
- bashな方
-</ul>
 
-```
+pyenv で設定した Python をデフォルトで使うよう、環境変数を設定、反映します。
 
-$ echo 'eval &quot;$(pyenv virtualenv-init -)&quot;' &gt;&gt; ~/.bash_profile
+- bash な方
+
+```bash
+
+$ echo 'eval &quot;$(pyenv virtualenv-init -)&quot;' >> ~/.bash_profile
 $ source ~/.bash_profile
 
-```"
-
-<ul>
- zshな方
-</ul>
-
 ```
 
-$ echo 'eval &quot;$(pyenv virtualenv-init -)&quot;' &gt;&gt; ~/.zshrc
+- zsh な方
+
+```bash
+
+$ echo 'eval &quot;$(pyenv virtualenv-init -)&quot;' >> ~/.zshrc
 $ source ~/.zshrc
 
-```"
-
-## 3． Pythonのインストール
-以下のコマンドで、インストール可能なPythonのバージョンを確認します。
-
 ```
+
+## 3． Python のインストール
+
+以下のコマンドで、インストール可能な Python のバージョンを確認します。
+
+```bash
 
 $ pyenv install -l
 2.1.3
@@ -105,60 +103,59 @@ $ pyenv install -l
 3.7.4
 ....
 
-```"
+```
 
-今回は、2019年9月21日現在の最新安定板3.7.4をインストールします。
+今回は、2019 年 9 月 21 日現在の最新安定板 3.7.4 をインストールします。
 以下のコマンドでインストールし、デフォルトのバージョンを設定します。
 
-```
+```bash
 
 $ pyenv install 3.7.4
 $ pyenv global 3.7.4
 
-```"
+```
 
-pyenvでインストールしたPythonがデフォルトで使用され、<br/>
+pyenv でインストールした Python がデフォルトで使用され、
+
 かつ適切なバージョンがデフォルトで使用される事を以下のように確認します。
 
-```
+```bash
 
 $ which python
 /Users/hogehoge/.anyenv/envs/pyenv/shims/python
 $ python --version
 Python 3.7.4
 
-```"
+```
 
-<div class="attention">
-python --versionだけでも確認は十分かと思われますが、
-pyenvで導入したPythonが確実に使用される事を担保するため、
-パスの確認も実施します。
-</div>
+<attention>
+pyenv で導入した Python が確実に使用される事を担保するため、
+whichコマンドによるパスの確認も実施します。
+</attention>
 
 ## 4． 動作確認
-以下のコマンドで、Pythonのインタラクティブシェルを起動します。
 
-```
+以下のコマンドで、Python のインタラクティブシェルを起動します。
+
+```bash
 
 $ python
 Python 3.7.4 (default, Jul 11 2019, 00:04:55)
 [Clang 10.0.1 (clang-1001.0.46.4)] on darwin
 Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
-&gt;&gt;&gt;
-
-```"
-
-プロンプトに続いて、下記のコードを入力し、Enterを押下し、メッセージが表示されれば、
-Python環境の正常動作確認は完了です。
+>>>
 
 ```
 
-&gt;&gt;&gt; print(&quot;Hello, World&quot;)
+プロンプトに続いて、下記のコードを入力し、Enter を押下し、メッセージが表示されれば、
+Python 環境の正常動作確認は完了です。
+
+```bash
+
+>>> print(`Hello, World`)
 Hello, World
-&gt;&gt;&gt;
+>>>
 
-```"
-
-
-以上で、MacOSXへのPython開発環境構築手順は終了です。
 ```
+
+以上で、MacOSX への Python 開発環境構築手順は終了です。
