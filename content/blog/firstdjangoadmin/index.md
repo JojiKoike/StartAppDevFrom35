@@ -1,159 +1,175 @@
 ---
 title: DjangoWebアプリ開発（はじめてのDjango Admin）
 date: 2018-01-02T00:40:50.000Z
-category : 
+category: Django
 description: Djangoに搭載されているDjango Adminという管理者機能を使って、作成したDBのテーブルにレコードを新規作成、参照、編集、削除を行うまでの手順をご紹介します。
-tags: ['Django Admin']
-thumbnail:
-hero:
+tags: ["Django", "Python", "Django Admin"]
+thumbnail: "./django-logo-positive-e1523125572702.png"
+hero: "./django-logo-positive-e1523125572702.png"
 ---
 
 # 本レッスンのゴール
-<ul>
- 	Django Adminで、DBのテーブルのレコードを作成、参照、編集、削除ができるようになる。
-</ul>
-# 前提条件
-<ul>
- 	Modelを実装し、DBにマイグレーション済みである事。
-</ul>
-<div class="attention">
 
-Modelの実装方法ならびにDBへのマイグレーション方法は、以下をご参照ください。
-<ul>
- 	<a href="https://startappdevfrom35.com/djangofirstdbappdbbuild/" target="_blank" rel="noopener">Modelの実装ならびにマイグレーション手順</a>
-</ul>
-</div>
+- Django Admin で、DB のテーブルのレコードを作成、参照、編集、削除ができるようになる。
+
+# 前提条件
+
+- Model を実装し、DB にマイグレーション済みである事。
+
+<attention>
+
+Model の実装方法ならびに DB へのマイグレーション方法は、以下をご参照ください。
+
+- <a href="https://startappdevfrom35.com/djangofirstdbappdbbuild/" target="_blank" rel="noopener">Model の実装ならびにマイグレーション手順</a>
+
+</attention>
+
 # 全体の流れ
+
 以下の流れで進めます。
-<ol>
- 	Django AdminのSuperuser Account作成
- 	Django Adminの管理対象Model追加
- 	動作確認
-</ol>
+
+1. Django Admin の Superuser Account 作成
+2. Django Admin の管理対象 Model 追加
+3. 動作確認
+
+<adsence></adsence>
+
 # 作業
-## 1. Django AdminのSuperuser Account作成
-PyCharmのTerminalにて、manage,pyのあるディレクトリに移動し、
+
+## 1. Django Admin の Superuser Account 作成
+
+PyCharm の Terminal にて、manage,py のあるディレクトリに移動し、
 以下のコマンドを実行します。
 
-```
+```bash
 $ python manage.py createsuperuser
-```"
+```
 
-Usernameを尋ねられるので、入力してEnterを押下します。
-ここでは、AdminUserとして進めます。
+Username を尋ねられるので、入力して Enter を押下します。
+ここでは、AdminUser として進めます。
+
+```bash
+
+Username (leave blank to use 'UserName'): AdminUser
 
 ```
-Username (leave blank to use 'UserName'): AdminUser
-```"
 
-（注：'UserName'は、現在OSにログイン中のユーザー名が表示されます。）
+（注：'UserName'は、現在 OS にログイン中のユーザー名が表示されます。）
 
-次に、E-mailアドレスを尋ねられるので、入力してEnterを押下します。
+次に、E-mail アドレスを尋ねられるので、入力して Enter を押下します。
 ここでは、adminuser@admin.comとして進めます。
 
-```
+```bash
 Email address: adminuser@admin.com
-```"
+```
 
 最後に、設定するパスワードを２回尋ねられるので、
-２回とも同じパスワードを入力し、Enterを押下します。
+２回とも同じパスワードを入力し、Enter を押下します。
 
-```
+```bash
 Password:********
 Password (again):********
-```"
+```
 
-（注：********の部分は実際には表示されません。）
+<attention>
+********の部分は実際には表示されません
 
-尚、Passwordなど、ありふれた単語を設定しようとすると、
+尚、Password など、ありふれた単語を設定しようとすると、
 以下の警告が表示され、再度入力を促されるので、
 推測されにくい文字列を入力してください。
 
-```
+```bash
 This password is too common.
-```"
-
-以下の表示が出力されれば、Superuser Accountの作成は完了です。
-
 ```
+
+</attention>
+
+以下の表示が出力されれば、Superuser Account の作成は完了です。
+
+```bash
 Superuser created successfully.
-```"
+```
 
-## 2. Django Adminの管理対象Model追加
-次に、myapp/admin.pyに以下の記述を加え、Django Adminの管理対象Modelを追加します。
+## 2. Django Admin の管理対象 Model 追加
 
-[python]
+次に、myapp/admin.py に以下の記述を加え、Django Admin の管理対象 Model を追加します。
+
+```python
 from django.contrib import admin
 
 from .models import IncomeCategory, Income
 
 admin.site.register(IncomeCategory)
 admin.site.register(Income)
-[/python]
+```
+
+<adsence></adsence>
 
 ## 3. 動作確認
-manage.pyのあるディレクトリにて以下のコマンドを実行し、
-Django組み込みのテスト用サーバーを起動します。
 
-```
+manage.py のあるディレクトリにて以下のコマンドを実行し、
+Django 組み込みのテスト用サーバーを起動します。
+
+```bash
 $ python manage.py runserver
-```"
+```
 
-ブラウザを立ち上げ、URLにhttp://127.0.0.1:8000/adminと入力して
-Enterを押下すると、以下の画面が表示されるので、
-手順1で作成したSuperuser AccountのUsernameとPasswordを入力し
+ブラウザを立ち上げ、URL にhttp://127.0.0.1:8000/adminと入力して
+Enter を押下すると、以下の画面が表示されるので、
+手順 1 で作成した Superuser Account の Username と Password を入力し
 「Log in」ボタンを押下します。
 
-<img class="wp-image-407 size-large alignnone" src="https://startappdevfrom35.com/wp-content/uploads/2018/04/FireShot-Capture-13-Log-in-I-Django-site-admin-http___127.0.0.1_8000_admin_login__next_admin_-1024x562.png" alt="" width="747" height="410" />
+![Login](FireShot-Capture-13-Log-in-I-Django-site-admin-http___127.0.0.1_8000_admin_login__next_admin_.png)
 
 ログインに成功すると、以下のような画面が表示されます。
 
-<img class="alignnone wp-image-409 size-large" src="https://startappdevfrom35.com/wp-content/uploads/2018/05/FireShot-Capture-14-Site-administration-I-Django-site-admin-http___127.0.0.1_8000_admin_-1024x526.png" alt="" width="747" height="384" />
+![LoginSuccess](FireShot-Capture-14-Site-administration-I-Django-site-admin-http___127.0.0.1_8000_admin_.png)
 
-ここでは、MYAPPの「Income categorys」モデルについて操作を行なってまいります。
+ここでは、MYAPP の「Income categorys」モデルについて操作を行なってまいります。
 まずは、レコードの新規作成です。
-先ほどの画面で、MYAPPの「Income categorys」の「<span class="highlight">+Add</span>」をクリックすると、
-以下のような画面が表示されるので、Nameの所に入力して「<span class="highlight">SAVE</span>」ボタンを押下
+先ほどの画面で、MYAPP の「Income categorys」の「<highlight>+Add</highlight>」をクリックすると、
+以下のような画面が表示されるので、Name の所に入力して「<highlight>SAVE</highlight>」ボタンを押下
 してください。
 
-<img class="alignnone wp-image-411 size-large" src="https://startappdevfrom35.com/wp-content/uploads/2018/05/FireShot-Capture-15-Add-income-category-I_-http___127.0.0.1_8000_admin_myapp_incomecategory_add_-1024x526.png" alt="" width="747" height="384" />
+![Add](FireShot-Capture-15-Add-income-category-I_-http___127.0.0.1_8000_admin_myapp_incomecategory_add_.png)
 
 以下のような画面が表示されれば、新規レコード作成は成功です。
 
-<img class="alignnone wp-image-412 size-large" src="https://startappdevfrom35.com/wp-content/uploads/2018/05/FireShot-Capture-16-Select-income-category-to_-http___127.0.0.1_8000_admin_myapp_incomecategory_-1024x526.png" alt="" width="747" height="384" />
-次に、先程の画面で、「INCOME CATEGORY」下の「InceomCategory object (...)」
+![AddSuccess](FireShot-Capture-16-Select-income-category-to_-http___127.0.0.1_8000_admin_myapp_incomecategory_.png)
+
+次に、先程の画面で、「INCOME CATEGORY」下の「IncomeCategory object (...)」
 をクリックすると、以下のような画面が表示されます。
 
-<img class="alignnone wp-image-415 size-large" src="https://startappdevfrom35.com/wp-content/uploads/2018/05/FireShot-Capture-17-Change-income-category-I-Django-site-a_-http___127.0.0.1_8000_admin_myapp_-1024x526.png" alt="" width="747" height="384" />
+![IncomeCategory](FireShot-Capture-17-Change-income-category-I-Django-site-a_-http___127.0.0.1_8000_admin_myapp_.png)
 
-NAMEに、先ほど入力した文字列が表示されている事が確認出来ると思います。
+NAME に、先ほど入力した文字列が表示されている事が確認出来ると思います。
 これで、レコード参照も成功です。
-次に、レコード更新を行います。以下のように、NAMEの所に別の文字列を入力し、
+次に、レコード更新を行います。以下のように、NAME の所に別の文字列を入力し、
 「SAVE」ボタンを押下します。（ここでは仮に、個人事業収入とします。）
 
-<img class="alignnone wp-image-416 size-large" src="https://startappdevfrom35.com/wp-content/uploads/2018/05/FireShot-Capture-18-Change-income-category-I-Django-site-a_-http___127.0.0.1_8000_admin_myapp_-1024x526.png" alt="" width="747" height="384" />
+![Save](FireShot-Capture-18-Change-income-category-I-Django-site-a_-http___127.0.0.1_8000_admin_myapp_.png)
 
 すると、新規登録時と同じように、次のような画面が表示されます。
 
-<img class="alignnone wp-image-417 size-large" src="https://startappdevfrom35.com/wp-content/uploads/2018/05/FireShot-Capture-19-Select-income-category-to_-http___127.0.0.1_8000_admin_myapp_incomecategory_-1024x526.png" alt="" width="747" height="384" />
+![SaveFinished](FireShot-Capture-19-Select-income-category-to_-http___127.0.0.1_8000_admin_myapp_incomecategory_.png)
 
 この画面の、「INCOME CATEGORY」下の「InceomCategory object (...)」をクリックすると、
-以下のような画面が表示され、NAMEの所に先ほど入力した文字列が表示されていれば
+以下のような画面が表示され、NAME の所に先ほど入力した文字列が表示されていれば
 レコード更新成功です。
 
-<img class="alignnone wp-image-418 size-large" src="https://startappdevfrom35.com/wp-content/uploads/2018/05/FireShot-Capture-20-Change-income-category-I-Django-site-a_-http___127.0.0.1_8000_admin_myapp_-1024x526.png" alt="" width="747" height="384" />
+![UpdateSuccess](FireShot-Capture-20-Change-income-category-I-Django-site-a_-http___127.0.0.1_8000_admin_myapp_.png)
 
-最後に、レコード削除を行います。先程の画面で、「<span class="highlight">DELETE</span>」ボタンを押下します。
+最後に、レコード削除を行います。先程の画面で、「<highlight>DELETE</highlight>」ボタンを押下します。
 
 すると、以下のような画面が表示され、本当に消しても良いのか尋ねられるので、
 
-「<span class="highlight">Yes, I'm sure.</span>」ボタンを押下します。
+「<highlight>Yes, I'm sure.</highlight>」ボタンを押下します。
 
-<img class="alignnone wp-image-420 size-large" src="https://startappdevfrom35.com/wp-content/uploads/2018/05/FireShot-Capture-21-Are-you-sure_-I-Django-site-admin_-http___127.0.0.1_8000_admin_myapp_-1-1024x526.png" alt="" width="747" height="384" />
+![Delete](FireShot-Capture-21-Are-you-sure_-I-Django-site-admin_-http___127.0.0.1_8000_admin_myapp_.png)
 
 すると以下のような画面が表示され、レコードが削除されている事が確認出来るかと思います。
 
-<img class="alignnone wp-image-422 size-large" src="https://startappdevfrom35.com/wp-content/uploads/2018/05/FireShot-Capture-22-Select-income-category-to_-http___127.0.0.1_8000_admin_myapp_incomecategory_-1024x526.png" alt="" width="747" height="384" />
+![DeleteFinished](FireShot-Capture-22-Select-income-category-to_-http___127.0.0.1_8000_admin_myapp_incomecategory_.png)
 
-以上で、Django Adminを使ったDBのレコード新規登録、参照、更新、削除の
+以上で、Django Admin を使った DB のレコード新規登録、参照、更新、削除の
 動作確認は完了です。
