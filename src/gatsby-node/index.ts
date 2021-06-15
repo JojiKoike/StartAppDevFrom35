@@ -58,7 +58,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
         index === posts.length - 1 ? null : posts[index + 1].id;
 
       createPage({
-        path: `/articles${post.fields!.slug!}`,
+        path: `${post.fields!.slug!}`,
         component: blogPost,
         context: {
           id: post.id,
@@ -70,7 +70,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
   }
 
   // Landing Page Articles List
-  const articlesPerPageOnLP = 5;
+  const articlesPerPageOnLP = 6;
   const articlesCount = posts.length;
   const articlePages = Math.ceil(articlesCount / articlesPerPageOnLP);
   Array.from({ length: articlePages }).forEach((_, i) => {
@@ -96,7 +96,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
   ).filter(category => category !== null);
 
   categories.forEach(category => {
-    const categoryArticlesPerPage = 5;
+    const categoryArticlesPerPage = 6;
     const categoryArticlesCount = posts.filter(
       node => node.frontmatter!.category == category
     ).length;
@@ -130,7 +130,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
     ).flat()
   );
   tags.forEach(tag => {
-    const tagArticlesPerPage = 5;
+    const tagArticlesPerPage = 6;
     const tagArticlesCount = posts.filter(
       node =>
         node.frontmatter!.tags !== null && node.frontmatter!.tags!.includes(tag)

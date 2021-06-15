@@ -1,4 +1,8 @@
 import * as React from "react";
+import { createElement } from "react";
+import rehypeReact from "rehype-react";
+import { GatsbyImage } from "gatsby-plugin-image";
+import unified from "unified";
 import { Link, graphql, PageProps } from "gatsby";
 import {
   TwitterIcon,
@@ -21,8 +25,23 @@ import {
   faChevronCircleRight,
 } from "@fortawesome/free-solid-svg-icons";
 
-import Layout from "../components/layout";
-import Seo from "../components/seo";
+import {
+  Layout,
+  Seo,
+  GoogleAdsense_InArticle,
+  H1,
+  H2,
+  H3,
+  H4,
+  H5,
+  H6,
+  P,
+  UL,
+  OL,
+  Point,
+  Attention,
+  Highlight,
+} from "../components";
 
 const BlogPostTemplate: React.FC<
   PageProps<GatsbyTypes.BlogPostBySlugQuery>
@@ -34,12 +53,34 @@ const BlogPostTemplate: React.FC<
   const shareIconSize = 38;
   const { previous, next } = data;
 
+  const renderAst = unified().use(rehypeReact, {
+    createElement,
+    components: {
+      h1: H1,
+      h2: H2,
+      h3: H3,
+      h4: H4,
+      h5: H5,
+      h6: H6,
+      p: P,
+      ul: UL,
+      ol: OL,
+      point: Point,
+      attention: Attention,
+      highlight: Highlight,
+      adsense: GoogleAdsense_InArticle,
+    },
+  });
+
   return (
     <Layout location={location}>
       <Seo
         title={post!.frontmatter!.title!}
         description={post!.frontmatter!.description || post!.excerpt}
         type="article"
+        imgSrc={post!.frontmatter?.hero?.childImageSharp?.original?.src}
+        imgHeight={post!.frontmatter?.hero?.childImageSharp?.original?.height}
+        imgWidth={post?.frontmatter?.hero?.childImageSharp?.original?.width}
       />
       <div className="container bg-white p-6 mb-2 max-w-6xl mx-auto rounded-md shadow-xl">
         <article itemScope itemType="http://schema.org/Article">
@@ -73,11 +114,15 @@ const BlogPostTemplate: React.FC<
             </header>
           </div>
 
-          <div className="text-sm sm:text-base">
-            <section
-              dangerouslySetInnerHTML={{ __html: post!.html! }}
-              itemProp="articleBody"
+          <div className="text-center my-3">
+            <GatsbyImage
+              image={post?.frontmatter?.hero?.childImageSharp?.gatsbyImageData!}
+              alt={post?.frontmatter!.title!}
             />
+          </div>
+
+          <div className="text-sm sm:text-base">
+            <div>{renderAst.stringify(post!.htmlAst!)}</div>
 
             <div className="flex flex-row justify-center mt-2">
               <div className="m-2">
@@ -123,7 +168,7 @@ const BlogPostTemplate: React.FC<
         <nav className="flex justify-between">
           {previous && (
             <div className="bg-white hover:bg-gray-200 p-3 rounded-md shadow-md">
-              <Link to={`/articles${previous.fields!.slug!}`} rel="prev">
+              <Link to={`${previous.fields!.slug!}`} rel="prev">
                 <FontAwesomeIcon icon={faChevronCircleLeft} className="mr-2" />
                 {previous.frontmatter!.title}
               </Link>
@@ -131,7 +176,7 @@ const BlogPostTemplate: React.FC<
           )}
           {next && (
             <div className="bg-white hover:bg-gray-200 p-3 rounded-md shadow-md">
-              <Link to={`/articles${next.fields!.slug!}`} rel="next">
+              <Link to={`${next.fields!.slug!}`} rel="next">
                 {next.frontmatter!.title}{" "}
                 <FontAwesomeIcon icon={faChevronCircleRight} className="ml-2" />
               </Link>
@@ -154,12 +199,22 @@ export const pageQuery = graphql`
     markdownRemark(id: { eq: $id }) {
       id
       excerpt(pruneLength: 160)
-      html
+      htmlAst
       frontmatter {
         date(formatString: "YYYY年MM月DD日")
         title
         category
         tags
+        hero {
+          childImageSharp {
+            original {
+              src
+              height
+              width
+            }
+            gatsbyImageData(width: 900, height: 300, quality: 100)
+          }
+        }
         description
       }
     }

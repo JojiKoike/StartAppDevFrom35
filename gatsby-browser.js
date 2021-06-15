@@ -9,4 +9,4 @@ import "@fortawesome/fontawesome-svg-core/styles.css"
 import './src/styles/global.scss'
 
 // Highlighting for code blocks
-import "prismjs/themes/prism.css"
+import "prismjs/themes/prism-tomorrow.css"

@@ -18,6 +18,9 @@ type SeoProps = {
   title: string;
   type: "website" | "article";
   path?: string;
+  imgSrc?: string;
+  imgWidth?: number;
+  imgHeight?: number;
 };
 
 const Seo: React.FC<SeoProps> = ({
@@ -28,6 +31,7 @@ const Seo: React.FC<SeoProps> = ({
   title,
   type,
   path,
+  ...props
 }) => {
   const { site } = useStaticQuery(
     graphql`
@@ -60,6 +64,10 @@ const Seo: React.FC<SeoProps> = ({
     path !== undefined
       ? `${site.siteMetadata?.siteUrl}/${path}`
       : site.siteMetadata.siteUrl;
+  const imgUrl =
+    props.imgSrc !== undefined
+      ? `${site.siteMetadata?.siteUrl}${props.imgSrc}`
+      : "";
 
   return (
     <Helmet
@@ -90,6 +98,18 @@ const Seo: React.FC<SeoProps> = ({
           content: defaultTitle,
         },
         {
+          property: `og:image`,
+          content: imgUrl,
+        },
+        {
+          property: `og:image:width`,
+          content: props.imgWidth,
+        },
+        {
+          property: `og:image:height`,
+          content: props.imgHeight,
+        },
+        {
           property: `og:url`,
           content: contentUrl,
         },
@@ -118,12 +138,7 @@ const Seo: React.FC<SeoProps> = ({
           content: fbAppId,
         },
       ].concat(meta!)}
-    >
-      <script
-        async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-      ></script>
-    </Helmet>
+    ></Helmet>
   );
 };
 
