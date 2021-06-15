@@ -146,6 +146,8 @@ You have 14 unapplied migration(s). Your project may not work properly until you
 
 最後に、ブラウザを起動し、http://127.0.0.1:8000にアクセスし、
 
-画面が表示されれば、Django による Web アプリケーション開発の準備は完了です。
+以下のような画面が表示されれば、Django による Web アプリケーション開発の準備は完了です。
+
+![Django](d1209fa3e775b9d986c694921a098b78.png)
 
 次からはいよいよ、このプロジェクトに、Web アプリケーションを実装します。
