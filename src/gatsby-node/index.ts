@@ -10,7 +10,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
   const { createPage } = actions;
 
   // Define a template for blog post
-  const blogPost = path.resolve(`./src/templates/blog-post.tsx`);
+  const blogPost = path.resolve(`./src/templates/post.tsx`);
 
   // Get all markdown blog posts sorted by date
   const result = await graphql<{
@@ -26,6 +26,10 @@ export const createPages: GatsbyNode["createPages"] = async ({
             id
             fields {
               slug
+            }
+            frontmatter {
+              category
+              tags
             }
           }
         }
@@ -54,7 +58,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
         index === posts.length - 1 ? null : posts[index + 1].id;
 
       createPage({
-        path: post.fields!.slug!,
+        path: `${post.fields!.slug!}`,
         component: blogPost,
         context: {
           id: post.id,
@@ -64,6 +68,98 @@ export const createPages: GatsbyNode["createPages"] = async ({
       });
     });
   }
+
+  // Landing Page Articles List
+  const articlesPerPageOnLP = 6;
+  const articlesCount = posts.length;
+  const articlePages = Math.ceil(articlesCount / articlesPerPageOnLP);
+  Array.from({ length: articlePages }).forEach((_, i) => {
+    createPage({
+      path: i == 0 ? `/` : `/articles/${i + 1}`,
+      component: path.resolve("./src/templates/index.tsx"),
+      context: {
+        skip: articlesPerPageOnLP * i,
+        limit: articlesPerPageOnLP,
+        numPages: articlePages,
+        currentPage: i + 1,
+      },
+    });
+  });
+
+  // Category Page
+  const categories = Array.from(
+    new Set(
+      posts.map(node => {
+        return node.frontmatter!.category;
+      })
+    )
+  ).filter(category => category !== null);
+
+  categories.forEach(category => {
+    const categoryArticlesPerPage = 6;
+    const categoryArticlesCount = posts.filter(
+      node => node.frontmatter!.category == category
+    ).length;
+    const categoryArticlePages = Math.ceil(
+      categoryArticlesCount / categoryArticlesPerPage
+    );
+    Array.from({ length: categoryArticlePages }).forEach((_, i) => {
+      createPage({
+        path:
+          i == 0 ? `/category/${category}` : `/category/${category}/${i + 1}`,
+        component: path.resolve("./src/templates/category.tsx"),
+        context: {
+          skip: i * categoryArticlesPerPage,
+          limit: categoryArticlesPerPage,
+          numPages: categoryArticlePages,
+          currentPage: i + 1,
+          category,
+        },
+      });
+    });
+  });
+
+  // Tag Page
+  const tags = new Set(
+    Array.from(
+      posts
+        .filter(node => node.frontmatter!.tags != null)
+        .map(node => {
+          return node.frontmatter!.tags;
+        })
+    ).flat()
+  );
+  tags.forEach(tag => {
+    const tagArticlesPerPage = 6;
+    const tagArticlesCount = posts.filter(
+      node =>
+        node.frontmatter!.tags !== null && node.frontmatter!.tags!.includes(tag)
+    ).length;
+    const tagArticlePages = Math.ceil(tagArticlesCount / tagArticlesPerPage);
+    Array.from({ length: tagArticlePages }).forEach((_, i) => {
+      createPage({
+        path: i == 0 ? `/tag/${tag}` : `/tag/${tag}/${i + 1}`,
+        component: path.resolve("./src/templates/tag.tsx"),
+        context: {
+          skip: i * tagArticlesPerPage,
+          limit: tagArticlesPerPage,
+          numPages: tagArticlePages,
+          currentPage: i + 1,
+          tag: tag,
+        },
+      });
+    });
+  });
+};
+
+// Context Type for Article List Pagination
+export type ArticleListContext = {
+  skip: number;
+  limit: number;
+  numPages: number;
+  currentPage: number;
+  category?: string;
+  tag?: string;
 };
 
 export const onCreateNode: GatsbyNode["onCreateNode"] = ({
