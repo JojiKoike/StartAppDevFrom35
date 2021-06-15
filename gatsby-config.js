@@ -18,7 +18,7 @@ module.exports = {
     siteUrl: siteUrl,
     social: {
       twitter: `georgie390`,
-      facebook: `229274960964474`
+      facebook: process.env.FB_APP_ID || `229274960964474`
     },
   },
   plugins: [
@@ -75,7 +75,10 @@ module.exports = {
     {
       resolve: `gatsby-plugin-google-gtag`,
       options: {
-        trackingIds: [process.env.GA_TRACKING_ID || `UA-116651406-1`],
+        trackingIds: [
+          process.env.GA_TRACKING_ID || `UA-116651406-1`,
+          process.env.GAD_CLIENT_ID || 'ca-pub-3835939635569436'
+        ],
         pluginConfig: {
           head: true
         }
@@ -85,14 +88,14 @@ module.exports = {
     {
       resolve: `@isamrish/gatsby-plugin-google-adsense`,
       options: {
-        googleAdClientId: 'ca-pub-3835939635569436',
+        googleAdClientId: [process.env.GAD_CLIENT_ID || 'ca-pub-3835939635569436'],
         head: true
       }
     },
     {
       resolve: `gatsby-plugin-canonical-urls`,
       options: {
-        siteUrl: `https://www.startappdevfrom35.com`,
+        siteUrl: siteUrl,
       }
     },
     {
@@ -174,7 +177,7 @@ module.exports = {
         short_name: `StartAppDevFrom35`,
         start_url: `/`,
         background_color: `#ffffff`,
-        theme_color: `#1188FF`,
+        theme_color: `#3399FF`,
         display: `minimal-ui`,
         icon: `src/images/startappdevfrom35.jpg`, // This path is relative to the root of the site.
       },
