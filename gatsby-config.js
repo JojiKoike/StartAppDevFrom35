@@ -15,7 +15,7 @@ module.exports = {
       summary: `Software Designer`,
     },
     description: `〜35から始めるアプリ開発〜`,
-    siteUrl: `https://startappdevfrom35.com/`,
+    siteUrl: siteUrl,
     social: {
       twitter: `georgie390`,
       facebook: `229274960964474`
@@ -180,7 +180,7 @@ module.exports = {
         background_color: `#ffffff`,
         theme_color: `#1188FF`,
         display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+        icon: `src/images/startappdevfrom35.jpg`, // This path is relative to the root of the site.
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
