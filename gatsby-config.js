@@ -95,7 +95,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-canonical-urls`,
       options: {
-        siteUrl: `https://www.startappdevfrom35.com`,
+        siteUrl: siteUrl,
       }
     },
     {
