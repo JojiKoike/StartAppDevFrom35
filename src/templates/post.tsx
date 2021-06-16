@@ -48,8 +48,9 @@ const BlogPostTemplate: React.FC<
 > = ({ data, location }) => {
   const post = data.markdownRemark;
   const title = post!.frontmatter!.title;
+  const slug = post!.fields?.slug;
   const siteURL = data.site!.siteMetadata!.siteUrl;
-  const articleURL = siteURL + "articles/" + title;
+  const articleURL = siteURL! + slug;
   const shareIconSize = 38;
   const { previous, next } = data;
 
@@ -200,6 +201,9 @@ export const pageQuery = graphql`
       id
       excerpt(pruneLength: 160)
       htmlAst
+      fields {
+        slug
+      }
       frontmatter {
         date(formatString: "YYYY年MM月DD日")
         title
