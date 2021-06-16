@@ -48,8 +48,9 @@ const BlogPostTemplate: React.FC<
 > = ({ data, location }) => {
   const post = data.markdownRemark;
   const title = post!.frontmatter!.title;
+  const slug = post!.fields?.slug;
   const siteURL = data.site!.siteMetadata!.siteUrl;
-  const articleURL = siteURL + "articles/" + title;
+  const articleURL = siteURL! + slug;
   const shareIconSize = 38;
   const { previous, next } = data;
 
@@ -78,6 +79,7 @@ const BlogPostTemplate: React.FC<
         title={post!.frontmatter!.title!}
         description={post!.frontmatter!.description || post!.excerpt}
         type="article"
+        path={slug?.replace("/", "")}
         imgSrc={post!.frontmatter?.hero?.childImageSharp?.original?.src}
         imgHeight={post!.frontmatter?.hero?.childImageSharp?.original?.height}
         imgWidth={post?.frontmatter?.hero?.childImageSharp?.original?.width}
@@ -133,8 +135,7 @@ const BlogPostTemplate: React.FC<
               <div className="m-2">
                 <FacebookShareButton
                   url={articleURL}
-                  title={title}
-                  quote={post?.excerpt}
+                  quote={post?.frontmatter?.description}
                 >
                   <FacebookIcon round size={shareIconSize} />
                 </FacebookShareButton>
@@ -143,7 +144,7 @@ const BlogPostTemplate: React.FC<
                 <LinkedinShareButton
                   url={articleURL}
                   title={title}
-                  summary={post?.excerpt}
+                  summary={post?.frontmatter?.description}
                   source={post?.frontmatter?.description}
                 >
                   <LinkedinIcon round size={shareIconSize} />
@@ -200,6 +201,9 @@ export const pageQuery = graphql`
       id
       excerpt(pruneLength: 160)
       htmlAst
+      fields {
+        slug
+      }
       frontmatter {
         date(formatString: "YYYY年MM月DD日")
         title
